@@ -1,0 +1,28 @@
+{
+  "schema_version": 2,
+  "guides": [
+    {
+      "schema_version": 2,
+      "id": "fletching-1-50",
+      "game": "Melvor Idle 2",
+      "skill": "Fletching",
+      "slug": "fletching",
+      "level_start": 1,
+      "level_end": 50,
+      "title": "Fletching from level 1 to 50",
+      "summary": "Arrows to 30, Willow Bow to 45, and Maple Bow to 50, including gathering and components. About 20 h 17 min at base rates with a modeled feather cost.",
+      "updated_on": "2026-11-27",
+      "status": "reference",
+      "artifact": "fletching/1-50/guide.html",
+      "calculations": "fletching/1-50/calculations.json",
+      "tags": [
+        "gathering included",
+        "base rates",
+        "feathers",
+        "bows",
+        "no starting stock"
+      ],
+      "metadata": "fletching/1-50/metadata.json"
+    }
+  ]
+}

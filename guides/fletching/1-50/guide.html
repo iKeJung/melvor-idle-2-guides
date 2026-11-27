@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Fletching 1–50 reference guide for Melvor Idle 2, including gathering, components, materials, and sources.">
+  <title>Fletching 1–50 · Melvor Idle 2</title>
+  <style>
+    :root { color-scheme: dark; --bg:#10161c; --panel:#19232c; --line:#34444f; --text:#e6edf0; --muted:#acbdc7; --accent:#93dfb3; --warm:#f2ce8d; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:20px; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { max-width:1120px; padding:48px 28px 64px; margin:auto; }
+    a { color:var(--accent); text-underline-offset:3px; }
+    a:hover { text-decoration-thickness:2px; }
+    h1,h2,h3 { line-height:1.2; letter-spacing:-.025em; }
+    h1 { font-size:clamp(2.2rem,6vw,4rem); margin:10px 0 18px; }
+    h2 { font-size:1.7rem; margin:0 0 20px; }
+    h3 { font-size:1.08rem; margin:24px 0 10px; }
+    p { margin:12px 0; }
+    .eyebrow { color:var(--accent); text-transform:uppercase; letter-spacing:.16em; font-size:.76rem; font-weight:750; }
+    .intro { color:var(--muted); max-width:850px; font-size:1.1rem; }
+    .meta { color:var(--muted); font-size:.85rem; }
+    nav { display:flex; flex-wrap:wrap; gap:10px; margin:28px 0; }
+    nav a { border:1px solid var(--line); padding:7px 13px; border-radius:24px; text-decoration:none; font-size:.9rem; }
+    section { border-top:1px solid var(--line); margin-top:36px; padding-top:32px; }
+    .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:28px 0; }
+    .card { background:var(--panel); border:1px solid var(--line); padding:20px; border-radius:14px; }
+    .card strong { display:block; color:var(--accent); font-size:1.7rem; line-height:1.3; }
+    .card span { color:var(--muted); font-size:.88rem; }
+    .note { background:var(--panel); padding:16px 20px; border-left:3px solid var(--accent); border-radius:0 8px 8px 0; margin:22px 0; }
+    .note.warm { border-left-color:var(--warm); }
+    .table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:10px; margin:16px 0; }
+    table { border-collapse:collapse; width:100%; font-size:.93rem; }
+    th,td { padding:12px 15px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:var(--panel); font-size:.8rem; color:var(--muted); }
+    tr:last-child td { border-bottom:0; }
+    .num { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+    .good { color:var(--accent); font-weight:700; }
+    .total td { background:var(--panel); font-weight:750; }
+    .small { font-size:.88rem; color:var(--muted); }
+    li { margin:8px 0; }
+    .cols { display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+    .formula { font-family:ui-monospace,Consolas,monospace; font-size:.94rem; background:var(--panel); padding:15px 18px; border-radius:8px; }
+    details { border:1px solid var(--line); border-radius:10px; margin:14px 0; padding:14px 18px; }
+    summary { cursor:pointer; font-weight:650; }
+    button { border:1px solid var(--line); border-radius:8px; background:var(--panel); color:var(--text); padding:9px 15px; font:inherit; cursor:pointer; }
+    button:hover { border-color:var(--accent); }
+    footer { border-top:1px solid var(--line); margin-top:36px; padding-top:20px; color:var(--muted); font-size:.85rem; }
+    :focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+    @media (max-width:650px) { main { padding:28px 18px 40px; } .cards,.cols { grid-template-columns:1fr; } .cards { gap:8px; } .card { padding:14px 18px; } th,td { padding:10px; } }
+    @media print {
+      :root { color-scheme:light; --bg:#fff; --panel:#f1f4f2; --line:#ccd3cf; --text:#17221c; --muted:#45564b; --accent:#17653e; --warm:#946500; }
+      body { font-size:10pt; } main { max-width:none; padding:0; } h1 { font-size:28pt; } h2 { font-size:17pt; }
+      nav,.print-button { display:none; } section { padding-top:18px; margin-top:24px; } .table-wrap { overflow:visible; }
+      tr,.card,.note { break-inside:avoid; } h2,h3 { break-after:avoid; } a { color:inherit; } details { break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Reference guide · Melvor Idle 2</div>
+    <h1>Fletching from level 1 to 50</h1>
+    <p class="intro">A route that accounts for the whole chain: gather resources, craft components, and turn them into Fletching XP.</p>
+    <p class="meta">Researched on 2026-11-27 · Base rates · Auxiliary skills already at the required levels</p>
+    <p class="small"><a href="../../index.html">← Route library</a> · <a href="calculations.json">Calculations and assumptions in JSON</a></p>
+    <nav aria-label="Guide contents">
+      <a href="#route">Recommended route</a><a href="#materials">Materials</a><a href="#comparison">Comparison</a><a href="#adjustments">Adjustments and bonuses</a><a href="#method">Method</a><a href="#sources">Sources</a>
+    </nav>
+    <div class="cards">
+      <div class="card"><strong>≈ 20 h 17 min</strong><span>Level 1 to 50 in the reference scenario, including preparation.</span></div>
+      <div class="card"><strong>Willow Bow</strong><span>Levels 30–45 · about 4,800 effective XP/h.</span></div>
+      <div class="card"><strong>Maple Bow</strong><span>Levels 45–50 · about 6,525 effective XP/h.</span></div>
+    </div>
+    <div class="note warm"><strong>How to read this:</strong> this reference assumes no bonuses and no starting materials. Feather gathering speed is modeled using an explicit example. Equipment, stock, Mastery Guild, and other upgrades can change the best choice; these times are not measurements of your character.</div>
+    <button class="print-button" type="button" onclick="window.print()">Print / save as PDF</button>
+  </header>
+
+  <section id="route">
+    <h2>Recommended route</h2>
+    <p><strong>Arrows to 30 → Willow Bow to 45 → Maple Bow to 50.</strong> If feathers are slow to obtain, use Oak Bow from level 15.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Range</th><th scope="col">Production</th><th scope="col" class="num">Effective XP/h</th><th scope="col" class="num">Stage time</th></tr></thead>
+      <tbody>
+        <tr><td>1 → 10</td><td>Arrow Shafts → Headless Arrows</td><td class="num">2,576</td><td class="num">27 min</td></tr>
+        <tr><td>10 → 25</td><td>Iron Arrows, including intermediates</td><td class="num">2,893</td><td class="num">2 h 19 min</td></tr>
+        <tr><td>25 → 30</td><td>Steel Arrows, including intermediates</td><td class="num">4,028</td><td class="num">1 h 22 min</td></tr>
+        <tr><td>30 → 45</td><td class="good">Willow Bow</td><td class="num">4,800</td><td class="num">10 h 02 min</td></tr>
+        <tr><td>45 → 50</td><td class="good">Maple Bow</td><td class="num">6,525</td><td class="num">6 h 06 min</td></tr>
+        <tr class="total"><td colspan="3">Approximate total time, with whole batches</td><td class="num">20 h 17 min</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Copper Arrows from 5 to 10 offer a very small advantage in the reference scenario. Keeping Headless Arrows simplifies supplies. This practical route does not attempt to find the exact action sequence that saves the last few seconds.</p>
+
+    <h3>The key condition: feathers</h3>
+    <p>The example assumes <strong>30 seconds of total time per Giant Chicken</strong>, including respawn and allocated time to replenish consumables. A 50% chance to receive 40–70 feathers gives <strong>27.5 feathers per kill on average</strong>: about 1.09 s per feather in this scenario. The 30 seconds are an assumption, not a verified combat rate.</p>
+    <p>From levels 15 to 25, Iron Arrows and Oak Bow are nearly tied. Keeping other base values, <strong>Oak Bow wins if each feather takes more than about 1.21 s</strong>, equivalent to a Giant Chicken cycle above about 33 s.</p>
+    <ul>
+      <li><strong>Fast feathers:</strong> keep Iron Arrows to 25.</li>
+      <li><strong>Slow feathers:</strong> switch to Oak Bow at 15; its full chain yields about 2,880 XP/h.</li>
+      <li><strong>At 25:</strong> Steel Arrows improve efficiency. If feathers cost more than about 8.75 s each, Steel Javelin takes the lead from level 26, keeping other base rates.</li>
+    </ul>
+    <p>Hunting also provides feathers, but requires surveying, tracking, capture attempts, and traps where applicable. The capture interval alone does not represent total gathering time.</p>
+    <p class="small">References: <a href="https://db.melvor.aevv.net/enemy/GiantChicken">Giant Chicken</a>, <a href="https://melvor2db.com/skills/fletching/">Fletching recipes</a>, and <a href="https://melvoridle.wiki/melvor-idle-2/skills/hunting">Hunting mechanics</a>.</p>
+  </section>
+
+  <section id="materials">
+    <h2>Materials to prepare</h2>
+    <p>Quantities for the main route, starting at level 1 with 0 XP and without preservation, doubling, or extra XP. Whole batches leave a small XP surplus.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Stage</th><th scope="col">Final output</th><th scope="col">Chain materials</th></tr></thead>
+      <tbody>
+        <tr><td>1 → 10</td><td>2,900 Headless Arrows</td><td>145 Normal Logs + 290 feathers</td></tr>
+        <tr><td>10 → 25</td><td>3,120 Iron Arrows</td><td>156 Normal Logs + 312 feathers + 312 Iron Bars</td></tr>
+        <tr><td>25 → 30</td><td>1,620 Steel Arrows</td><td>81 Normal Logs + 162 feathers + 162 Steel Bars</td></tr>
+        <tr><td>30 → 45</td><td>1,505 Willow Bows</td><td>3,010 Willow Logs + 1,505 Bowstrings</td></tr>
+        <tr><td>45 → 50</td><td>687 Maple Bows</td><td>1,374 Maple Logs + 687 Bowstrings</td></tr>
+      </tbody>
+    </table></div>
+    <div class="cols">
+      <div>
+        <h3>Raw resources: entire route</h3>
+        <ul>
+          <li>382 Normal Logs.</li>
+          <li>764 feathers.</li>
+          <li>474 Iron Ore: 312 for iron and 162 for steel.</li>
+          <li>162 Coal for Steel Bars.</li>
+          <li>3,010 Willow Logs and 1,374 Maple Logs.</li>
+          <li>2,192 Flax for Bowstrings.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Bow preparation</h3>
+        <ol>
+          <li>Cut the corresponding logs.</li>
+          <li>Gather Flax from Flax Bush.</li>
+          <li>Turn Flax into Bowstring with Crafting, or use the shop exchange if already unlocked.</li>
+          <li>Craft Willow Bow to 45, then Maple Bow to 50.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="small">The thresholds used are 13,362 XP at level 30, 61,510 at 45, and 101,331 at 50. Route batches total 101,382 XP. Stop at the desired level if bonuses reduce consumption. <a href="https://melvor2.com/xp-table/">XP table</a>.</p>
+  </section>
+
+  <section id="comparison">
+    <h2>Why crossbows stop being the priority</h2>
+    <p>Final crossbow crafting grants plenty of XP, but its components use several bars. When everything must be mined, smelted, and crafted, that advantage shrinks.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Recipe</th><th scope="col" class="num">Level</th><th scope="col" class="num">Final action XP/h</th><th scope="col" class="num">Full chain XP/h</th></tr></thead>
+      <tbody>
+        <tr><td>Iron Arrows</td><td class="num">10</td><td class="num">6,300</td><td class="num">2,893</td></tr>
+        <tr><td>Oak Bow</td><td class="num">15</td><td class="num">7,200</td><td class="num">2,880</td></tr>
+        <tr><td>Iron 2H Crossbow</td><td class="num">20</td><td class="num">19,286</td><td class="num">2,673</td></tr>
+        <tr><td>Steel Arrows</td><td class="num">25</td><td class="num">10,800</td><td class="num">4,028</td></tr>
+        <tr><td>Steel Javelin</td><td class="num">26</td><td class="num">11,700</td><td class="num">3,217</td></tr>
+        <tr><td>Willow Bow</td><td class="num">30</td><td class="num">11,520</td><td class="num good">4,800</td></tr>
+        <tr><td>Steel Spear</td><td class="num">31</td><td class="num">19,800</td><td class="num">2,860</td></tr>
+        <tr><td>Willow Boomerang</td><td class="num">33</td><td class="num">12,600</td><td class="num">3,600</td></tr>
+        <tr><td>Steel 2H Crossbow</td><td class="num">35</td><td class="num">27,225</td><td class="num">3,232</td></tr>
+        <tr><td>Mithril Arrows</td><td class="num">35</td><td class="num">12,600</td><td class="num">3,884</td></tr>
+        <tr><td>Mithril Spear</td><td class="num">41</td><td class="num">27,000</td><td class="num">3,477</td></tr>
+        <tr><td>Mithril 2H Crossbow</td><td class="num">44</td><td class="num">38,600</td><td class="num">3,832</td></tr>
+        <tr><td>Maple Bow</td><td class="num">45</td><td class="num">17,400</td><td class="num good">6,525</td></tr>
+        <tr><td>Ruby Bolts</td><td class="num">45</td><td class="num">26,100</td><td class="num">3,651</td></tr>
+        <tr><td>Maple Boomerang</td><td class="num">48</td><td class="num">23,400</td><td class="num">4,680</td></tr>
+        <tr><td>Adamant Crossbow</td><td class="num">49</td><td class="num">37,286</td><td class="num">3,994</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Full chain = calculations from the recipes. For arrows, the numerator also includes Arrow Shafts and Headless Arrows XP. The final action and full chain therefore use different XP numerators. For other recipes, only final crafting grants Fletching XP.</p>
+    <details open>
+      <summary>Worked example: Willow Bow</summary>
+      <p>2 Willow Logs: 10 s. Gather 1 Flax: 2 s. Craft 1 Bowstring: 2 s. Craft the bow: 10 s.</p>
+      <p class="formula">32 XP × 3,600 ÷ (10 + 2 + 2 + 10) = 4,800 XP/h</p>
+    </details>
+    <details open>
+      <summary>Worked example: Steel 2H Crossbow</summary>
+      <p>Requires 6 Willow Logs, 2 Steel Crossbow Heads, and 1 Bowstring. The two heads consume 6 Steel Bars and 20 s of Smithing.</p>
+      <p>The six bars cost about 64.77 s of mining and smelting. Adding 30 s for wood, 20 s for the heads, 4 s for the string, and 16 s of Fletching gives about 134.77 s total.</p>
+      <p class="formula">121 XP × 3,600 ÷ 134.77 ≈ 3,232 XP/h</p>
+    </details>
+    <p class="small">References: <a href="https://db.melvor.aevv.net/entity/Fletching">Fletching</a>, <a href="https://db.melvor.aevv.net/artisan-recipe/SteelCrossbowHead">Steel Crossbow Head</a>, <a href="https://db.melvor.aevv.net/artisan-recipe/MithrilBar">Mithril Bar</a>, and <a href="https://melvor2db.com/skills/smithing/">Smithing</a>.</p>
+  </section>
+
+  <section id="adjustments">
+    <h2>When to adjust the route</h2>
+    <h3>Flax for Bowstring exchange</h3>
+    <p>The shop exchanges <strong>1 Flax for 1 Bowstring</strong>, but requires <strong>Skilled Crafter in the Mastery Guild</strong>. Crafting level alone does not unlock this purchase.</p>
+    <p>If the exchange is already available, it removes 2 s per string. Across the 2,192 bows from levels 30–50, this saves about <strong>1 h 13 min</strong>. The entire route falls to about <strong>19 h 04 min</strong>, keeping other assumptions. Time to earn the rank is excluded: this comparison assumes it is already unlocked. <a href="https://db.melvor.aevv.net/shop-purchase/Bowstring">Shop requirements</a>.</p>
+
+    <h3>Feathers Flax Basket</h3>
+    <p>This item grants <strong>+15% doubling chance for Flax Bush</strong>. Its Beastcrafting 6 recipe uses 2 String, 2 Stick, and 10 feathers, with 6 s of final crafting. Gathering 2,192 Flax with the bonus saves about nine minutes before subtracting basket preparation. <a href="https://db.melvor.aevv.net/item/FeathersFlaxBasket">Recipe and bonus</a>.</p>
+
+    <h3>Very fast wood gathering favors boomerangs</h3>
+    <p>If your actual gathering is much faster than base rates, compare these thresholds. They isolate that change and keep other times and quantities without bonuses.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Boomerang beats bow when…</th><th scope="col" class="num">Crafted Bowstring</th><th scope="col" class="num">Shop-exchanged Bowstring</th></tr></thead>
+      <tbody>
+        <tr><td>Effective time per Willow Log falls below</td><td class="num">1.89 s</td><td class="num">1.11 s</td></tr>
+        <tr><td>Effective time per Maple Log falls below</td><td class="num">2.88 s</td><td class="num">2.06 s</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Effective time per log = total gathering time ÷ quantity obtained, including doubling and other production bonuses. Boomerangs unlock at levels 33 and 48. The shop column still assumes 2 s to obtain each Flax.</p>
+
+    <h3>Stock, alternative sources, and parallel production</h3>
+    <p>Ready-made components make crossbows more attractive for reaching the next level. If you need to replenish stock, include that cost again. Thieving and combat also supply some materials; their efficiency depends on success, equipment, drops, and consumable replenishment time.</p>
+    <p>Farming and Ranching can supply resources in parallel. Include only waiting that actually delays progression, plus the work and inputs needed to maintain production. The reference scenario uses active gathering and does not assume established farms or herds.</p>
+    <p>Gathering upgrades, Step Skipping, preservation, doubling, and extra XP require recalculating the chain. When buying an upgrade just for this goal, compare time saved up to 50 with the time needed to pay its resource and currency cost.</p>
+  </section>
+
+  <section id="method">
+    <h2>Research method and limitations</h2>
+    <ul>
+      <li>Auxiliary skills already meet the required levels; their leveling time is excluded.</li>
+      <li>Active gathering and crafting are added sequentially, starting without materials.</li>
+      <li>No equipment, potion, Astrology, event, or Mastery Guild bonuses in the base scenario.</li>
+      <li>Mining includes early successes and guaranteed breaks through rock progress.</li>
+      <li>Smelting and crafting tips, components, strings, shafts, and headless arrows are included.</li>
+      <li>Other skill XP is an additional benefit; the calculated objective is reaching Fletching 50.</li>
+      <li>Quest XP, new unlock costs, menu navigation, and idle time are excluded.</li>
+      <li>Ammunition calculations use the feather cost described above. Recalculate if your source has another speed.</li>
+      <li>Consulted databases include data extracted from build 26724394. The XP table identifies build 26886380. Game updates can change recipes or rates.</li>
+    </ul>
+    <p class="formula">Effective XP/h = 3,600 × chain Fletching XP ÷ total chain seconds</p>
+    <p>For arrows, each final batch of 4 units receives another 1.6 Fletching XP allocated from earlier production: 0.4 XP from Arrow Shafts and 1.2 XP from Headless Arrows. The Iron Arrows chain therefore uses 8.6 XP per batch, and Steel Arrows uses 13.6 XP.</p>
+    <p>Mean mining time uses a capped geometric distribution: with break chance <em>p</em>, a 1.5 s interval, and a limit of <em>n</em> hits, the mean is <strong>1.5 × [1 − (1 − p)<sup>n</sup>] ÷ p</strong>. Account for output per break when converting the result to time per item.</p>
+  </section>
+
+  <section id="sources">
+    <h2>Sources to check after updates</h2>
+    <p>These links are community references. Effective rates, route times, batches, and method-switch thresholds were calculated for this guide.</p>
+    <ol>
+      <li><a href="https://db.melvor.aevv.net/entity/Fletching">Melvor DB — Fletching recipes</a>.</li>
+      <li><a href="https://melvor2db.com/skills/fletching/">Melvor2DB — Fletching levels, XP, intervals, and materials</a>.</li>
+      <li><a href="https://db.melvor.aevv.net/entity/Woodcutting">Melvor DB — trees, health, and output</a>.</li>
+      <li><a href="https://db.melvor.aevv.net/entity/Mining">Melvor DB — mining and average hits per resource</a>.</li>
+      <li><a href="https://melvoridle.wiki/melvor-idle-2/skills/mining">Melvor Idle Wiki — rock breaking mechanics</a>.</li>
+      <li><a href="https://melvor2db.com/skills/smithing/">Melvor2DB — Smithing bars, tips, and components</a>.</li>
+      <li><a href="https://db.melvor.aevv.net/artisan-recipe/Bowstring">Melvor DB — Bowstring recipe</a>.</li>
+      <li><a href="https://db.melvor.aevv.net/shop-purchase/Bowstring">Melvor DB — Flax for Bowstring exchange and requirements</a>.</li>
+      <li><a href="https://db.melvor.aevv.net/enemy/GiantChicken">Melvor DB — Giant Chicken drops</a>.</li>
+      <li><a href="https://melvoridle.wiki/melvor-idle-2/skills/hunting">Melvor Idle Wiki — Hunting steps and failures</a>.</li>
+      <li><a href="https://db.melvor.aevv.net/item/FeathersFlaxBasket">Melvor DB — Feathers Flax Basket</a>.</li>
+      <li><a href="https://melvor2.com/xp-table/">Melvor2 — XP table by level</a>.</li>
+    </ol>
+  </section>
+  <footer>Standalone offline file. Only source links require a connection. Consult the route and materials; adjust assumptions for your character's bonuses and stock.</footer>
+</main>
+</body>
+</html>

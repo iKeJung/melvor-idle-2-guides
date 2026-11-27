@@ -1,4 +1,4 @@
-"""Extracted from build_tables.py; see LICENSE and ORIGEM.md."""
+"""Extracted from build_tables.py; see LICENSE and PROVENANCE.md."""
 NS = "MelvorBase:"
 
 def short(i):

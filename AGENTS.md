@@ -1,71 +1,48 @@
-# Guias de Melvor Idle 2
+# Melvor Idle 2 Guides
 
-Este projeto mantém uma biblioteca de rotas de evolução. Para criar ou revisar um guia de habilidade, leia e siga a skill [rota](.agents/skills/rota/SKILL.md).
+This project maintains a library of skill leveling routes. To create or revise a skill guide, read and follow the [route skill](.agents/skills/route/SKILL.md).
 
-## Consulta do personagem por agentes
+## Language and commits
 
-Quando o usuário perguntar sobre **seu personagem** (nível, XP, bônus,
-equipamentos ou melhorias), consulte os saves locais por comando. O fluxo
-não exige controle da interface, screenshots, exportação manual ou envio do
-save para sites.
+- Write all new or updated repository content in **English**, including documentation, guides, skill instructions, code comments, identifiers, filenames, CLI messages, generated reports, and JSON field names. Preserve official game IDs, proper names, source quotations, and third-party license notices where required.
+- Use **Conventional Commits** for every commit: `<type>(<optional scope>): <description>`. Write the description and any body in English. Examples: `refactor(character): translate the query interface to English` and `docs: clarify guide assumptions`. Use `!` or a `BREAKING CHANGE:` footer when introducing an incompatible public interface.
+- Keep paths, examples, schemas, tests, and generated artifacts consistent when changing names. Regenerate derived files rather than editing them by hand.
 
-Na raiz do projeto, prefira uma consulta específica:
+## Character queries by agents
+
+When the user asks about **their character** (level, XP, bonuses, equipment, or upgrades), query local saves by command. This workflow does not require UI control, screenshots, manual exports, or uploading saves to websites.
+
+Prefer a focused query from the project root:
 
 ```powershell
-.\consultar-personagem.ps1 -Habilidade Smithing -Stat SkipStepChance
+.\query-character.ps1 -Skill Smithing -Stat SkipStepChance
 ```
 
-- A consulta **atualiza a leitura do save por padrão** e retorna JSON em stdout.
-  Verifique o código de saída e `status`; em erro, não trate a saída anterior
-  como atual. `-Cache` é uma opção explícita para consultar um snapshot sem
-  atualizá-lo; informe sua data e essa limitação ao responder.
-- Sem `-Stat`, retorna nível, XP e todos os modificadores identificados para
-  a habilidade. Preserve os IDs ingleses do jogo, por exemplo `Smithing`,
-  `SkipStepChance`, `DoublingChance` e `PercentXPGained`. A busca ignora caixa.
-  Para atributo ambíguo, adicione `-Componente Action -Tipo ArtisanAction`.
-- Para equipamentos/toolbelts e maestrias, atualize a leitura e consulte
-  `estado.json` em `habilidades.<Skill>.ferramentas` / `maestria`;
-  equipamento de combate e inventário ficam em `estado_decodificado.json`.
-- Confirme `snapshot.personagem`, `snapshot.personagem_id`, data do save e
-  `snapshot.idade_save_segundos`. O padrão escolhe o `.sav` mais recente;
-  use `-Save 'caminho\save_personagem.sav'` se houver um personagem específico.
-- Leia `modificador.geral_confirmado.valor` junto com `unidade`. A unidade
-  `fracao_percentual` usa `0.06 = 6%`; o campo `percentual` já contém `6`.
-  `ms` significa milissegundos. Não converta `valor_do_jogo` sem verificar
-  sua mecânica.
-- **É um subtotal de modificadores identificados, não uma chance/taxa final.**
-  `completo: false` e `valor_final: null` são intencionais. Contextuais,
-  incertos e grupos globais não entram no subtotal. Só aplique condicionais
-  quando o contexto da ação corresponder e a condição puder ser verificada;
-  não some grupos globais ou fontes novamente ao subtotal.
-- `status: nao_identificado`, `modificador: null` ou `geral_confirmado: null`
-  significam valor desconhecido, **nunca zero**. Um subtotal numérico `0` é
-  diferente de ausência. Consulte sempre `cobertura`, `contextuais`,
-  `incertos`, `outros_bonus_e_globais` e `fontes` antes de concluir.
-- Ao responder, priorize valor identificado e fontes; mencione limitações
-  que afetem a conclusão. Em cálculos personalizados, registre o SHA-256 do
-  snapshot e os modificadores usados como premissas. Não substitua as
-  hipóteses de uma rota genérica por dados pessoais sem pedido/contexto para isso.
+- The query **refreshes the save snapshot by default** and returns JSON on stdout. Check the exit code and `status`; after an error, do not treat an earlier output as current. `-Cache` explicitly queries an existing snapshot without refreshing it; report its date and this limitation.
+- Without `-Stat`, the query returns the skill's level, XP, and all identified modifiers. Preserve English game IDs such as `Smithing`, `SkipStepChance`, `DoublingChance`, and `PercentXPGained`. Matching is case insensitive. For an ambiguous stat, add `-Component Action -Type ArtisanAction`.
+- For equipment/toolbelts and masteries, refresh the snapshot and inspect `state.json` at `skills.<Skill>.tools` / `mastery`; combat equipment and inventory are in `decoded_state.json`.
+- Confirm `snapshot.character`, `snapshot.character_id`, the save timestamp, and `snapshot.save_age_seconds`. The default selects the most recent `.sav`; use `-Save 'path\character_save.sav'` to select a specific character.
+- Read `modifier.confirmed_general.value` together with `unit`. With `percentage_fraction`, `0.06 = 6%`; the `percentage` field already contains `6`. `ms` means milliseconds. Do not convert `game_value` without checking its mechanics.
+- **The value is a subtotal of identified modifiers, not a final chance or rate.** `complete: false` and `final_value: null` are intentional. Contextual, uncertain, and global groups are excluded from the subtotal. Apply conditional modifiers only when the action context matches and the condition can be verified; do not add global groups or sources to the subtotal again.
+- `status: unidentified`, `modifier: null`, or `confirmed_general: null` means unknown, **never zero**. A numeric subtotal of `0` differs from absence. Always inspect `coverage`, `contextual`, `uncertain`, `other_and_global_bonuses`, and `sources` before drawing conclusions.
+- Prioritize identified values and their sources in the answer; mention limitations that affect the conclusion. For personalized calculations, record the snapshot SHA-256 and the modifiers used as assumptions. Do not replace a generic route's assumptions with personal data without a request or context that calls for it.
 
-O arquivo gerado `dados/personagem/agentes.json` é a interface de consulta
-em lote, indexada por
-`habilidades.<Skill>.modificadores.<Componente>.<Tipo>.<Stat>`.
-Para atualizar todos os arquivos, execute `.\extrair-personagem.ps1`.
-Formato, exemplos e limites: [FORMATO-AGENTES.md](ferramentas/estado_personagem/FORMATO-AGENTES.md).
-Instalação e interpretação detalhada: [README da ferramenta](ferramentas/estado_personagem/README.md).
-Os saves e snapshots pessoais permanecem ignorados pelo Git.
+The generated `data/character/agents.json` file is the batch query interface, indexed by `skills.<Skill>.modifiers.<Component>.<Type>.<Stat>`.
+Run `.\extract-character.ps1` to refresh all files.
+See [AGENT-FORMAT.md](tools/character_state/AGENT-FORMAT.md) for the format, examples, and limitations, and the [tool README](tools/character_state/README.md) for setup and interpretation.
+Personal saves and snapshots must remain ignored by Git, including outputs created before the English migration.
 
-## Skill disponível no projeto
+## Project skill
 
-- **rota** — Pesquisa a habilidade e o intervalo de níveis, calcula a cadeia de materiais e entrega um artefato de consulta. Entrada: [.agents/skills/rota/SKILL.md](.agents/skills/rota/SKILL.md).
+- **route** — Research a skill and level range, calculate the material chain, and deliver a reference artifact. Entry point: [.agents/skills/route/SKILL.md](.agents/skills/route/SKILL.md).
 
-## Fluxo para cada novo guia
+## Workflow for each guide
 
-1. Obtenha a habilidade e os níveis inicial/final; pergunte somente pelos dados ausentes.
-2. Pesquise Melvor Idle 2 e registre fontes, versão e hipóteses. Considere as habilidades auxiliares já nos níveis necessários, incluindo o tempo de obter e processar os materiais.
-3. Salve `guia.html`, `metadados.json` e `calculos.json` em `guias/<habilidade>/<inicio>-<fim>/`.
-4. Atualize o guia existente quando a habilidade e a faixa coincidirem. Use outro diretório para outra faixa. Não espalhe novos guias na raiz.
-5. Execute o gerador do índice e seu `--check`, conforme a skill. `guias/index.html` e `guias/catalogo.json` são gerados a partir dos metadados.
-6. Entregue links para o guia e para a biblioteca. A tarefa só está concluída com o artefato salvo e incluído no índice.
+1. Obtain the skill and starting/target levels; ask only for missing details.
+2. Research Melvor Idle 2 and record sources, version, and assumptions. Assume auxiliary skills already meet the required levels, and include the time to gather and process materials.
+3. Save `guide.html`, `metadata.json`, and `calculations.json` in `guides/<skill>/<start>-<end>/`.
+4. Update the existing guide when the skill and range match. Use a different directory for another range. Do not scatter new guides in the root.
+5. Run the index builder and its `--check` mode as described in the skill. `guides/index.html` and `guides/catalog.json` are generated from metadata.
+6. Deliver links to the guide and library. The task is complete only when the artifact is saved and included in the index.
 
-Exemplos de uso: `Use $rota` ou `Crie uma rota de Woodcutting do 10 ao 50`. No primeiro caso, a skill deve perguntar a habilidade e a faixa; no segundo, já pode começar a pesquisa.
+Examples: `Use $route` or `Create a Woodcutting route from level 10 to 50`. In the first case, ask for the skill and range; in the second, start researching.

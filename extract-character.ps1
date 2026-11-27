@@ -1,16 +1,16 @@
 param(
     [string]$Save,
     [string]$Exe,
-    [string]$Saida
+    [string]$Output
 )
 $ErrorActionPreference = 'Stop'
 $pythonPath = Join-Path $PSScriptRoot '.venv\Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $pythonPath)) {
-    throw 'Prepare o ambiente: python -m venv .venv; .\.venv\Scripts\python.exe -m pip install -r ferramentas\estado_personagem\requirements.txt'
+    throw 'Set up the environment: python -m venv .venv; .\.venv\Scripts\python.exe -m pip install -r tools\character_state\requirements.txt'
 }
-$scriptArgs = @('-X', 'utf8', '-I', (Join-Path $PSScriptRoot 'ferramentas\estado_personagem\extrair.py'))
+$scriptArgs = @('-X', 'utf8', '-I', (Join-Path $PSScriptRoot 'tools\character_state\extract.py'))
 if ($Save) { $scriptArgs += @('--save', $Save) }
 if ($Exe) { $scriptArgs += @('--exe', $Exe) }
-if ($Saida) { $scriptArgs += @('--saida', $Saida) }
+if ($Output) { $scriptArgs += @('--output', $Output) }
 & $pythonPath @scriptArgs
 exit $LASTEXITCODE

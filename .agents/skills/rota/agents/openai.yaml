@@ -1,4 +1,0 @@
-interface:
-  display_name: "Rota de evolução"
-  short_description: "Pesquisa rotas e organiza guias de evolução"
-  default_prompt: "Use $rota para criar um guia de evolução com materiais, tempos e artefato de consulta."

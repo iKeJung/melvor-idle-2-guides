@@ -2,7 +2,10 @@ __pycache__/
 *.py[cod]
 .venv/
 .rota-verificacao-*/
+.route-verification-*/
 Thumbs.db
 .DS_Store
 .cache/
+data/character/
+# Keep snapshots generated before the English migration private.
 dados/personagem/
