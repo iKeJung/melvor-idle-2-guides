@@ -9,6 +9,7 @@ import html
 import json
 from pathlib import Path
 import re
+import struct
 import sys
 import tempfile
 import time
@@ -268,10 +269,9 @@ def report_html(result):
 </style><h1>''' + esc(result["character"]) + f''' · total level {result["total_level"]}</h1><p>''' + esc(activity["skill"]) + " · " + esc(activity["action"]) + "</p><p>Latest save: " + esc(result["origin"]["save_modified_local"]) + "<br>Extracted at: " + esc(result["origin"]["extracted_at"]) + "</p><div class=notice><b>Partial coverage</b><ul>" + "".join("<li>" + esc(v) + "</li>" for v in result["limits"] + result["warnings"]) + "</ul></div><p><a href=state.json>JSON for queries and calculations</a> · <a href=bonus.json>Bonuses by source</a></p><h2>Skills</h2><div class=scroll><table><thead><tr><th>Skill</th><th>Level</th><th>Saved XP</th><th>Confirmed general modifiers</th></tr></thead><tbody>" + "".join(overview) + "</tbody></table></div><h2>Bonus sources and conditions</h2>" + "".join(details) + "<h2>Other components / unexpanded globals</h2><ul>" + "".join(bonus_line(b) for b in result["other_and_global_bonuses"]) + '</ul><p><small>Reader based on <a href="https://github.com/jtwilli/melvor2sim">melvor2sim</a> (MIT), with local adaptations. No data sent over the network.</small></p></html>'
 
 
-def extract(save, exe, output):
-    save, exe, output = save.resolve(), exe.resolve(), output.resolve()
-    if output.is_relative_to(save.parent) or output.is_relative_to(exe.parent):
-        raise ValueError("Output must be outside the save and game directories.")
+def read_character(save, exe):
+    """Return the summary, decoded save, and game data from the same extraction."""
+    save, exe = save.resolve(), exe.resolve()
     data, game_origin = game_data(exe)
     tables = CACHE / "tables"
     for kind, records in data["Objects"].items():
@@ -285,6 +285,8 @@ def extract(save, exe, output):
     try:
         state = decoder.parse_save(snapshot)
         entities = extra_components(decoder.decompress(snapshot))
+    except (decoder.brotli.error, struct.error) as exc:
+        raise ValueError(f"Could not decode save {save.name}: {exc}") from exc
     finally:
         snapshot.unlink(missing_ok=True)
     state["save_file"] = save.name
@@ -305,9 +307,17 @@ def extract(save, exe, output):
     result = summarize(state, active, data, origin)
     if result["total_level"] != result["header_total_level"]:
         result["warnings"].append("The sum of skill levels differs from the save header; inspect individual skills.")
+    return result, state, data, active, bonfire, events
+
+
+def extract(save, exe, output):
+    save, exe, output = save.resolve(), exe.resolve(), output.resolve()
+    if output.is_relative_to(save.parent) or output.is_relative_to(exe.parent):
+        raise ValueError("Output must be outside the save and game directories.")
+    result, state, _, active, bonfire, events = read_character(save, exe)
     output.mkdir(parents=True, exist_ok=True)
     dump(output / "state.json", result)
-    dump(output / "bonus.json", {"origin": origin, "bonus": active, "bonfire": bonfire, "rare_events": events, "limits": LIMITATIONS})
+    dump(output / "bonus.json", {"origin": result["origin"], "bonus": active, "bonfire": bonfire, "rare_events": events, "limits": LIMITATIONS})
     dump(output / "decoded_state.json", state)
     atomic_text(output / "report.html", report_html(result))
     dump(output / "agents.json", build_agent_state(result))

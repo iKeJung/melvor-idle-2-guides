@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>$skill to level $target · Personal route</title>
+  <style>
+    :root { color-scheme: dark; --bg:#10161c; --panel:#19232c; --line:#34444f; --text:#e6edf0; --muted:#acbdc7; --accent:#93dfb3; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 system-ui,sans-serif; }
+    main { max-width:1000px; margin:auto; padding:40px 24px; }
+    h1 { font-size:clamp(2rem,6vw,3.25rem); line-height:1.1; margin:.2em 0 .5em; }
+    h2 { font-size:1.45rem; line-height:1.2; margin:0 0 16px; }
+    h3 { font-size:1.05rem; margin:0 0 8px; }
+    a, .eyebrow { color:var(--accent); }
+    a { text-underline-offset:3px; }
+    .eyebrow { font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; }
+    .meta, .note, .small { color:var(--muted); }
+    .meta, .small { font-size:.875rem; }
+    .cards, .materials { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr)); margin:24px 0; }
+    .card { border:1px solid var(--line); border-radius:10px; padding:14px 18px; background:var(--panel); }
+    .card strong { display:block; color:var(--accent); font-size:1.45rem; }
+    nav { display:flex; gap:16px; flex-wrap:wrap; }
+    section { border-top:1px solid var(--line); margin-top:30px; padding-top:24px; }
+    .table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:10px; }
+    table { border-collapse:collapse; width:100%; }
+    th, td { padding:9px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { background:var(--panel); font-size:.85rem; }
+    tr:last-child td { border-bottom:0; }
+    td ol, .card ul { margin:0; padding-left:1.2em; }
+    .num { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+    details { margin-top:16px; }
+    summary { cursor:pointer; margin-bottom:8px; }
+    code { overflow-wrap:anywhere; }
+    @media (max-width:600px) { main { padding:24px 16px; } th, td { padding:8px; } }
+    @media print {
+      :root { color-scheme:light; --bg:#fff; --panel:#f1f4f2; --line:#ccd3cf; --text:#17221c; --muted:#45564b; --accent:#17653e; }
+      body { font-size:10pt; } main { padding:0; } nav, #refresh-controls { display:none; } .table-wrap { overflow:visible; } .card, tr { break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">Melvor Idle 2 · Personal route</p>
+    <h1>$skill to level $target</h1>
+    <p>$character · Level $level · $xp XP</p>
+    <p class="meta">Save from $save_time · $save_age old at refresh · Refreshed $generated</p>
+    <div class="cards">
+      <div class="card"><strong>$remaining</strong>Estimated active time remaining</div>
+      <div class="card"><strong>$xp_remaining XP</strong>Remaining to reach $target_xp XP</div>
+    </div>
+    <nav aria-label="Guide contents">
+      <a href="#stages">Stages</a>
+      <a href="#materials">Materials</a>
+      <a href="#assumptions">Assumptions</a>
+      <a href="../../../guides/$guide_path">Reference guide</a>
+      <a href="../../../guides/index.html">Route library</a>
+      <a href="data:application/json;base64,$audit_data" download="$guide_id.json">Download calculations JSON</a>
+    </nav>
+  </header>
+  <section id="stages">
+    <h2>Remaining stages</h2>
+    $prerequisite
+    <div class="table-wrap"><table>
+      <thead><tr><th scope="col">Level</th><th scope="col">Actions in order</th><th scope="col" class="num">Effective XP/h</th><th scope="col" class="num">Estimated time</th></tr></thead>
+      <tbody>$stages</tbody>
+    </table></div>
+    <p class="small">Each count is a complete craft, harvest, ore break, kill, or exchange. Use your actual XP and supplies to decide when to move to the next stage.</p>
+  </section>
+  <section id="materials">
+    <h2>Materials</h2>
+    <div class="materials">
+      <div class="card"><h3>Expected use from the bank</h3><ul>$bank_items</ul></div>
+      <div class="card"><h3>Expected yield from gathering</h3><ul>$gather_items</ul></div>
+    </div>
+  </section>
+  <section id="assumptions">
+    <h2>Assumptions</h2>
+    <ul>
+      <li>Run <code>.\update-guides.ps1</code> and reload this page to use the latest local save. Add <code>-Watch</code> to regenerate when that save changes. The game may still have unsaved progress.</li>
+      <li>The estimate compares the guide's configured recipes in each level band, using your starting XP and bank stock. It carries spare materials between stages and adds the time to gather and craft missing supplies.</li>
+      <li>Expected yields and ingredient costs use averages for random outcomes. The model uses supported permanent modifiers from the save, keeps equipment fixed, and assumes ordinary crafting rewards.</li>
+      <li>Modifier coverage is partial. Rates start at the recipe's base values and use only the supported contributions listed below. The model excludes temporary, conditional, scaled, uncertain, and global bonuses, random side products, auxiliary training time, and time spent unlocking upgrades or operating the shop.</li>
+      $feather_assumption
+    </ul>
+    <p class="small" id="refresh-controls" hidden>
+      <a id="start-refresh" href="?refresh=1#assumptions">Reload this page every 20 seconds</a>
+      <a id="stop-refresh" href="?#assumptions" hidden>Stop reloading this page</a>
+    </p>
+    <details>
+      <summary>Applied modifiers and sources</summary>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">Action</th><th scope="col">Modifier</th><th scope="col" class="num">Applied subtotal</th><th scope="col">Source</th></tr></thead>
+        <tbody>$modifiers</tbody>
+      </table></div>
+    </details>
+    <p class="small">Save SHA-256 <code>$save_sha</code></p>
+  </section>
+</main>
+<script>
+  const autoRefresh = new URLSearchParams(location.search).has("refresh");
+  document.getElementById("refresh-controls").hidden = false;
+  document.getElementById("start-refresh").hidden = autoRefresh;
+  document.getElementById("stop-refresh").hidden = !autoRefresh;
+  if (autoRefresh) {
+    setInterval(() => {
+      if (!document.hidden && !document.querySelector("details[open]")) location.reload();
+    }, 20_000);
+  }
+</script>
+</body>
+</html>
