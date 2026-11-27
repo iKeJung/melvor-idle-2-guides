@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.venv/
+.rota-verificacao-*/
+Thumbs.db
+.DS_Store

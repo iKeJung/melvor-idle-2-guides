@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "guide_id": "fletching-1-50",
+  "units": {"time": "seconds", "xp": "Fletching XP", "quantity": "items"},
+  "assumptions": {
+    "initial_xp": 0,
+    "starting_stock": 0,
+    "auxiliary_skills": "Já nos níveis necessários; não implica ranks, equipamentos ou missões desbloqueados.",
+    "modifiers": "Taxas base, sem preservação, duplicação, XP extra ou salto de etapas.",
+    "active_work": "Coleta e fabricação somadas em sequência.",
+    "giant_chicken_cycle_seconds": 30,
+    "giant_chicken_cycle_provenance": "Cenário hipotético, não medido: deve incluir respawn e o tempo rateado para repor consumíveis.",
+    "expected_feathers_per_kill": 27.5,
+    "feathers_drop_basis": "50% de chance de receber 40–70 penas; média 0,5 × 55.",
+    "excluded": ["Tempo para subir habilidades auxiliares", "XP de missões", "Tempo de novos desbloqueios", "Pausas e navegação nos menus"],
+    "data_builds": ["26724394", "26886380 (tabela de XP)"]
+  },
+  "formulas": {
+    "effective_xp_per_hour": "3600 * target_skill_chain_xp / total_chain_seconds",
+    "mean_mining_seconds_per_break": "1.5 * (1 - (1 - p)^n) / p; n = ceil(0.9999 / p)",
+    "bar_seconds": "ore_seconds + coal_quantity * coal_seconds + 2.5",
+    "arrow_chain_preparation_xp_per_4_arrows": 1.6,
+    "arrow_chain_preparation_xp_basis": "0,4 XP de Arrow Shafts + 1,2 XP de Headless Arrows, rateados por lote de 4 flechas."
+  },
+  "gathering_seconds_per_item": {
+    "Normal Log": 3,
+    "Oak Log": 4,
+    "Willow Log": 5,
+    "Teak Log": 6,
+    "Maple Log": 8,
+    "Flax": 2,
+    "Iron Ore": 4.665296639999999,
+    "Coal": 3.6294945000000003,
+    "Mithril Ore": 6.7942291171875,
+    "Feathers": 1.0909090909090908
+  },
+  "recipe_inputs": {
+    "Arrow Shaft": {"seconds": 2, "xp": 2, "inputs": {"Normal Log": 1}, "output": 20},
+    "Headless Arrows": {"seconds": 2, "xp": 3, "inputs": {"Arrow Shaft": 10, "Feathers": 1}, "output": 10},
+    "Iron Bar": {"seconds": 2.5, "inputs": {"Iron Ore": 1}, "output": 1},
+    "Steel Bar": {"seconds": 2.5, "inputs": {"Iron Ore": 1, "Coal": 1}, "output": 1},
+    "Iron Arrowtips": {"seconds": 4, "inputs": {"Iron Bar": 1}, "output": 10},
+    "Steel Arrowtips": {"seconds": 4, "inputs": {"Steel Bar": 1}, "output": 10},
+    "Iron Arrows": {"seconds": 4, "xp": 7, "inputs": {"Headless Arrows": 4, "Iron Arrowtips": 4}, "output": 4},
+    "Steel Arrows": {"seconds": 4, "xp": 12, "inputs": {"Headless Arrows": 4, "Steel Arrowtips": 4}, "output": 4},
+    "Bowstring": {"seconds": 2, "inputs": {"Flax": 1}, "output": 1},
+    "Willow Bow": {"seconds": 10, "xp": 32, "inputs": {"Willow Log": 2, "Bowstring": 1}, "output": 1},
+    "Maple Bow": {"seconds": 12, "xp": 58, "inputs": {"Maple Log": 2, "Bowstring": 1}, "output": 1}
+  },
+  "xp_thresholds": {"1": 0, "10": 1154, "25": 7841, "30": 13362, "45": 61510, "50": 101331},
+  "stages": [
+    {"range": [1, 10], "method": "Arrow Shafts + Headless Arrows", "cycles": 145, "cycle_xp": 8, "cycle_output": 20, "xp_after": 1160, "total_seconds": 1621.3636363636363},
+    {"range": [10, 25], "method": "Iron Arrows com intermediários", "cycles": 156, "cycle_xp": 43, "cycle_output": 20, "xp_after": 7868, "total_seconds": 8347.936188043637},
+    {"range": [25, 30], "method": "Steel Arrows com intermediários", "cycles": 81, "cycle_xp": 68, "cycle_output": 20, "xp_after": 13376, "total_seconds": 4922.483437407273},
+    {"range": [30, 45], "method": "Willow Bow", "cycles": 1505, "cycle_xp": 32, "cycle_output": 1, "xp_after": 61536, "total_seconds": 36120},
+    {"range": [45, 50], "method": "Maple Bow", "cycles": 687, "cycle_xp": 58, "cycle_output": 1, "xp_after": 101382, "total_seconds": 21984}
+  ],
+  "totals": {
+    "xp": 101382,
+    "seconds": 72995.78326181455,
+    "raw_materials": {"Normal Log": 382, "Feathers": 764, "Iron Ore": 474, "Coal": 162, "Willow Log": 3010, "Maple Log": 1374, "Flax": 2192}
+  },
+  "shop_bowstring_scenario": {
+    "requirement": "Skilled Crafter na Mastery Guild, já desbloqueado.",
+    "cost": "1 Flax por 1 Bowstring; elimina Crafting, mas mantém a coleta de Flax.",
+    "seconds_saved": 4384,
+    "total_seconds": 68611.78326181455
+  },
+  "sources": [
+    "https://db.melvor.aevv.net/entity/Fletching",
+    "https://db.melvor.aevv.net/entity/Woodcutting",
+    "https://db.melvor.aevv.net/entity/Mining",
+    "https://melvor2db.com/skills/smithing/",
+    "https://db.melvor.aevv.net/artisan-recipe/Bowstring",
+    "https://db.melvor.aevv.net/shop-purchase/Bowstring",
+    "https://db.melvor.aevv.net/enemy/GiantChicken",
+    "https://melvor2.com/xp-table/"
+  ]
+}
