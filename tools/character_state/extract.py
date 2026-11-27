@@ -1,4 +1,4 @@
-"""Extrai o último estado salvo do personagem sem abrir ou controlar o jogo."""
+"""Extract the latest saved character state without opening or controlling the game."""
 from __future__ import annotations
 
 import argparse
@@ -16,29 +16,29 @@ import time
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
-from formato_agentes import build_agent_state
+from agent_format import build_agent_state
 sys.path.insert(0, str(HERE / "vendor" / "melvor2sim"))
 try:
     import read_save as decoder
 except ModuleNotFoundError as exc:
     if exc.name != "brotli":
         raise
-    raise SystemExit("Instale a dependência: python -m pip install -r ferramentas/estado_personagem/requirements.txt")
+    raise SystemExit("Install the dependency: python -m pip install -r tools/character_state/requirements.txt")
 import paths
 import unpack_melvor
 from bonus_sources import collect_bonuses
 
 UPSTREAM = "091ae1a0adbc5d886d73d9e517b9054e47e2879e"
-CACHE = ROOT / ".cache" / "estado-personagem"
-LIMITES = [
-    "Retrato do último autosave em disco. Não simula progresso offline nem lê a memória do jogo.",
-    "Totais somam modificadores gerais confirmados; não são taxas finais de XP, produção ou combate.",
-    "Bônus por receita, categoria, item, condição ou escala ficam separados; não entram nos totais gerais.",
-    "Maestrias com rank incerto ficam fora dos totais confirmados.",
-    "Grupos de bônus globais são listados separadamente e não entram automaticamente nos totais por habilidade.",
-    "Ainda não interpreta bônus de animais/enclosures de Ranching, eventos internos de Astrology, "
-    "distrações/heists de Thieving, técnicas de Agility, condições ambientais e efeitos/passivas/stance/orações de combate. "
-    "Uma lista vazia não comprova ausência de bônus nessas fontes.",
+CACHE = ROOT / ".cache" / "character-state"
+LIMITATIONS = [
+    "Snapshot of the latest autosave on disk. Does not simulate offline progress or read game memory.",
+    "Totals sum confirmed general modifiers; they are not final XP, production, or combat rates.",
+    "Recipe, category, item, conditional, and scaled bonuses remain separate and are excluded from general totals.",
+    "Masteries with an uncertain rank are excluded from confirmed totals.",
+    "Global bonus groups are listed separately and are not automatically included in skill totals.",
+    "Does not yet interpret Ranching animal/enclosure bonuses, internal Astrology events, "
+    "Thieving distractions/heists, Agility techniques, environmental conditions, or combat effects/passives/stances/prayers. "
+    "An empty list does not prove these sources provide no bonuses.",
 ]
 
 
@@ -59,11 +59,11 @@ def atomic_text(path, value):
 
 
 def game_data(exe):
-    """Lê apenas o pacote JSON do PCK, validando o checksum antes de usá-lo."""
-    cache_dir = CACHE / "jogo"
+    """Read only the PCK JSON package, validating its checksum before use."""
+    cache_dir = CACHE / "game"
     signature = {"exe": str(exe), "size": exe.stat().st_size, "mtime_ns": exe.stat().st_mtime_ns}
     cached = cache_dir / "MelvorBase.json"
-    manifest = cache_dir / "origem.json"
+    manifest = cache_dir / "origin.json"
     if cached.exists() and manifest.exists():
         previous = json.loads(manifest.read_text(encoding="utf-8"))
         if previous["signature"] == signature:
@@ -74,12 +74,12 @@ def game_data(exe):
         base, entries = unpack_melvor.read_directory(stream)
         entry = next((e for e in entries if e[0].removeprefix("res://") == "Data/Packages/MelvorBase.json"), None)
         if entry is None:
-            raise ValueError("Pacote MelvorBase.json não encontrado no executável.")
+            raise ValueError("MelvorBase.json package not found in the executable.")
         _, offset, size, checksum = entry
         stream.seek(base + offset)
         blob = stream.read(size)
     if hashlib.md5(blob).digest() != checksum:
-        raise ValueError("Checksum inválido no pacote do jogo.")
+        raise ValueError("Invalid game package checksum.")
     data = json.loads(blob.decode("utf-8-sig"))
     cache_dir.mkdir(parents=True, exist_ok=True)
     cached.write_bytes(blob)
@@ -100,7 +100,7 @@ def stable_save(path):
             pass
         if attempt < 3:
             time.sleep(0.15)
-    raise ValueError("Save mudou durante a leitura. Execute novamente após o autosave.")
+    raise ValueError("The save changed during reading. Run again after the autosave.")
 
 
 def extra_components(blob):
@@ -120,7 +120,7 @@ def read_temporary(entities):
         bonfire = {"id": bid, "max_ticks": maximum, "ticks_left": left,
                    "paused": paused, "enabled": enabled, "applies": bool(bid and enabled and left > 0)}
         if r.left:
-            raise ValueError("Layout de Bonfire mudou.")
+            raise ValueError("Bonfire layout has changed.")
     for skill, components in entities.items():
         r = components.get("RareEvents")
         if r is None:
@@ -131,10 +131,10 @@ def read_temporary(entities):
             body = r.region()
             active, charges = body.bool(), body.i32()
             if body.left:
-                raise ValueError("Layout de RareEvents mudou.")
+                raise ValueError("RareEvents layout has changed.")
             events.append({"skill": skill, "id": event_id, "active": active, "charges": charges})
         if r.left:
-            raise ValueError("Layout de RareEvents mudou.")
+            raise ValueError("RareEvents layout has changed.")
     return bonfire, events
 
 
@@ -156,7 +156,7 @@ def augment_bonuses(state, data, active, bonfire, events):
         prayer = slot.get("active")
         # Unknown activation states are deliberately not treated as active.
         if prayer:
-            state["warnings"].append("Prayer selecionada/ativada no save: bônus de oração não totalizados.")
+            state["warnings"].append("A prayer is selected/activated in the save: prayer bonuses are not totaled.")
 
     groups = {"equipment": state["equipment"], **{"toolbelt:" + k: v for k, v in state["toolbelts"].items()}}
     for via, slots in groups.items():
@@ -180,98 +180,98 @@ def bonus_unit(row, data):
         matches = [d for d in data["GlobalModifierDescriptions"] if d.get("StatGroup") == row["stat"]]
     templates = [m["TemplateString"] for m in matches]
     if any(re.search(r"\{Value:[^{}]*%", t) for t in templates):
-        return "percentual"
+        return "percentage"
     if any("{Value:intervaltime:" in t for t in templates):
         return "ms"
-    return "valor"
+    return "value"
 
 
 def classify(row):
     if "UNCERTAIN" in row.get("note", ""):
-        return "incerto"
+        return "uncertain"
     if any(row.get(k) for k in ("context", "condition", "scaling", "from_context")):
         return "contextual"
-    return "geral"
+    return "general"
 
 
 def summarize(state, rows, data, origin):
     by_skill = {}
     for skill, xp in state["skills"].items():
-        by_skill[skill] = {"nivel": xp["level"], "xp": xp["xp"], "bonus_gerais": [],
-                          "bonus_contextuais": [], "bonus_incertos": [],
-                          "ferramentas": state["toolbelts"].get(skill, {}),
-                          "maestria": state.get("mastery_ranks", {}).get(skill)}
-    other, totals = [], defaultdict(lambda: {"valor": 0.0, "fontes": []})
+        by_skill[skill] = {"level": xp["level"], "xp": xp["xp"], "general_bonuses": [],
+                          "contextual_bonuses": [], "uncertain_bonuses": [],
+                          "tools": state["toolbelts"].get(skill, {}),
+                          "mastery": state.get("mastery_ranks", {}).get(skill)}
+    other, totals = [], defaultdict(lambda: {"value": 0.0, "sources": []})
     for b in rows:
-        b = dict(b, classificacao=classify(b), unidade=bonus_unit(b, data))
+        b = dict(b, classification=classify(b), unit=bonus_unit(b, data))
         skill = b["entity"]
         if skill not in by_skill:
             other.append(b)
             continue
-        if b["classificacao"] == "geral":
-            key = (skill, b["component"], b["stats_type"], b["stat"], b["unidade"])
-            totals[key]["valor"] += b["effective_value"]
-            totals[key]["fontes"].append(b)
+        if b["classification"] == "general":
+            key = (skill, b["component"], b["stats_type"], b["stat"], b["unit"])
+            totals[key]["value"] += b["effective_value"]
+            totals[key]["sources"].append(b)
         else:
-            by_skill[skill]["bonus_incertos" if b["classificacao"] == "incerto" else "bonus_contextuais"].append(b)
+            by_skill[skill]["uncertain_bonuses" if b["classification"] == "uncertain" else "contextual_bonuses"].append(b)
     for (skill, component, stats_type, stat, unit), total in totals.items():
-        by_skill[skill]["bonus_gerais"].append({"componente": component, "tipo": stats_type, "stat": stat,
-                                              "unidade": unit, "valor": round(total["valor"], 8), "fontes": total["fontes"]})
+        by_skill[skill]["general_bonuses"].append({"component": component, "type": stats_type, "stat": stat,
+                                              "unit": unit, "value": round(total["value"], 8), "sources": total["sources"]})
     # Global groups are retained explicitly: expanding them requires the actual
     # group's component membership, not a guess based on the stat name.
-    return {"schema_version": 1, "personagem": state["header"]["character"],
-            "modo": state["header"]["gamemode"], "nivel_total": sum(s["nivel"] for s in by_skill.values()),
-            "nivel_total_cabecalho": state["header"]["total_level"],
-            "atividade": {"habilidade": state["header"]["active_entity"], "acao": state["header"]["active_action"]},
-            "origem": origin, "cobertura": "parcial; consulte limites e bônus contextuais/incertos",
-            "limites": LIMITES, "avisos": state["warnings"], "habilidades": by_skill,
-            "outros_bonus_e_globais": other}
+    return {"schema_version": 2, "character": state["header"]["character"],
+            "mode": state["header"]["gamemode"], "total_level": sum(s["level"] for s in by_skill.values()),
+            "header_total_level": state["header"]["total_level"],
+            "activity": {"skill": state["header"]["active_entity"], "action": state["header"]["active_action"]},
+            "origin": origin, "coverage": "partial; see limitations and contextual/uncertain bonuses",
+            "limits": LIMITATIONS, "warnings": state["warnings"], "skills": by_skill,
+            "other_and_global_bonuses": other}
 
 
-LABELS = {"PercentXPGained": "XP", "DoublingChance": "Chance de duplicação",
-          "PreservationChance": "Preservação de materiais", "SkipStepChance": "Chance de pular etapa",
-          "FlatInterval": "Intervalo", "PercentInterval": "Intervalo", "DoubleDamageChance": "Chance de dano duplo",
-          "FlatStealth": "Furtividade", "FlatProficiency": "Proficiência"}
+LABELS = {"PercentXPGained": "XP", "DoublingChance": "Doubling chance",
+          "PreservationChance": "Material preservation", "SkipStepChance": "Step skipping chance",
+          "FlatInterval": "Interval", "PercentInterval": "Interval", "DoubleDamageChance": "Double damage chance",
+          "FlatStealth": "Stealth", "FlatProficiency": "Proficiency"}
 
 
 def format_value(value, unit):
-    return f"{value * 100:+g}%" if unit == "percentual" else f"{value:+g}" + (" ms" if unit == "ms" else "")
+    return f"{value * 100:+g}%" if unit == "percentage" else f"{value:+g}" + (" ms" if unit == "ms" else "")
 
 
 def report_html(result):
     esc = lambda v: html.escape(str(v), quote=True)
     def bonus_line(b, aggregate=False):
-        value = b["valor"] if aggregate else b["effective_value"]
-        sources = b["fontes"] if aggregate else [b]
+        value = b["value"] if aggregate else b["effective_value"]
+        sources = b["sources"] if aggregate else [b]
         names = "; ".join((x.get("source_name") or x["source_id"]) + " (" + x["via"] + ")" for x in sources)
         suffix = ""
         if not aggregate:
             scope = {k: b[k] for k in ("context", "condition", "scaling", "from_context", "note") if b.get(k)}
             if scope:
                 suffix = "<pre>" + esc(json.dumps(scope, ensure_ascii=False, indent=2)) + "</pre>"
-        return "<li><b>" + esc(LABELS.get(b["stat"], b["stat"])) + ": " + esc(format_value(value, b["unidade"])) + "</b><br><small>" + esc(names) + "</small>" + suffix + "</li>"
+        return "<li><b>" + esc(LABELS.get(b["stat"], b["stat"])) + ": " + esc(format_value(value, b["unit"])) + "</b><br><small>" + esc(names) + "</small>" + suffix + "</li>"
     overview, details = [], []
-    for skill, s in result["habilidades"].items():
-        summary = "; ".join(LABELS.get(b["stat"], b["stat"]) + " " + format_value(b["valor"], b["unidade"]) for b in s["bonus_gerais"]) or "Nenhum modificador geral confirmado"
-        overview.append(f'<tr><td><a href="#{esc(skill)}">{esc(skill)}</a></td><td>{s["nivel"]}</td><td>{s["xp"]:,.2f}</td><td>{esc(summary)}</td></tr>')
+    for skill, s in result["skills"].items():
+        summary = "; ".join(LABELS.get(b["stat"], b["stat"]) + " " + format_value(b["value"], b["unit"]) for b in s["general_bonuses"]) or "No confirmed general modifiers"
+        overview.append(f'<tr><td><a href="#{esc(skill)}">{esc(skill)}</a></td><td>{s["level"]}</td><td>{s["xp"]:,.2f}</td><td>{esc(summary)}</td></tr>')
         sections = []
-        for key, title, aggregated in (("bonus_gerais", "Gerais confirmados", True), ("bonus_contextuais", "Por contexto / condição", False), ("bonus_incertos", "Não confirmados — excluídos dos totais", False)):
+        for key, title, aggregated in (("general_bonuses", "Confirmed general modifiers", True), ("contextual_bonuses", "By context / condition", False), ("uncertain_bonuses", "Unconfirmed — excluded from totals", False)):
             if s[key]:
                 sections.append(f"<h3>{title}</h3><ul>" + "".join(bonus_line(b, aggregated) for b in s[key]) + "</ul>")
-        if s["ferramentas"]:
-            sections.append("<h3>Toolbelt / poções equipadas</h3><pre>" + esc(json.dumps(s["ferramentas"], ensure_ascii=False, indent=2)) + "</pre>")
-        details.append(f'<details id="{esc(skill)}"><summary>{esc(skill)} · nível {s["nivel"]}</summary>' + ("".join(sections) or "<p>Nenhum bônus identificado pelas fontes cobertas.</p>") + "</details>")
-    activity = result["atividade"]
-    return '''<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Estado do personagem · Melvor Idle 2</title><style>
+        if s["tools"]:
+            sections.append("<h3>Toolbelt / equipped potions</h3><pre>" + esc(json.dumps(s["tools"], ensure_ascii=False, indent=2)) + "</pre>")
+        details.append(f'<details id="{esc(skill)}"><summary>{esc(skill)} · level {s["level"]}</summary>' + ("".join(sections) or "<p>No bonuses identified by the covered sources.</p>") + "</details>")
+    activity = result["activity"]
+    return '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Character state · Melvor Idle 2</title><style>
 :root{color-scheme:dark}body{font:16px/1.5 system-ui;background:#101820;color:#eaf1f8;max-width:1150px;margin:auto;padding:28px}a{color:#7fd9bd}h1{font-size:30px}small{color:#aabaca}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid #35424e}thead{background:#1b2a36}details{background:#182632;border:1px solid #35424e;border-radius:8px;margin:12px 0;padding:16px}summary{cursor:pointer;font-weight:650}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;color:#b9d0dc}li{margin:12px 0}.notice{background:#302b1c;border-left:4px solid #e0b85e;padding:14px}.scroll{overflow:auto}
-</style><h1>''' + esc(result["personagem"]) + f''' · nível total {result["nivel_total"]}</h1><p>''' + esc(activity["habilidade"]) + " · " + esc(activity["acao"]) + "</p><p>Último save: " + esc(result["origem"]["save_modificado_local"]) + "<br>Extraído em: " + esc(result["origem"]["extraido_em"]) + "</p><div class=notice><b>Cobertura parcial</b><ul>" + "".join("<li>" + esc(v) + "</li>" for v in result["limites"] + result["avisos"]) + "</ul></div><p><a href=estado.json>JSON para consulta e cálculos</a> · <a href=bonus.json>Bônus por fonte</a></p><h2>Habilidades</h2><div class=scroll><table><thead><tr><th>Habilidade</th><th>Nível</th><th>XP salvo</th><th>Modificadores gerais confirmados</th></tr></thead><tbody>" + "".join(overview) + "</tbody></table></div><h2>Origem e condições dos bônus</h2>" + "".join(details) + "<h2>Outros componentes / globais não expandidos</h2><ul>" + "".join(bonus_line(b) for b in result["outros_bonus_e_globais"]) + '</ul><p><small>Leitor baseado em <a href="https://github.com/jtwilli/melvor2sim">melvor2sim</a> (MIT), com adaptações locais. Nenhum dado enviado à rede.</small></p></html>'
+</style><h1>''' + esc(result["character"]) + f''' · total level {result["total_level"]}</h1><p>''' + esc(activity["skill"]) + " · " + esc(activity["action"]) + "</p><p>Latest save: " + esc(result["origin"]["save_modified_local"]) + "<br>Extracted at: " + esc(result["origin"]["extracted_at"]) + "</p><div class=notice><b>Partial coverage</b><ul>" + "".join("<li>" + esc(v) + "</li>" for v in result["limits"] + result["warnings"]) + "</ul></div><p><a href=state.json>JSON for queries and calculations</a> · <a href=bonus.json>Bonuses by source</a></p><h2>Skills</h2><div class=scroll><table><thead><tr><th>Skill</th><th>Level</th><th>Saved XP</th><th>Confirmed general modifiers</th></tr></thead><tbody>" + "".join(overview) + "</tbody></table></div><h2>Bonus sources and conditions</h2>" + "".join(details) + "<h2>Other components / unexpanded globals</h2><ul>" + "".join(bonus_line(b) for b in result["other_and_global_bonuses"]) + '</ul><p><small>Reader based on <a href="https://github.com/jtwilli/melvor2sim">melvor2sim</a> (MIT), with local adaptations. No data sent over the network.</small></p></html>'
 
 
 def extract(save, exe, output):
     save, exe, output = save.resolve(), exe.resolve(), output.resolve()
     if output.is_relative_to(save.parent) or output.is_relative_to(exe.parent):
-        raise ValueError("A saída deve ficar fora das pastas de saves e do jogo.")
+        raise ValueError("Output must be outside the save and game directories.")
     data, game_origin = game_data(exe)
     tables = CACHE / "tables"
     for kind, records in data["Objects"].items():
@@ -289,47 +289,47 @@ def extract(save, exe, output):
         snapshot.unlink(missing_ok=True)
     state["save_file"] = save.name
     if not state["skills"] or any("Experience" in w for w in state["warnings"]):
-        raise ValueError("Não foi possível ler todos os níveis.")
+        raise ValueError("Could not read all skill levels.")
     state["mastery_ranks"] = decoder.mastery_ranks(state, tables / "objects", data["EntityConfig"])
     active = decoder.active_bonuses(state, collect_bonuses(data["Objects"]), state["mastery_ranks"], tables / "objects")["active"]
     bonfire, events = read_temporary(entities)
     active = augment_bonuses(state, data, active, bonfire, events)
     for skill, rank in state["mastery_ranks"].items():
         if rank["rank_min"] != rank["rank_max"]:
-            state["warnings"].append(f"{skill}: rank de maestria entre {decoder.short(rank['rank_min'])} e {decoder.short(rank['rank_max'])}; bônus incertos separados.")
-    origin = {"save": str(save), "save_sha256": hashlib.sha256(blob).hexdigest(), "versao_save": state["header"]["version"],
-              "personagem_id": state["header"]["uuid"],
-              "save_modificado_local": datetime.fromtimestamp(stat.st_mtime).astimezone().isoformat(),
-              "extraido_em": datetime.now(timezone.utc).astimezone().isoformat(), "pacote_jogo": game_origin,
+            state["warnings"].append(f"{skill}: mastery rank between {decoder.short(rank['rank_min'])} and {decoder.short(rank['rank_max'])}; uncertain bonuses kept separate.")
+    origin = {"save": str(save), "save_sha256": hashlib.sha256(blob).hexdigest(), "save_version": state["header"]["version"],
+              "character_id": state["header"]["uuid"],
+              "save_modified_local": datetime.fromtimestamp(stat.st_mtime).astimezone().isoformat(),
+              "extracted_at": datetime.now(timezone.utc).astimezone().isoformat(), "game_package": game_origin,
               "upstream_commit": UPSTREAM}
     result = summarize(state, active, data, origin)
-    if result["nivel_total"] != result["nivel_total_cabecalho"]:
-        result["avisos"].append("Soma dos níveis difere do cabeçalho do save; consulte os valores por habilidade.")
+    if result["total_level"] != result["header_total_level"]:
+        result["warnings"].append("The sum of skill levels differs from the save header; inspect individual skills.")
     output.mkdir(parents=True, exist_ok=True)
-    dump(output / "estado.json", result)
-    dump(output / "bonus.json", {"origem": origin, "bonus": active, "bonfire": bonfire, "eventos_raros": events, "limites": LIMITES})
-    dump(output / "estado_decodificado.json", state)
-    atomic_text(output / "relatorio.html", report_html(result))
-    dump(output / "agentes.json", build_agent_state(result))
+    dump(output / "state.json", result)
+    dump(output / "bonus.json", {"origin": origin, "bonus": active, "bonfire": bonfire, "rare_events": events, "limits": LIMITATIONS})
+    dump(output / "decoded_state.json", state)
+    atomic_text(output / "report.html", report_html(result))
+    dump(output / "agents.json", build_agent_state(result))
     return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--save", help="Arquivo .sav ou diretório; padrão: save mais recente no AppData")
-    parser.add_argument("--exe", help="Melvor2.exe ou diretório; padrão: detectado nas bibliotecas Steam")
-    parser.add_argument("--saida", type=Path, default=ROOT / "dados" / "personagem")
+    parser.add_argument("--save", help=".sav file or directory; default: latest save in AppData")
+    parser.add_argument("--exe", help="Melvor2.exe or directory; default: detected in Steam libraries")
+    parser.add_argument("--output", type=Path, default=ROOT / "data" / "character")
     args = parser.parse_args()
     try:
-        result = extract(paths.find_save(args.save), paths.find_exe(args.exe), args.saida)
+        result = extract(paths.find_save(args.save), paths.find_exe(args.exe), args.output)
     except (OSError, ValueError, EOFError, KeyError) as exc:
-        parser.exit(1, f"Extração interrompida: {exc}\n")
-    print(f"{result['personagem']} | nível total {result['nivel_total']} | save v{result['origem']['versao_save']}")
-    print(", ".join(f"{k} {s['nivel']}" for k, s in result["habilidades"].items()))
-    for warning in result["avisos"]:
-        print("AVISO:", warning)
-    print("Relatório:", (args.saida / "relatorio.html").resolve())
-    print("JSON:", (args.saida / "estado.json").resolve())
+        parser.exit(1, f"Extraction stopped: {exc}\n")
+    print(f"{result['character']} | total level {result['total_level']} | save v{result['origin']['save_version']}")
+    print(", ".join(f"{k} {s['level']}" for k, s in result["skills"].items()))
+    for warning in result["warnings"]:
+        print("WARNING:", warning)
+    print("Report:", (args.output / "report.html").resolve())
+    print("JSON:", (args.output / "state.json").resolve())
 
 
 if __name__ == "__main__":

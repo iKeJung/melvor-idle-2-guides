@@ -1,0 +1,4 @@
+interface:
+  display_name: "Leveling route"
+  short_description: "Research routes and organize skill leveling guides"
+  default_prompt: "Use $route to create a leveling guide with materials, times, and a reference artifact."
