@@ -55,6 +55,24 @@ class GuidePlanTests(unittest.TestCase):
         self.assertEqual(stage.stock[shaft.product], 20)
         self.assertEqual(stage.xp, 2)
 
+    def test_preparation_reaches_cutoff_before_gathering_other_ingredients(self):
+        tips = action("Tips", 30, 0, output=10)
+        headless = action("Headless", 2, 3, output=10)
+        arrow = action("Arrow", 4, 7, inputs={tips.product: 4, headless.product: 4})
+        suppliers = {supply.product: supply for supply in (tips, headless)}
+        stage = train(arrow, suppliers, {}, {}, 3)
+        self.assertEqual(stage.actions, [{"id": "Headless", "count": 1}])
+        self.assertEqual(stage.seconds, 2)
+
+    def test_preparation_caps_input_for_xp_earning_batches(self):
+        log = action("Log", 3, 0)
+        shaft = action("Shaft", 2, 2, inputs={log.product: 1})
+        arrow = action("Arrow", 4, 7, inputs={shaft.product: 10})
+        suppliers = {supply.product: supply for supply in (log, shaft)}
+        stage = train(arrow, suppliers, {}, {}, 3)
+        self.assertEqual(stage.actions, [{"id": "Log", "count": 2}, {"id": "Shaft", "count": 2}])
+        self.assertEqual(stage.xp, 4)
+
     def test_preservation_requires_first_batch_and_carries_expected_surplus(self):
         source = action("Supply", 1, 0, output=2)
         recipe = action("Arrow", 2, 5, inputs={source.product: 2}, preservation=0.5)

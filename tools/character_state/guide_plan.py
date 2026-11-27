@@ -164,15 +164,30 @@ def bowstring_exchange(purchase, decoded):
 
 
 class Stage:
-    def __init__(self, stock, bank):
+    def __init__(self, stock, bank, xp_needed):
         self.stock = dict(stock)
         self.bank = dict(bank)
+        self.xp_needed = xp_needed
         self.bank_used = defaultdict(float)
         self.seconds = self.xp = 0
         self.actions = []
 
+    def count_before_cutoff(self, action, count):
+        remaining = self.xp_needed - self.xp - 1e-9
+        if remaining <= 0:
+            return 0
+        if action.xp > 0:
+            return min(count, ceil(remaining / action.xp))
+        return count
+
     def prepare(self, action, count, suppliers):
-        for item, quantity in action.inputs.items():
+        # Preparation can reach the cutoff before other ingredients are needed.
+        items = sorted(action.inputs, key=lambda item: item not in suppliers or suppliers[item].xp == 0)
+        for item in items:
+            count = self.count_before_cutoff(action, count)
+            if count == 0:
+                break
+            quantity = action.inputs[item]
             consumed = count * quantity * (1 - action.preservation)
             # Each craft must still have its full input on hand before the preservation roll.
             needed = max(quantity, consumed + quantity * action.preservation)
@@ -198,12 +213,12 @@ class Stage:
 
     def run(self, action, count, suppliers):
         self.prepare(action, count, suppliers)
-        self.finish(action, count)
+        self.finish(action, self.count_before_cutoff(action, count))
 
 
 def train(action, suppliers, stock, bank, xp_needed):
     def trial(count):
-        stage = Stage(stock, bank)
+        stage = Stage(stock, bank, xp_needed)
         stage.run(action, count, suppliers)
         return stage
 
@@ -216,13 +231,7 @@ def train(action, suppliers, stock, bank, xp_needed):
             high = midpoint
         else:
             low = midpoint + 1
-    stage = Stage(stock, bank)
-    stage.prepare(action, low, suppliers)
-    if stage.xp + low * action.xp - action.xp + 1e-9 >= xp_needed:
-        # The final craft can be omitted if preparing its supplies already reaches the cutoff.
-        low = max(0, ceil((xp_needed - stage.xp - 1e-9) / action.xp))
-    stage.finish(action, low)
-    return stage
+    return trial(low)
 
 
 def available_plans(bands, recipes, suppliers, stock, bank, level, xp, xp_table):
