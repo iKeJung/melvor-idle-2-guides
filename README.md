@@ -2,6 +2,22 @@
 
 A local library of [skill leveling guides](guides/index.html), including material gathering, processing, assumptions, and auditable calculations. Use `$route` to create or revise a guide.
 
+## Personalize a guide
+
+After setting up the [character reader](tools/character_state/README.md), run this from the project root:
+
+```powershell
+.\update-guides.ps1 -Open
+```
+
+The command reads the latest local save and generates an offline guide in `data/character/guides/`. Fletching 1–50 uses your saved XP, banked materials, and supported modifiers to calculate the remaining stages and compare selected recipe alternatives. The page shows the save time and sources for applied modifiers and offers a download of its calculations as JSON.
+
+Use `-Save 'C:\path\character_save.sav'` to choose a character. Add `-Watch` to regenerate the guide each time the selected save changes while the command is running. Reload the page, or enable periodic reloading in its **Assumptions** section. Press Ctrl+C in the terminal to stop watching.
+
+For a feather gathering scenario, pass `-ChickenCycleSeconds 35` with your full Giant Chicken cycle time, including respawn and replenishing supplies. The default uses the guide's scenario. Estimates use average yields and cover a subset of game modifiers. Personal output stays in the Git-ignored character folder.
+
+## Inspect character data
+
 To read your character's latest local save without controlling the game, run in PowerShell:
 
 ```powershell

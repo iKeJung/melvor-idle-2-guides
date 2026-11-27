@@ -184,6 +184,8 @@
 
   <section id="adjustments">
     <h2>When to adjust the route</h2>
+    <h3>Calculate from your save</h3>
+    <p>Run <code>.\update-guides.ps1 -Open</code> from the project root to estimate your time to 50 from your current XP and bank stock. The personal guide compares selected recipes with supported bonuses from your save. Add <code>-Watch</code> for updates when the save changes. <a href="../../../README.md#personalize-a-guide">Setup and options</a>.</p>
     <h3>Flax for Bowstring exchange</h3>
     <p>The shop exchanges <strong>1 Flax for 1 Bowstring</strong>, but requires <strong>Skilled Crafter in the Mastery Guild</strong>. Crafting level alone does not unlock this purchase.</p>
     <p>If the exchange is already available, it removes 2 s per string. Across the 2,192 bows from levels 30–50, this saves about <strong>1 h 13 min</strong>. The entire route falls to about <strong>19 h 04 min</strong>, keeping other assumptions. Time to earn the rank is excluded: this comparison assumes it is already unlocked. <a href="https://db.melvor.aevv.net/shop-purchase/Bowstring">Shop requirements</a>.</p>
@@ -219,6 +221,7 @@
       <li>Other skill XP is an additional benefit; the calculated objective is reaching Fletching 50.</li>
       <li>Quest XP, new unlock costs, menu navigation, and idle time are excluded.</li>
       <li>Ammunition calculations use the feather cost described above. Recalculate if your source has another speed.</li>
+      <li>The personal guide reads recipes from the installed game package. Its XP curve and action formulas were checked against Steam build 26886380. The calculations record the package and save hashes.</li>
       <li>Consulted databases include data extracted from build 26724394. The XP table identifies build 26886380. Game updates can change recipes or rates.</li>
     </ul>
     <p class="formula">Effective XP/h = 3,600 × chain Fletching XP ÷ total chain seconds</p>

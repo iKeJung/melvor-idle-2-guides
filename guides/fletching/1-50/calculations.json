@@ -66,6 +66,26 @@
     "seconds_saved": 4384,
     "total_seconds": 68611.78326181455
   },
+  "personalization": {
+    "stages": [
+      {"start": 1, "recipes": ["HeadlessArrows", "ArrowShaft"]},
+      {"start": 5, "recipes": ["HeadlessArrows", "CopperArrows", "ArrowShaft"]},
+      {"start": 10, "recipes": ["IronArrows"]},
+      {"start": 15, "recipes": ["IronArrows", "OakBow"]},
+      {"start": 25, "recipes": ["SteelArrows", "OakBow"]},
+      {"start": 26, "recipes": ["SteelArrows", "SteelJavelin", "OakBow"]},
+      {"start": 30, "recipes": ["WillowBow"]},
+      {"start": 33, "recipes": ["WillowBow", "WillowBoomerang"]},
+      {"start": 45, "recipes": ["MapleBow", "WillowBow"]},
+      {"start": 48, "recipes": ["MapleBow", "MapleBoomerang", "WillowBow"]}
+    ],
+    "component_recipes": [
+      "ArrowShaft", "HeadlessArrows", "CopperArrowtips", "IronArrowtips", "SteelArrowtips",
+      "CopperBar", "IronBar", "SteelBar", "SteelJavelinHeads", "Bowstring"
+    ],
+    "woodcutting_recipes": ["NormalTree", "OakTree", "WillowTree", "MapleTree", "FlaxBush"],
+    "mining_recipes": ["CopperOre", "IronOre", "Coal"]
+  },
   "sources": [
     "https://db.melvor.aevv.net/entity/Fletching",
     "https://db.melvor.aevv.net/entity/Woodcutting",
