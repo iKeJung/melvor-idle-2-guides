@@ -36,10 +36,19 @@ Personal saves and snapshots must remain ignored by Git, including outputs creat
 
 - **route** — Research a skill and level range, calculate the material chain, and deliver a reference artifact. Entry point: [.agents/skills/route/SKILL.md](.agents/skills/route/SKILL.md).
 
+## Research sources for Melvor Idle 2
+
+- **Use only Melvor Idle 2 data.** Exclude recipes, XP curves, drop rates, equipment stats, bonuses, and mechanics from the original Melvor Idle and its expansions, even when names or values appear to match.
+- On sites that cover both games, verify that the specific page or dataset belongs to Melvor Idle 2. Check the page itself when following search results or redirects. If the game's identity remains uncertain, leave the value unverified and use a confirmed Melvor Idle 2 source when available.
+- Confirm the target release and check for relevant balance changes or fixes. Check the public Steam branch's build ID when comparing a source with that release. [Official Melvor Idle News](https://news.melvoridle.com/), [Steam news for Melvor Idle 2](https://steamcommunity.com/app/3218350/allnews/), [SteamDB branches](https://steamdb.info/app/3218350/depots/#branches).
+- Prefer the installed target build for base values when available. Use community references to locate recipes, item and action IDs, unlocks, drop tables, and cumulative XP thresholds. [Melvor 2 Wiki](https://melvor2wiki.github.io/), [Melvor DB](https://db.melvor.aevv.net/), [Melvor2 XP table](https://melvor2.com/xp-table/).
+- Check the release channel and build of each source before using its numbers. Treat demo tables as historical context and verify any values carried into an Early Access calculation. [Melvor Idle 2 Demo Database](https://melvoridle.wiki/melvor-idle-2), [Melvor2DB skill tables](https://melvor2db.com/skills/).
+- Cite the specific pages used in each guide. Record the access date and any known game version or build. If values disagree, check the target build and relevant patch notes, then document the chosen value or flag the remaining uncertainty. See the [README reference list](README.md#melvor-idle-2-research-sources) for source coverage.
+
 ## Workflow for each guide
 
 1. Obtain the skill and starting/target levels; ask only for missing details.
-2. Research Melvor Idle 2 and record sources, version, and assumptions. Assume auxiliary skills already meet the required levels, and include the time to gather and process materials.
+2. Follow the [Melvor Idle 2 research rules](#research-sources-for-melvor-idle-2) and record sources, version, and assumptions. Assume auxiliary skills already meet the required levels, and include the time to gather and process materials.
 3. Save `guide.html`, `metadata.json`, and `calculations.json` in `guides/<skill>/<start>-<end>/`.
 4. Update the existing guide when the skill and range match. Use a different directory for another range. Do not scatter new guides in the root.
 5. Run the index builder and its `--check` mode as described in the skill. `guides/index.html` and `guides/catalog.json` are generated from metadata.

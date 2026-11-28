@@ -2,6 +2,21 @@
 
 A local library of [skill leveling guides](guides/index.html), including material gathering, processing, assumptions, and auditable calculations. Use `$route` to create or revise a guide.
 
+## Melvor Idle 2 research sources
+
+Use pages and datasets that explicitly cover **Melvor Idle 2**, including on sites that cover both games. Exclude data from the original Melvor Idle and its expansions, even when items or skills share a name.
+
+| Use | Reference |
+| --- | --- |
+| Identify the Steam release and read official announcements and patch notes. The developer's news site covers both Melvor games. | [Steam store](https://store.steampowered.com/app/3218350/), [Steam news for Melvor Idle 2](https://steamcommunity.com/app/3218350/allnews/), [Official Melvor Idle News](https://news.melvoridle.com/) |
+| Check the public Steam branch's build ID and update date. | [SteamDB branches](https://steamdb.info/app/3218350/depots/#branches) |
+| Look up items, recipes, equipment, monsters, quests, and the Mastery Guild in a community wiki that shows its Steam build. | [Melvor 2 Wiki](https://melvor2wiki.github.io/) |
+| Trace base XP, inputs, outputs, step intervals, drop tables, and shop requirements by game ID. Check the build separately when a page omits it. | [Melvor DB](https://db.melvor.aevv.net/) |
+| Check cumulative XP by level and find the source build for the XP table. | [Melvor2 XP table](https://melvor2.com/xp-table/) |
+| Consult demo mechanics, tutorials, and training tables for historical comparison. Verify these values against the target build before using them for Early Access. | [Melvor Idle 2 Demo Database](https://melvoridle.wiki/melvor-idle-2), [Melvor2DB skill tables](https://melvor2db.com/skills/) |
+
+For exact recipe values, prefer data from the installed target build when available. Check in-game behavior or official patch notes for mechanics that affect effective rates, such as failed attempts or skipped steps. Published base XP rates usually cover the listed action alone. The leveling guides also account for gathering and processing its inputs.
+
 ## Personalize a guide
 
 After setting up the [character reader](tools/character_state/README.md), run this from the project root:
