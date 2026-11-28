@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$title</title>
+<style>
+  :root { color-scheme: light; --paper: #faf7ef; --ink: #232722; --accent: #285746; --muted: #4c5d53; --line: #d4dace; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.6 system-ui, sans-serif; }
+  main { width: min(73rem, 100% - 2rem); margin: 2.5rem auto 4rem; }
+  header { border-top: .35rem solid var(--accent); padding-top: 1rem; }
+  h1, h2 { font-family: Georgia, serif; line-height: 1.12; }
+  h1 { font-size: clamp(2.25rem, 5vw, 4rem); margin: .3rem 0 .7rem; max-width: 22ch; }
+  h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); margin-top: 2.1rem; }
+  header p, section > p, li { max-width: 82ch; }
+  a { color: var(--accent); text-underline-offset: .16em; }
+  nav { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; padding-block: .6rem; border-block: 1px solid var(--line); }
+  .note { background: #e9f0e8; padding: .85rem 1rem; border-left: .25rem solid var(--accent); }
+  .quiet, small { color: var(--muted); }
+  .table { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; background: #fffdf8; font-size: .96rem; }
+  th, td { text-align: left; padding: .55rem .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #e5eee5; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  details { margin: .7rem 0; border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; color: var(--accent); font-weight: 650; padding: .5rem 0; }
+  form { display: flex; flex-wrap: wrap; gap: .75rem; align-items: end; }
+  label { display: grid; gap: .2rem; font-size: .9rem; }
+  input { width: 10rem; }
+  input, button { padding: .4rem; font: inherit; }
+  button { color: white; background: var(--accent); border: 1px solid var(--accent); border-radius: .25rem; cursor: pointer; }
+  output { display: block; font-weight: 650; margin-top: .8rem; }
+  code { overflow-wrap: anywhere; }
+  a:focus-visible, input:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px solid #905017; outline-offset: 3px; }
+  @media print {
+    :root { --paper: #fff; }
+    main { width: 100%; margin: 0; }
+    nav, form { display: none; }
+    .table { overflow: visible; }
+    tr { break-inside: avoid; }
+  }
+</style>
+<main>
+  <header>
+    <p class="quiet">$eyebrow</p>
+    <h1>$title</h1>
+    $intro
+  </header>
+  <nav aria-label="On this page">$navigation</nav>
+  $content
+  <section id="measure">
+    <h2>Compare a measured session</h2>
+    <p>Run one method with your current setup. Include respawn, stuns and restarts. Record the direct GP earned and the sale value of the loot you intend to sell. Add cash costs and either the sale value of banked supplies consumed or the time spent gathering replacements. Enter the elapsed time and totals below. Repeat on another session if a rare drop dominated the result.</p>
+    <form id="session">
+      <label>Elapsed minutes <input name="minutes" type="number" min="0.01" step="any" required></label>
+      <label>Direct GP earned <input name="direct" type="number" min="0" step="any" value="0" required></label>
+      <label>Loot sale GP <input name="loot" type="number" min="0" step="any" value="0" required></label>
+      <label>GP costs <input name="cost" type="number" min="0" step="any" value="0" required></label>
+      <label>Compare to GP/h <input name="benchmark" type="number" min="0" step="any" value="$benchmark" required></label>
+      <button type="submit">Calculate GP/h</button>
+    </form>
+    <output id="session-result" form="session" aria-live="polite"></output>
+  </section>
+  $footer
+</main>
+<script>
+  const form = document.querySelector('#session');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const read = (name) => form.elements.namedItem(name).valueAsNumber;
+    const net = (read('direct') + read('loot') - read('cost')) * 60 / read('minutes');
+    const difference = net - read('benchmark');
+    const format = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
+    const comparison = difference === 0 ? 'matches the benchmark'
+      : format.format(Math.abs(difference)) + ' GP/h ' + (difference > 0 ? 'above' : 'below') + ' the benchmark';
+    document.querySelector('#session-result').textContent = format.format(net) + ' net GP/h · ' + comparison;
+  });
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('details:not([open])').forEach((section) => {
+      section.dataset.printOpen = 'true';
+      section.open = true;
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    document.querySelectorAll('details[data-print-open]').forEach((section) => {
+      section.open = false;
+      delete section.dataset.printOpen;
+    });
+  });
+</script>
+</html>

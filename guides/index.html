@@ -8,14 +8,21 @@
 <header><div class="eyebrow">MELVOR IDLE 2 · PROJECT GUIDES</div><h1>Route library</h1>
 <p class="intro">Browse guides by skill and level range. Each route explains materials, preparation time, assumptions, and sources; calculations are stored alongside the guide.</p></header>
 <div class="filters"><label>Search by name, material, or term<input id="search" type="search" placeholder="E.g. Fletching, gathering, base rates"></label>
-<label>Skill<select id="skill"><option value="">All skills</option><option value="Fletching">Fletching</option></select></label></div>
-<p id="count" class="meta" role="status">1 guide(s) available</p>
+<label>Skill<select id="skill"><option value="">All skills</option><option value="Fletching">Fletching</option><option value="Money-making">Money-making</option></select></label></div>
+<p id="count" class="meta" role="status">2 guide(s) available</p>
 <div class="grid"><article class="card" data-skill="Fletching" data-search="Fletching from level 1 to 50 Fletching Arrows to 30, Willow Bow to 45, and Maple Bow to 50. About 20 h 17 min at base rates. A personal guide can recalculate the route from a local save. gathering included base rates feathers bows no starting stock character personalization">
   <div class="label">Fletching · levels 1–50</div>
   <h2><a href="fletching/1-50/guide.html">Fletching from level 1 to 50</a></h2>
   <p>Arrows to 30, Willow Bow to 45, and Maple Bow to 50. About 20 h 17 min at base rates. A personal guide can recalculate the route from a local save.</p><div class="tags"><span class="tag">gathering included</span><span class="tag">base rates</span><span class="tag">feathers</span><span class="tag">bows</span><span class="tag">no starting stock</span><span class="tag">character personalization</span></div>
   <p class="meta">Updated on 2026-11-27 · Calculated reference</p>
   <div class="links"><a href="fletching/1-50/guide.html">Open guide →</a><a href="fletching/1-50/calculations.json">Calculations JSON</a></div>
+</article>
+<article class="card" data-skill="Money-making" data-search="Early money-making through Combat 30 and non-combat 40 Money-making Compare repeatable GP methods, starter quest rewards, and combat loot. Generate a private ranking from a local save. GP per hour Combat 1–30 character guide">
+  <div class="label">Money-making · levels 1–40</div>
+  <h2><a href="money-making/1-40/guide.html">Early money-making through Combat 30 and non-combat 40</a></h2>
+  <p>Compare repeatable GP methods, starter quest rewards, and combat loot. Generate a private ranking from a local save.</p><div class="tags"><span class="tag">GP per hour</span><span class="tag">Combat 1–30</span><span class="tag">character guide</span></div>
+  <p class="meta">Updated on 2026-11-28 · Calculated reference</p>
+  <div class="links"><a href="money-making/1-40/guide.html">Open guide →</a><a href="money-making/1-40/calculations.json">Calculations JSON</a></div>
 </article></div><p id="empty" hidden>No guides found. Try another term or skill.</p>
 <section class="how"><h2>Create a new guide</h2><p>Ask <code>Use $route</code>: provide the skill and starting/target levels when prompted. You can also ask directly: <code>Create a Woodcutting route from level 10 to 50</code>.</p>
 <p class="intro">The guide is saved in <code>guides/&lt;skill&gt;/&lt;start&gt;-&lt;end&gt;/</code> and added to this index. New analyses of the same range update the existing guide.</p>

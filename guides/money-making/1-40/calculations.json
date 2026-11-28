@@ -1,0 +1,6035 @@
+{
+  "schema_version": 1,
+  "guide_id": "money-making-1-40",
+  "reference_build": {
+    "channel": "Steam public Early Access (Windows)",
+    "version": "0.11.7-alpha",
+    "steam_build": 26886380,
+    "package_sha256": "9f9af1e006bc26c66a3e07dbaf93c72b5ff95e7622435a12f4223855e0ec0e04",
+    "accessed_on": "2026-11-28"
+  },
+  "benchmark_gp_per_hour": 10000,
+  "assumptions": [
+    "Gathering and crafting use expected yields across long runs and sell the listed output at the in-game GP price.",
+    "Chains start with empty stock, and their GP/h includes all listed gathering and processing plus shop input costs. Skill training, shopping clicks, menus, and sale time are outside the estimate.",
+    "Fishing uses the ordinary catch and Junk rolls. The scenario omits bait, priority fish, and special catches. Mining and Woodcutting omit extra drops such as Geodes and Bird Nests.",
+    "Thieving models direct GP and common loot. It includes normal failed attempts and stuns. Rare loot, extra pickpockets, food, and lockpick replenishment time are outside the estimate.",
+    "Combat values use published base drops and assume all listed loot can be collected for sale. GP/h requires a timed session with the chosen gear and supplies."
+  ],
+  "formulas": {
+    "gathering_or_artisan": "3600 * (final output sale GP - shop input GP) / expected total chain seconds",
+    "mining_break": "interval * (1 - (1 - p)^n) / p, n = ceil(0.9999 / p) in the base case",
+    "fishing_cast": "mean(min interval, max interval); GP = fish chance * weighted fish sale GP + junk chance * junk sale GP",
+    "thieving_success": "min(1, (100 + stealth) / (100 + perception)); base stealth equals Thieving level",
+    "thieving_rate": "3600 * (success * (mean currency + mean common sales per success) - lockpick sale value per attempt) / expected seconds per attempt including stuns",
+    "combat_break_even": "3600 * (direct GP + weighted loot sale GP) / reference GP per hour, before supplies",
+    "measured_gp_per_hour": "60 * (direct GP + loot sale GP - GP costs) / elapsed minutes",
+    "banked_inputs": "expected product GP minus expected consumed ingredient sale GP"
+  },
+  "sources_used": [
+    {
+      "name": "Steam public branch history",
+      "url": "https://steamdb.info/app/3218350/depots/#branches",
+      "steam_build": 26886380,
+      "channel": "Steam Early Access"
+    },
+    {
+      "name": "Official Steam patch notes",
+      "url": "https://steamcommunity.com/app/3218350/allnews/",
+      "steam_build": null,
+      "channel": "Steam Early Access"
+    },
+    {
+      "name": "Mining calculator",
+      "url": "https://melvor2.com/calculators/mining/",
+      "steam_build": 26724394,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Fishing calculator",
+      "url": "https://melvor2.com/calculators/fishing/",
+      "steam_build": 26724394,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Smithing calculator",
+      "url": "https://melvor2.com/calculators/smithing/",
+      "steam_build": 26886380,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Crafting calculator",
+      "url": "https://melvor2.com/calculators/crafting/",
+      "steam_build": 26886380,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Thieving calculator",
+      "url": "https://melvor2.com/calculators/thieving/",
+      "steam_build": 26724394,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Lockpick sources",
+      "url": "https://melvor2.com/items/lockpick/",
+      "steam_build": 26724394,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Giant Chicken's drops",
+      "url": "https://melvor2.com/monsters/giant-chicken/",
+      "steam_build": 26886380,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Mangrove Strider's drops",
+      "url": "https://melvor2.com/monsters/mangrove-strider/",
+      "steam_build": 26724394,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Combat monster directory",
+      "url": "https://melvor2.com/monsters/",
+      "steam_build": 26886380,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Quest guide",
+      "url": "https://melvor2.com/guides/melvor-idle-2-quests-guide/",
+      "steam_build": 26886380,
+      "channel": "Community Early Access reference"
+    },
+    {
+      "name": "Shop and sales overview",
+      "url": "https://melvor2.com/guides/melvor-idle-2-early-game-money-making/",
+      "steam_build": 26724394,
+      "channel": "Community Early Access reference"
+    }
+  ],
+  "personalization": {
+    "model": "money_making"
+  },
+  "scope": {
+    "combat": 30,
+    "non_combat": 40
+  },
+  "units": {
+    "currency": "GP",
+    "duration": "seconds",
+    "rate": "GP/hour"
+  },
+  "methods": [
+    {
+      "id": "SilverTopazAmulet",
+      "name": "Silver Topaz Amulet",
+      "skill": "Crafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Crafting": 18,
+        "Smithing": 18,
+        "Mining": 18
+      },
+      "steps": {
+        "SilverTopazAmulet": 1.0,
+        "SilverBar": 2.0,
+        "SilverOre": 2.0,
+        "Topaz": 1.0,
+        "Mining/Topaz": 1.0
+      },
+      "seconds": 35.107062492953276,
+      "sale_gp": 226,
+      "input_gp": 0.0,
+      "gp_per_cycle": 226.0,
+      "gp_per_hour": 23174.82415862354,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SilverTopazRing",
+      "name": "Silver Topaz Ring",
+      "skill": "Crafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Crafting": 18,
+        "Smithing": 18,
+        "Mining": 18
+      },
+      "steps": {
+        "SilverTopazRing": 1.0,
+        "SilverBar": 1.0,
+        "SilverOre": 1.0,
+        "Topaz": 1.0,
+        "Mining/Topaz": 1.0
+      },
+      "seconds": 27.75740865295328,
+      "sale_gp": 178,
+      "input_gp": 0.0,
+      "gp_per_cycle": 178.0,
+      "gp_per_hour": 23085.72849907664,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SilverSapphireRing",
+      "name": "Silver Sapphire Ring",
+      "skill": "Crafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Crafting": 32,
+        "Smithing": 18,
+        "Mining": 32
+      },
+      "steps": {
+        "SilverSapphireRing": 1.0,
+        "SilverBar": 1.0,
+        "SilverOre": 1.0,
+        "Sapphire": 1.0,
+        "Mining/Sapphire": 1.0
+      },
+      "seconds": 31.563206796036845,
+      "sale_gp": 192,
+      "input_gp": 0.0,
+      "gp_per_cycle": 192.0,
+      "gp_per_hour": 21898.91554640097,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "GoldBar",
+      "name": "Gold Bar",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 38,
+        "Mining": 38
+      },
+      "steps": {
+        "GoldBar": 1.0,
+        "GoldOre": 1.0
+      },
+      "seconds": 8.299944404799998,
+      "sale_gp": 42,
+      "input_gp": 0.0,
+      "gp_per_cycle": 42.0,
+      "gp_per_hour": 18216.989491225806,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SteelPlatebody",
+      "name": "Steel Platebody",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 35,
+        "Mining": 25
+      },
+      "steps": {
+        "SteelPlatebody": 1.0,
+        "SteelBar": 5.0,
+        "IronOre": 5.0,
+        "Coal": 5.0
+      },
+      "seconds": 67.9739557,
+      "sale_gp": 325,
+      "input_gp": 0.0,
+      "gp_per_cycle": 325.0,
+      "gp_per_hour": 17212.47480672954,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SteelShield",
+      "name": "Steel Shield",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 29,
+        "Mining": 25
+      },
+      "steps": {
+        "SteelShield": 1.0,
+        "SteelBar": 3.0,
+        "IronOre": 3.0,
+        "Coal": 3.0
+      },
+      "seconds": 42.384373419999996,
+      "sale_gp": 195,
+      "input_gp": 0.0,
+      "gp_per_cycle": 195.0,
+      "gp_per_hour": 16562.707983049855,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SteelDagger",
+      "name": "Steel Dagger",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 25,
+        "Mining": 25
+      },
+      "steps": {
+        "SteelDagger": 1.0,
+        "SteelBar": 1.0,
+        "IronOre": 1.0,
+        "Coal": 1.0
+      },
+      "seconds": 16.79479114,
+      "sale_gp": 73,
+      "input_gp": 0.0,
+      "gp_per_cycle": 73.0,
+      "gp_per_hour": 15647.708733578213,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "TeakTree",
+      "name": "Teak Tree",
+      "skill": "Woodcutting",
+      "kind": "Woodcutting",
+      "requirements": {
+        "Woodcutting": 35
+      },
+      "steps": {
+        "TeakTree": 1.0
+      },
+      "seconds": 6.0,
+      "sale_gp": 25,
+      "input_gp": 0.0,
+      "gp_per_cycle": 25.0,
+      "gp_per_hour": 15000.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "IronPlatelegs",
+      "name": "Iron Platelegs",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 18,
+        "Mining": 10
+      },
+      "steps": {
+        "IronPlatelegs": 1.0,
+        "IronBar": 4.0,
+        "IronOre": 4.0
+      },
+      "seconds": 38.66118656,
+      "sale_gp": 157,
+      "input_gp": 0.0,
+      "gp_per_cycle": 157.0,
+      "gp_per_hour": 14619.313329218214,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "RapidRuns",
+      "name": "Rapid Runs",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 39
+      },
+      "location": "Shrapnel River",
+      "seconds": 13.0,
+      "gp_per_cycle": 50.72,
+      "gp_per_hour": 14045.538461538461,
+      "fish_chance": 0.9,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "FireWand",
+      "name": "Fire Wand",
+      "skill": "Runecrafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Runecrafting": 20,
+        "Crafting": 5,
+        "Smithing": 2,
+        "Mining": 8
+      },
+      "steps": {
+        "FireWand": 1.0,
+        "UnpoweredOrb": 1.0,
+        "MoltenGlass": 3.0,
+        "FireRune": 12.0,
+        "RuneEssence": 9.0,
+        "MindRune": 6.0
+      },
+      "seconds": 80.00105001499999,
+      "sale_gp": 326,
+      "input_gp": 15.0,
+      "gp_per_cycle": 311.0,
+      "gp_per_hour": 13994.816315411834,
+      "missing_levels": {},
+      "cash_for_base_batch": 15,
+      "cash_ready": true,
+      "available": null
+    },
+    {
+      "id": "MithrilDagger",
+      "name": "Mithril Dagger",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 35,
+        "Mining": 35
+      },
+      "steps": {
+        "MithrilDagger": 1.0,
+        "MithrilBar": 1.0,
+        "MithrilOre": 1.0,
+        "Coal": 2.0
+      },
+      "seconds": 24.553218117187498,
+      "sale_gp": 94,
+      "input_gp": 0.0,
+      "gp_per_cycle": 94.0,
+      "gp_per_hour": 13782.307410168634,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "IronPlatebody",
+      "name": "Iron Platebody",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 20,
+        "Mining": 10
+      },
+      "steps": {
+        "IronPlatebody": 1.0,
+        "IronBar": 5.0,
+        "IronOre": 5.0
+      },
+      "seconds": 47.8264832,
+      "sale_gp": 177,
+      "input_gp": 0.0,
+      "gp_per_cycle": 177.0,
+      "gp_per_hour": 13323.162343661514,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "WillowBow",
+      "name": "Willow Bow",
+      "skill": "Fletching",
+      "kind": "Artisan",
+      "requirements": {
+        "Fletching": 30,
+        "Woodcutting": 25,
+        "Crafting": 1
+      },
+      "steps": {
+        "WillowBow": 1.0,
+        "WillowTree": 2.0,
+        "Bowstring": 1.0,
+        "FlaxBush": 1.0
+      },
+      "seconds": 24.0,
+      "sale_gp": 85,
+      "input_gp": 0.0,
+      "gp_per_cycle": 85.0,
+      "gp_per_hour": 12750.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "WillowTree",
+      "name": "Willow Tree",
+      "skill": "Woodcutting",
+      "kind": "Woodcutting",
+      "requirements": {
+        "Woodcutting": 25
+      },
+      "steps": {
+        "WillowTree": 1.0
+      },
+      "seconds": 5.0,
+      "sale_gp": 17,
+      "input_gp": 0.0,
+      "gp_per_cycle": 17.0,
+      "gp_per_hour": 12240.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "MithrilBar",
+      "name": "Mithril Bar",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 35,
+        "Mining": 35
+      },
+      "steps": {
+        "MithrilBar": 1.0,
+        "MithrilOre": 1.0,
+        "Coal": 2.0
+      },
+      "seconds": 16.553218117187498,
+      "sale_gp": 56,
+      "input_gp": 0.0,
+      "gp_per_cycle": 56.0,
+      "gp_per_hour": 12178.900717237282,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Sapphire",
+      "name": "Sapphire",
+      "skill": "Crafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Crafting": 32,
+        "Mining": 32
+      },
+      "steps": {
+        "Sapphire": 1.0,
+        "Mining/Sapphire": 1.0
+      },
+      "seconds": 16.213552956036843,
+      "sale_gp": 54,
+      "input_gp": 0.0,
+      "gp_per_cycle": 54.0,
+      "gp_per_hour": 11989.969165124812,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Herbalist",
+      "name": "Herbalist",
+      "skill": "Thieving",
+      "location": "Farmers Market",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 38
+      },
+      "assumed_level": 38,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.39316239316239315,
+      "max_damage": 100,
+      "seconds": 4.213675213675214,
+      "direct_gp_per_success": 28.7,
+      "common_gp_per_success": 6.609,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 13.882170940170939,
+      "gp_per_hour": 11860.38620689655,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SilverBar",
+      "name": "Silver Bar",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 18,
+        "Mining": 18
+      },
+      "steps": {
+        "SilverBar": 1.0,
+        "SilverOre": 1.0
+      },
+      "seconds": 7.34965384,
+      "sale_gp": 24,
+      "input_gp": 0.0,
+      "gp_per_cycle": 24.0,
+      "gp_per_hour": 11755.655692214206,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "PierWalk",
+      "name": "Pier Walk",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 32
+      },
+      "location": "Lemvor Pier",
+      "seconds": 12.0,
+      "gp_per_cycle": 37.4,
+      "gp_per_hour": 11220.0,
+      "fish_chance": 0.8,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Bandit",
+      "name": "Bandit",
+      "skill": "Thieving",
+      "location": "Bandit Encampment",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 33
+      },
+      "assumed_level": 33,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.3877551020408163,
+      "max_damage": 90,
+      "seconds": 4.224489795918367,
+      "direct_gp_per_success": 23.099999999999998,
+      "common_gp_per_success": 9.342,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 12.579551020408163,
+      "gp_per_hour": 10719.965217391304,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Chef",
+      "name": "Chef",
+      "skill": "Thieving",
+      "location": "Seashade Port",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 30
+      },
+      "assumed_level": 30,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.38461538461538464,
+      "max_damage": 82,
+      "seconds": 4.230769230769231,
+      "direct_gp_per_success": 19.95,
+      "common_gp_per_success": 12.5115,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 12.485192307692309,
+      "gp_per_hour": 10623.763636363637,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "CopperPlatebody",
+      "name": "Copper Platebody",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 12,
+        "Mining": 5
+      },
+      "steps": {
+        "CopperPlatebody": 1.0,
+        "CopperBar": 5.0,
+        "CopperOre": 5.0
+      },
+      "seconds": 43.4975,
+      "sale_gp": 127,
+      "input_gp": 0.0,
+      "gp_per_cycle": 127.0,
+      "gp_per_hour": 10510.948905109488,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "FireStaff",
+      "name": "Fire Staff",
+      "skill": "Runecrafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Runecrafting": 31,
+        "Crafting": 5,
+        "Smithing": 2,
+        "Mining": 8,
+        "Woodcutting": 25
+      },
+      "steps": {
+        "FireStaff": 1.0,
+        "UnpoweredOrb": 1.0,
+        "MoltenGlass": 3.0,
+        "FireRune": 16.0,
+        "RuneEssence": 12.0,
+        "MindRune": 8.0,
+        "WillowTree": 1.0
+      },
+      "seconds": 108.50140001999999,
+      "sale_gp": 329,
+      "input_gp": 15.0,
+      "gp_per_cycle": 314.0,
+      "gp_per_hour": 10418.298748141813,
+      "missing_levels": {},
+      "cash_for_base_batch": 15,
+      "cash_ready": true,
+      "available": null
+    },
+    {
+      "id": "GoldOre",
+      "name": "Gold Ore",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 38
+      },
+      "steps": {
+        "GoldOre": 1.0
+      },
+      "seconds": 5.799944404799999,
+      "sale_gp": 16,
+      "input_gp": 0.0,
+      "gp_per_cycle": 16.0,
+      "gp_per_hour": 9931.12967640355,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SteelBar",
+      "name": "Steel Bar",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 25,
+        "Mining": 25
+      },
+      "steps": {
+        "SteelBar": 1.0,
+        "IronOre": 1.0,
+        "Coal": 1.0
+      },
+      "seconds": 10.79479114,
+      "sale_gp": 29,
+      "input_gp": 0.0,
+      "gp_per_cycle": 29.0,
+      "gp_per_hour": 9671.331167598673,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "MithrilOre",
+      "name": "Mithril Ore",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 35
+      },
+      "steps": {
+        "MithrilOre": 1.0
+      },
+      "seconds": 6.7942291171875,
+      "sale_gp": 18,
+      "input_gp": 0.0,
+      "gp_per_cycle": 18.0,
+      "gp_per_hour": 9537.505857150756,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Mining/Sapphire",
+      "name": "Sapphire Vein",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 32
+      },
+      "steps": {
+        "Mining/Sapphire": 1.0
+      },
+      "seconds": 14.213552956036844,
+      "sale_gp": 36,
+      "input_gp": 0.0,
+      "gp_per_cycle": 36.0,
+      "gp_per_hour": 9118.057983169909,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "WindsweptShores",
+      "name": "Windswept Shores",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 27
+      },
+      "location": "Windy Coastline",
+      "seconds": 6.0,
+      "gp_per_cycle": 14.9,
+      "gp_per_hour": 8940.0,
+      "fish_chance": 0.9,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "OakBow",
+      "name": "Oak Bow",
+      "skill": "Fletching",
+      "kind": "Artisan",
+      "requirements": {
+        "Fletching": 15,
+        "Woodcutting": 10,
+        "Crafting": 1
+      },
+      "steps": {
+        "OakBow": 1.0,
+        "OakTree": 2.0,
+        "Bowstring": 1.0,
+        "FlaxBush": 1.0
+      },
+      "seconds": 20.0,
+      "sale_gp": 48,
+      "input_gp": 0.0,
+      "gp_per_cycle": 48.0,
+      "gp_per_hour": 8640.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "PebbleBank",
+      "name": "Pebble Bank",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 23
+      },
+      "location": "Shrapnel River",
+      "seconds": 12.0,
+      "gp_per_cycle": 27.5,
+      "gp_per_hour": 8250.0,
+      "fish_chance": 0.9,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "LockedThugChest",
+      "name": "Locked Thug Chest",
+      "skill": "Thieving",
+      "location": "Lowtown District",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 10
+      },
+      "assumed_level": 10,
+      "access_items": [
+        "Lockpick",
+        "Thug Chest Key"
+      ],
+      "tool": "MelvorBase:Lockpick",
+      "tool_quantity": null,
+      "tool_ready": false,
+      "success": 0.36303630363036304,
+      "max_damage": 45,
+      "seconds": 9.273927392739273,
+      "direct_gp_per_success": 7.0,
+      "common_gp_per_success": 53.47222222222222,
+      "lockpick_gp_per_attempt": 1,
+      "gp_per_cycle": 20.953612027869454,
+      "gp_per_hour": 8133.87900355872,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "ThugChief",
+      "name": "Thug Chief",
+      "skill": "Thieving",
+      "location": "Lowtown District",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 15
+      },
+      "assumed_level": 15,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.5227272727272727,
+      "max_damage": 52,
+      "seconds": 3.9545454545454546,
+      "direct_gp_per_success": 10.4,
+      "common_gp_per_success": 5.9235,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 8.532738636363636,
+      "gp_per_hour": 7767.73448275862,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "SilverOre",
+      "name": "Silver Ore",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 18
+      },
+      "steps": {
+        "SilverOre": 1.0
+      },
+      "seconds": 4.84965384,
+      "sale_gp": 10,
+      "input_gp": 0.0,
+      "gp_per_cycle": 10.0,
+      "gp_per_hour": 7423.210230608954,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Topaz",
+      "name": "Topaz",
+      "skill": "Crafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Crafting": 12,
+        "Mining": 12
+      },
+      "steps": {
+        "Topaz": 1.0,
+        "Mining/Topaz": 1.0
+      },
+      "seconds": 14.407754812953279,
+      "sale_gp": 29,
+      "input_gp": 0.0,
+      "gp_per_cycle": 29.0,
+      "gp_per_hour": 7246.097768553035,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "DockWaters",
+      "name": "Dock Waters",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 18
+      },
+      "location": "Lemvor Pier",
+      "seconds": 11.0,
+      "gp_per_cycle": 21.8,
+      "gp_per_hour": 7134.545454545455,
+      "fish_chance": 0.8,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "EarthWand",
+      "name": "Earth Wand",
+      "skill": "Runecrafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Runecrafting": 10,
+        "Crafting": 5,
+        "Smithing": 2,
+        "Mining": 8
+      },
+      "steps": {
+        "EarthWand": 1.0,
+        "UnpoweredOrb": 1.0,
+        "MoltenGlass": 3.0,
+        "EarthRune": 12.0,
+        "RuneEssence": 9.0,
+        "MindRune": 6.0
+      },
+      "seconds": 80.00105001499999,
+      "sale_gp": 171,
+      "input_gp": 15.0,
+      "gp_per_cycle": 156.0,
+      "gp_per_hour": 7019.9078623930745,
+      "missing_levels": {},
+      "cash_for_base_batch": 15,
+      "cash_ready": true,
+      "available": null
+    },
+    {
+      "id": "Farmer",
+      "name": "Farmer",
+      "skill": "Thieving",
+      "location": "Farmers Market",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 25
+      },
+      "assumed_level": 25,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.43859649122807015,
+      "max_damage": 72,
+      "seconds": 4.12280701754386,
+      "direct_gp_per_success": 15.749999999999998,
+      "common_gp_per_success": 1.305,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 7.480263157894736,
+      "gp_per_hour": 6531.702127659574,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "IronBar",
+      "name": "Iron Bar",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 10,
+        "Mining": 10
+      },
+      "steps": {
+        "IronBar": 1.0,
+        "IronOre": 1.0
+      },
+      "seconds": 7.165296639999999,
+      "sale_gp": 12,
+      "input_gp": 0.0,
+      "gp_per_cycle": 12.0,
+      "gp_per_hour": 6029.059531023129,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Fisherman",
+      "name": "Fisherman",
+      "skill": "Thieving",
+      "location": "Seashade Port",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 20
+      },
+      "assumed_level": 20,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.4332129963898917,
+      "max_damage": 62,
+      "seconds": 4.133574007220217,
+      "direct_gp_per_success": 11.899999999999999,
+      "common_gp_per_success": 4.041,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 6.905848375451263,
+      "gp_per_hour": 6014.42096069869,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "StonePlatebody",
+      "name": "Stone Platebody",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 5,
+        "Mining": 1
+      },
+      "steps": {
+        "StonePlatebody": 1.0,
+        "Stone": 5.0
+      },
+      "seconds": 24.7,
+      "sale_gp": 41,
+      "input_gp": 0.0,
+      "gp_per_cycle": 41.0,
+      "gp_per_hour": 5975.708502024292,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Mining/Topaz",
+      "name": "Topaz Vein",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 12
+      },
+      "steps": {
+        "Mining/Topaz": 1.0
+      },
+      "seconds": 12.407754812953279,
+      "sale_gp": 20,
+      "input_gp": 0.0,
+      "gp_per_cycle": 20.0,
+      "gp_per_hour": 5802.822596464787,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Thug",
+      "name": "Thug",
+      "skill": "Thieving",
+      "location": "Lowtown District",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 5
+      },
+      "assumed_level": 5,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.75,
+      "max_damage": 32,
+      "seconds": 3.5,
+      "direct_gp_per_success": 6.4,
+      "common_gp_per_success": 1.035,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 5.57625,
+      "gp_per_hour": 5735.571428571428,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Craftsman",
+      "name": "Craftsman",
+      "skill": "Thieving",
+      "location": "Seashade Port",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 17
+      },
+      "assumed_level": 17,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.5223214285714286,
+      "max_damage": 57,
+      "seconds": 3.955357142857143,
+      "direct_gp_per_success": 10.5,
+      "common_gp_per_success": 1.395,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 6.213013392857143,
+      "gp_per_hour": 5654.823927765238,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Citizen",
+      "name": "Citizen",
+      "skill": "Thieving",
+      "location": "Lowtown District",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 1
+      },
+      "assumed_level": 1,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.7651515151515151,
+      "max_damage": 25,
+      "seconds": 3.46969696969697,
+      "direct_gp_per_success": 6.375,
+      "common_gp_per_success": 0.435,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 5.2106818181818175,
+      "gp_per_hour": 5406.366812227073,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "OakTree",
+      "name": "Oak Tree",
+      "skill": "Woodcutting",
+      "kind": "Woodcutting",
+      "requirements": {
+        "Woodcutting": 10
+      },
+      "steps": {
+        "OakTree": 1.0
+      },
+      "seconds": 4.0,
+      "sale_gp": 6,
+      "input_gp": 0.0,
+      "gp_per_cycle": 6.0,
+      "gp_per_hour": 5400.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "AmbervineBush",
+      "name": "Ambervine Bush",
+      "skill": "Woodcutting",
+      "kind": "Woodcutting",
+      "requirements": {
+        "Woodcutting": 20
+      },
+      "steps": {
+        "AmbervineBush": 1.0
+      },
+      "seconds": 2.0,
+      "sale_gp": 3,
+      "input_gp": 0.0,
+      "gp_per_cycle": 3.0,
+      "gp_per_hour": 5400.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "QuietBend",
+      "name": "Quiet Bend",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 12
+      },
+      "location": "Shrapnel River",
+      "seconds": 9.0,
+      "gp_per_cycle": 13.0,
+      "gp_per_hour": 5200.0,
+      "fish_chance": 0.8,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Coal",
+      "name": "Coal",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 25
+      },
+      "steps": {
+        "Coal": 1.0
+      },
+      "seconds": 3.6294945,
+      "sale_gp": 5,
+      "input_gp": 0.0,
+      "gp_per_cycle": 5.0,
+      "gp_per_hour": 4959.36830872729,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "IronOre",
+      "name": "Iron Ore",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 10
+      },
+      "steps": {
+        "IronOre": 1.0
+      },
+      "seconds": 4.665296639999999,
+      "sale_gp": 6,
+      "input_gp": 0.0,
+      "gp_per_cycle": 6.0,
+      "gp_per_hour": 4629.930670389269,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "WaterWand",
+      "name": "Water Wand",
+      "skill": "Runecrafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Runecrafting": 5,
+        "Crafting": 5,
+        "Smithing": 2,
+        "Mining": 8
+      },
+      "steps": {
+        "WaterWand": 1.0,
+        "UnpoweredOrb": 1.0,
+        "MoltenGlass": 3.0,
+        "WaterRune": 12.0,
+        "RuneEssence": 9.0,
+        "MindRune": 6.0
+      },
+      "seconds": 80.00105001499999,
+      "sale_gp": 109,
+      "input_gp": 15.0,
+      "gp_per_cycle": 94.0,
+      "gp_per_hour": 4229.94448118557,
+      "missing_levels": {},
+      "cash_for_base_batch": 15,
+      "cash_ready": true,
+      "available": null
+    },
+    {
+      "id": "StoneSword",
+      "name": "Stone Sword",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 1,
+        "Mining": 1
+      },
+      "steps": {
+        "StoneSword": 1.0,
+        "Stone": 2.0
+      },
+      "seconds": 9.879999999999999,
+      "sale_gp": 11,
+      "input_gp": 0.0,
+      "gp_per_cycle": 11.0,
+      "gp_per_hour": 4008.0971659919032,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "CopperBar",
+      "name": "Copper Bar",
+      "skill": "Smithing",
+      "kind": "Artisan",
+      "requirements": {
+        "Smithing": 5,
+        "Mining": 5
+      },
+      "steps": {
+        "CopperBar": 1.0,
+        "CopperOre": 1.0
+      },
+      "seconds": 6.2995,
+      "sale_gp": 7,
+      "input_gp": 0.0,
+      "gp_per_cycle": 7.0,
+      "gp_per_hour": 4000.317485514723,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "CalmShallows",
+      "name": "Calm Shallows",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 6
+      },
+      "location": "Shallow Shores",
+      "seconds": 8.0,
+      "gp_per_cycle": 8.2,
+      "gp_per_hour": 3689.9999999999995,
+      "fish_chance": 0.8,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "NormalTree",
+      "name": "Normal Tree",
+      "skill": "Woodcutting",
+      "kind": "Woodcutting",
+      "requirements": {
+        "Woodcutting": 1
+      },
+      "steps": {
+        "NormalTree": 1.0
+      },
+      "seconds": 3.0,
+      "sale_gp": 3,
+      "input_gp": 0.0,
+      "gp_per_cycle": 3.0,
+      "gp_per_hour": 3600.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "ShallowPools",
+      "name": "Shallow Pools",
+      "skill": "Fishing",
+      "kind": "Fishing",
+      "requirements": {
+        "Fishing": 1
+      },
+      "location": "Shallow Shores",
+      "seconds": 6.0,
+      "gp_per_cycle": 5.0,
+      "gp_per_hour": 3000.0,
+      "fish_chance": 0.8,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "CopperOre",
+      "name": "Copper Ore",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 5
+      },
+      "steps": {
+        "CopperOre": 1.0
+      },
+      "seconds": 3.7995000000000005,
+      "sale_gp": 3,
+      "input_gp": 0.0,
+      "gp_per_cycle": 3.0,
+      "gp_per_hour": 2842.47927358863,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "NormalBow",
+      "name": "Normal Bow",
+      "skill": "Fletching",
+      "kind": "Artisan",
+      "requirements": {
+        "Fletching": 1,
+        "Woodcutting": 5,
+        "Crafting": 1
+      },
+      "steps": {
+        "NormalBow": 1.0,
+        "NormalTree": 2.0,
+        "Bowstring": 1.0,
+        "FlaxBush": 1.0
+      },
+      "seconds": 16.0,
+      "sale_gp": 12,
+      "input_gp": 0.0,
+      "gp_per_cycle": 12.0,
+      "gp_per_hour": 2700.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Stone",
+      "name": "Stone",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 1
+      },
+      "steps": {
+        "Stone": 1.0
+      },
+      "seconds": 2.94,
+      "sale_gp": 2,
+      "input_gp": 0.0,
+      "gp_per_cycle": 2.0,
+      "gp_per_hour": 2448.979591836735,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "MarketSeedStall",
+      "name": "Market Seed Stall",
+      "skill": "Thieving",
+      "location": "Farmers Market",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 35
+      },
+      "assumed_level": 35,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.5113636363636364,
+      "max_damage": 67,
+      "seconds": 6.977272727272727,
+      "direct_gp_per_success": 0.0,
+      "common_gp_per_success": 9.111208406304728,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 4.659140662314917,
+      "gp_per_hour": 2403.934465507111,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "LockedRanchersChest",
+      "name": "Locked Ranchers Chest",
+      "skill": "Thieving",
+      "location": "Farmers Market",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 33
+      },
+      "assumed_level": 33,
+      "access_items": [
+        "Lockpick",
+        "Ranchers Chest Key"
+      ],
+      "tool": "MelvorBase:Lockpick",
+      "tool_quantity": null,
+      "tool_ready": false,
+      "success": 0.2293103448275862,
+      "max_damage": 97,
+      "seconds": 9.541379310344828,
+      "direct_gp_per_success": 23.099999999999998,
+      "common_gp_per_success": 8.7,
+      "lockpick_gp_per_attempt": 1,
+      "gp_per_cycle": 6.29206896551724,
+      "gp_per_hour": 2374.0224069389224,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "RuneEssence",
+      "name": "Rune Essence",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 8
+      },
+      "steps": {
+        "RuneEssence": 1.0
+      },
+      "seconds": 3.1667833349999994,
+      "sale_gp": 2,
+      "input_gp": 0.0,
+      "gp_per_cycle": 2.0,
+      "gp_per_hour": 2273.6004451027597,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "CookingStall",
+      "name": "Cooking Stall",
+      "skill": "Thieving",
+      "location": "Seashade Port",
+      "kind": "Thieving",
+      "requirements": {
+        "Thieving": 12
+      },
+      "assumed_level": 12,
+      "access_items": [],
+      "tool": null,
+      "tool_quantity": null,
+      "tool_ready": true,
+      "success": 0.7,
+      "max_damage": 37,
+      "seconds": 6.6,
+      "direct_gp_per_success": 0.0,
+      "common_gp_per_success": 5.55,
+      "lockpick_gp_per_attempt": 0,
+      "gp_per_cycle": 3.885,
+      "gp_per_hour": 2119.090909090909,
+      "modifiers": {},
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "AirWand",
+      "name": "Air Wand",
+      "skill": "Runecrafting",
+      "kind": "Artisan",
+      "requirements": {
+        "Runecrafting": 1,
+        "Crafting": 5,
+        "Smithing": 2,
+        "Mining": 8
+      },
+      "steps": {
+        "AirWand": 1.0,
+        "UnpoweredOrb": 1.0,
+        "MoltenGlass": 3.0,
+        "AirRune": 12.0,
+        "RuneEssence": 9.0,
+        "MindRune": 6.0
+      },
+      "seconds": 80.00105001499999,
+      "sale_gp": 62,
+      "input_gp": 15.0,
+      "gp_per_cycle": 47.0,
+      "gp_per_hour": 2114.972240592785,
+      "missing_levels": {},
+      "cash_for_base_batch": 15,
+      "cash_ready": true,
+      "available": null
+    },
+    {
+      "id": "FlaxBush",
+      "name": "Flax Bush",
+      "skill": "Woodcutting",
+      "kind": "Woodcutting",
+      "requirements": {
+        "Woodcutting": 5
+      },
+      "steps": {
+        "FlaxBush": 1.0
+      },
+      "seconds": 2.0,
+      "sale_gp": 1,
+      "input_gp": 0.0,
+      "gp_per_cycle": 1.0,
+      "gp_per_hour": 1800.0,
+      "missing_levels": {},
+      "available": null
+    },
+    {
+      "id": "Clay",
+      "name": "Clay",
+      "skill": "Mining",
+      "kind": "Mining",
+      "requirements": {
+        "Mining": 3
+      },
+      "steps": {
+        "Clay": 1.0
+      },
+      "seconds": 3.1667833349999994,
+      "sale_gp": 1,
+      "input_gp": 0.0,
+      "gp_per_cycle": 1.0,
+      "gp_per_hour": 1136.8002225513799,
+      "missing_levels": {},
+      "available": null
+    }
+  ],
+  "combat": [
+    {
+      "id": "Golbin",
+      "name": "Golbin",
+      "level": 1,
+      "area": "Golbin Forest",
+      "direct_gp_per_kill": 25.0,
+      "loot_gp_per_kill": 7.173913043478261,
+      "total_gp_per_kill": 32.17391304347826
+    },
+    {
+      "id": "GolbinScout",
+      "name": "Golbin Scout",
+      "level": 1,
+      "area": "Golbin Forest",
+      "direct_gp_per_kill": 25.0,
+      "loot_gp_per_kill": 4.375,
+      "total_gp_per_kill": 29.375
+    },
+    {
+      "id": "GolbinAmbusher",
+      "name": "Golbin Ambusher",
+      "level": 4,
+      "area": "Golbin Forest",
+      "direct_gp_per_kill": 31.5,
+      "loot_gp_per_kill": 14.75,
+      "total_gp_per_kill": 46.25
+    },
+    {
+      "id": "Hobgolbin",
+      "name": "Hobgolbin",
+      "level": 12,
+      "area": "Golbin Forest",
+      "direct_gp_per_kill": 41.0,
+      "loot_gp_per_kill": 42.31818181818182,
+      "total_gp_per_kill": 83.31818181818181
+    },
+    {
+      "id": "EvilPlant",
+      "name": "Evil Plant",
+      "level": 5,
+      "area": "Corrupted Farmlands",
+      "direct_gp_per_kill": 31.5,
+      "loot_gp_per_kill": 3.935483870967742,
+      "total_gp_per_kill": 35.435483870967744
+    },
+    {
+      "id": "GiantChicken",
+      "name": "Giant Chicken",
+      "level": 7,
+      "area": "Corrupted Farmlands",
+      "direct_gp_per_kill": 34.5,
+      "loot_gp_per_kill": 43.0,
+      "total_gp_per_kill": 77.5
+    },
+    {
+      "id": "MagicCow",
+      "name": "Magic Cow",
+      "level": 9,
+      "area": "Corrupted Farmlands",
+      "direct_gp_per_kill": 37.5,
+      "loot_gp_per_kill": 34.951219512195124,
+      "total_gp_per_kill": 72.45121951219512
+    },
+    {
+      "id": "Scarecrow",
+      "name": "Scarecrow",
+      "level": 15,
+      "area": "Corrupted Farmlands",
+      "direct_gp_per_kill": 44.0,
+      "loot_gp_per_kill": 21.35576923076923,
+      "total_gp_per_kill": 65.35576923076923
+    },
+    {
+      "id": "JackOLantern",
+      "name": "Jack O Lantern",
+      "level": 21,
+      "area": "Corrupted Farmlands",
+      "direct_gp_per_kill": 59.5,
+      "loot_gp_per_kill": 27.803389830508475,
+      "total_gp_per_kill": 87.30338983050848
+    },
+    {
+      "id": "MangroveStrider",
+      "name": "Mangrove Strider",
+      "level": 26,
+      "area": "Green Mangroves",
+      "direct_gp_per_kill": 50.0,
+      "loot_gp_per_kill": 55.0,
+      "total_gp_per_kill": 105.0
+    }
+  ],
+  "action_models": {
+    "NormalTree": {
+      "id": "NormalTree",
+      "name": "Normal Tree",
+      "kind": "Woodcutting",
+      "skill": "Woodcutting",
+      "level": 1,
+      "product": "MelvorBase:NormalLog",
+      "output": 1,
+      "inputs": {},
+      "seconds": 3.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "FlaxBush": {
+      "id": "FlaxBush",
+      "name": "Flax Bush",
+      "kind": "Woodcutting",
+      "skill": "Woodcutting",
+      "level": 5,
+      "product": "MelvorBase:Flax",
+      "output": 1,
+      "inputs": {},
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "OakTree": {
+      "id": "OakTree",
+      "name": "Oak Tree",
+      "kind": "Woodcutting",
+      "skill": "Woodcutting",
+      "level": 10,
+      "product": "MelvorBase:OakLog",
+      "output": 1,
+      "inputs": {},
+      "seconds": 4.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "AmbervineBush": {
+      "id": "AmbervineBush",
+      "name": "Ambervine Bush",
+      "kind": "Woodcutting",
+      "skill": "Woodcutting",
+      "level": 20,
+      "product": "MelvorBase:AmbervineLeaf",
+      "output": 1,
+      "inputs": {},
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "WillowTree": {
+      "id": "WillowTree",
+      "name": "Willow Tree",
+      "kind": "Woodcutting",
+      "skill": "Woodcutting",
+      "level": 25,
+      "product": "MelvorBase:WillowLog",
+      "output": 1,
+      "inputs": {},
+      "seconds": 5.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "TeakTree": {
+      "id": "TeakTree",
+      "name": "Teak Tree",
+      "kind": "Woodcutting",
+      "skill": "Woodcutting",
+      "level": 35,
+      "product": "MelvorBase:TeakLog",
+      "output": 1,
+      "inputs": {},
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Stone": {
+      "id": "Stone",
+      "name": "Stone",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 1,
+      "product": "MelvorBase:Stone",
+      "output": 1,
+      "inputs": {},
+      "seconds": 2.94,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Clay": {
+      "id": "Clay",
+      "name": "Clay",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 3,
+      "product": "MelvorBase:Clay",
+      "output": 1,
+      "inputs": {},
+      "seconds": 3.1667833349999994,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "CopperOre": {
+      "id": "CopperOre",
+      "name": "Copper Ore",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 5,
+      "product": "MelvorBase:CopperOre",
+      "output": 1,
+      "inputs": {},
+      "seconds": 3.7995000000000005,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "RuneEssence": {
+      "id": "RuneEssence",
+      "name": "Rune Essence",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 8,
+      "product": "MelvorBase:RuneEssence",
+      "output": 2,
+      "inputs": {},
+      "seconds": 3.1667833349999994,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Mining/Topaz": {
+      "id": "Mining/Topaz",
+      "name": "Topaz Vein",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 12,
+      "product": "MelvorBase:UncutTopaz",
+      "output": 1,
+      "inputs": {},
+      "seconds": 12.407754812953279,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "IronOre": {
+      "id": "IronOre",
+      "name": "Iron Ore",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 10,
+      "product": "MelvorBase:IronOre",
+      "output": 1,
+      "inputs": {},
+      "seconds": 4.665296639999999,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SilverOre": {
+      "id": "SilverOre",
+      "name": "Silver Ore",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 18,
+      "product": "MelvorBase:SilverOre",
+      "output": 1,
+      "inputs": {},
+      "seconds": 4.84965384,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Coal": {
+      "id": "Coal",
+      "name": "Coal",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 25,
+      "product": "MelvorBase:Coal",
+      "output": 1,
+      "inputs": {},
+      "seconds": 3.6294945,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Mining/Sapphire": {
+      "id": "Mining/Sapphire",
+      "name": "Sapphire Vein",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 32,
+      "product": "MelvorBase:UncutSapphire",
+      "output": 1,
+      "inputs": {},
+      "seconds": 14.213552956036844,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "GoldOre": {
+      "id": "GoldOre",
+      "name": "Gold Ore",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 38,
+      "product": "MelvorBase:GoldOre",
+      "output": 1,
+      "inputs": {},
+      "seconds": 5.799944404799999,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "MithrilOre": {
+      "id": "MithrilOre",
+      "name": "Mithril Ore",
+      "kind": "Mining",
+      "skill": "Mining",
+      "level": 35,
+      "product": "MelvorBase:MithrilOre",
+      "output": 1,
+      "inputs": {},
+      "seconds": 6.7942291171875,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "StoneSword": {
+      "id": "StoneSword",
+      "name": "Stone Sword",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 1,
+      "product": "MelvorBase:StoneSword",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:Stone": 2
+      },
+      "seconds": 4.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "StonePlatebody": {
+      "id": "StonePlatebody",
+      "name": "Stone Platebody",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 5,
+      "product": "MelvorBase:StonePlatebody",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:Stone": 5
+      },
+      "seconds": 10.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "CopperBar": {
+      "id": "CopperBar",
+      "name": "Copper Bar",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 5,
+      "product": "MelvorBase:CopperBar",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:CopperOre": 1
+      },
+      "seconds": 2.5,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "CopperPlatebody": {
+      "id": "CopperPlatebody",
+      "name": "Copper Platebody",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 12,
+      "product": "MelvorBase:CopperPlatebody",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:CopperBar": 5
+      },
+      "seconds": 12.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "IronBar": {
+      "id": "IronBar",
+      "name": "Iron Bar",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 10,
+      "product": "MelvorBase:IronBar",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:IronOre": 1
+      },
+      "seconds": 2.5,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "IronPlatelegs": {
+      "id": "IronPlatelegs",
+      "name": "Iron Platelegs",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 18,
+      "product": "MelvorBase:IronPlatelegs",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:IronBar": 4
+      },
+      "seconds": 10.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "IronPlatebody": {
+      "id": "IronPlatebody",
+      "name": "Iron Platebody",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 20,
+      "product": "MelvorBase:IronPlatebody",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:IronBar": 5
+      },
+      "seconds": 12.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SilverBar": {
+      "id": "SilverBar",
+      "name": "Silver Bar",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 18,
+      "product": "MelvorBase:SilverBar",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:SilverOre": 1
+      },
+      "seconds": 2.5,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SteelBar": {
+      "id": "SteelBar",
+      "name": "Steel Bar",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 25,
+      "product": "MelvorBase:SteelBar",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:IronOre": 1,
+        "MelvorBase:Coal": 1
+      },
+      "seconds": 2.5,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SteelDagger": {
+      "id": "SteelDagger",
+      "name": "Steel Dagger",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 25,
+      "product": "MelvorBase:SteelDagger",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:SteelBar": 1
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SteelShield": {
+      "id": "SteelShield",
+      "name": "Steel Shield",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 29,
+      "product": "MelvorBase:SteelShield",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:SteelBar": 3
+      },
+      "seconds": 10.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SteelPlatebody": {
+      "id": "SteelPlatebody",
+      "name": "Steel Platebody",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 35,
+      "product": "MelvorBase:SteelPlatebody",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:SteelBar": 5
+      },
+      "seconds": 14.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "MithrilBar": {
+      "id": "MithrilBar",
+      "name": "Mithril Bar",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 35,
+      "product": "MelvorBase:MithrilBar",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:MithrilOre": 1,
+        "MelvorBase:Coal": 2
+      },
+      "seconds": 2.5,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "MithrilDagger": {
+      "id": "MithrilDagger",
+      "name": "Mithril Dagger",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 35,
+      "product": "MelvorBase:MithrilDagger",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:MithrilBar": 1
+      },
+      "seconds": 8.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "GoldBar": {
+      "id": "GoldBar",
+      "name": "Gold Bar",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 38,
+      "product": "MelvorBase:GoldBar",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:GoldOre": 1
+      },
+      "seconds": 2.5,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "NormalBow": {
+      "id": "NormalBow",
+      "name": "Normal Bow",
+      "kind": "Artisan",
+      "skill": "Fletching",
+      "level": 1,
+      "product": "MelvorBase:NormalBow",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:NormalLog": 2,
+        "MelvorBase:Bowstring": 1
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "OakBow": {
+      "id": "OakBow",
+      "name": "Oak Bow",
+      "kind": "Artisan",
+      "skill": "Fletching",
+      "level": 15,
+      "product": "MelvorBase:OakBow",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:OakLog": 2,
+        "MelvorBase:Bowstring": 1
+      },
+      "seconds": 8.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "WillowBow": {
+      "id": "WillowBow",
+      "name": "Willow Bow",
+      "kind": "Artisan",
+      "skill": "Fletching",
+      "level": 30,
+      "product": "MelvorBase:WillowBow",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:WillowLog": 2,
+        "MelvorBase:Bowstring": 1
+      },
+      "seconds": 10.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Topaz": {
+      "id": "Topaz",
+      "name": "Topaz",
+      "kind": "Artisan",
+      "skill": "Crafting",
+      "level": 12,
+      "product": "MelvorBase:Topaz",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:UncutTopaz": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Sapphire": {
+      "id": "Sapphire",
+      "name": "Sapphire",
+      "kind": "Artisan",
+      "skill": "Crafting",
+      "level": 32,
+      "product": "MelvorBase:Sapphire",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:UncutSapphire": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SilverTopazRing": {
+      "id": "SilverTopazRing",
+      "name": "Silver Topaz Ring",
+      "kind": "Artisan",
+      "skill": "Crafting",
+      "level": 18,
+      "product": "MelvorBase:SilverTopazRing",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:SilverBar": 1,
+        "MelvorBase:Topaz": 1
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SilverTopazAmulet": {
+      "id": "SilverTopazAmulet",
+      "name": "Silver Topaz Amulet",
+      "kind": "Artisan",
+      "skill": "Crafting",
+      "level": 18,
+      "product": "MelvorBase:SilverTopazAmulet",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:SilverBar": 2,
+        "MelvorBase:Topaz": 1
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "SilverSapphireRing": {
+      "id": "SilverSapphireRing",
+      "name": "Silver Sapphire Ring",
+      "kind": "Artisan",
+      "skill": "Crafting",
+      "level": 32,
+      "product": "MelvorBase:SilverSapphireRing",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:SilverBar": 1,
+        "MelvorBase:Sapphire": 1
+      },
+      "seconds": 8.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "AirWand": {
+      "id": "AirWand",
+      "name": "Air Wand",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 1,
+      "product": "MelvorBase:AirWand",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:UnpoweredOrb": 1,
+        "MelvorBase:AirRune": 12,
+        "MelvorBase:MindRune": 6
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "WaterWand": {
+      "id": "WaterWand",
+      "name": "Water Wand",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 5,
+      "product": "MelvorBase:WaterWand",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:UnpoweredOrb": 1,
+        "MelvorBase:WaterRune": 12,
+        "MelvorBase:MindRune": 6
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "EarthWand": {
+      "id": "EarthWand",
+      "name": "Earth Wand",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 10,
+      "product": "MelvorBase:EarthWand",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:UnpoweredOrb": 1,
+        "MelvorBase:EarthRune": 12,
+        "MelvorBase:MindRune": 6
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "FireWand": {
+      "id": "FireWand",
+      "name": "Fire Wand",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 20,
+      "product": "MelvorBase:FireWand",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:UnpoweredOrb": 1,
+        "MelvorBase:FireRune": 12,
+        "MelvorBase:MindRune": 6
+      },
+      "seconds": 6.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "FireStaff": {
+      "id": "FireStaff",
+      "name": "Fire Staff",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 31,
+      "product": "MelvorBase:FireStaff",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:UnpoweredOrb": 1,
+        "MelvorBase:FireRune": 16,
+        "MelvorBase:MindRune": 8,
+        "MelvorBase:WillowLog": 1
+      },
+      "seconds": 8.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "Bowstring": {
+      "id": "Bowstring",
+      "name": "Bowstring",
+      "kind": "Artisan",
+      "skill": "Crafting",
+      "level": 1,
+      "product": "MelvorBase:Bowstring",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:Flax": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "MoltenGlass": {
+      "id": "MoltenGlass",
+      "name": "Molten Glass",
+      "kind": "Artisan",
+      "skill": "Smithing",
+      "level": 2,
+      "product": "MelvorBase:MoltenGlass",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:BucketofSand": 1
+      },
+      "seconds": 2.5,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "UnpoweredOrb": {
+      "id": "UnpoweredOrb",
+      "name": "Unpowered Orb",
+      "kind": "Artisan",
+      "skill": "Crafting",
+      "level": 5,
+      "product": "MelvorBase:UnpoweredOrb",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:MoltenGlass": 3
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "AirRune": {
+      "id": "AirRune",
+      "name": "Air Rune",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 1,
+      "product": "MelvorBase:AirRune",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:RuneEssence": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "MindRune": {
+      "id": "MindRune",
+      "name": "Mind Rune",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 1,
+      "product": "MelvorBase:MindRune",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:RuneEssence": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "WaterRune": {
+      "id": "WaterRune",
+      "name": "Water Rune",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 5,
+      "product": "MelvorBase:WaterRune",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:RuneEssence": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "EarthRune": {
+      "id": "EarthRune",
+      "name": "Earth Rune",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 10,
+      "product": "MelvorBase:EarthRune",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:RuneEssence": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    },
+    "FireRune": {
+      "id": "FireRune",
+      "name": "Fire Rune",
+      "kind": "Artisan",
+      "skill": "Runecrafting",
+      "level": 20,
+      "product": "MelvorBase:FireRune",
+      "output": 1,
+      "inputs": {
+        "MelvorBase:RuneEssence": 1
+      },
+      "seconds": 2.0,
+      "xp": 0,
+      "preservation": 0,
+      "modifiers": {}
+    }
+  },
+  "inputs": {
+    "NormalTree": {
+      "BaseInterval": 1000,
+      "BaseMaxHealth": 3,
+      "Product": {
+        "Item": "MelvorBase:NormalLog",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Woodcutting",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "FlaxBush": {
+      "BaseInterval": 1000,
+      "BaseMaxHealth": 2,
+      "Product": {
+        "Item": "MelvorBase:Flax",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Woodcutting",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "OakTree": {
+      "BaseInterval": 1000,
+      "BaseMaxHealth": 4,
+      "Product": {
+        "Item": "MelvorBase:OakLog",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Woodcutting",
+              "Component": "Experience"
+            },
+            "Level": 10,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "AmbervineBush": {
+      "BaseInterval": 1000,
+      "BaseMaxHealth": 2,
+      "Product": {
+        "Item": "MelvorBase:AmbervineLeaf",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Woodcutting",
+              "Component": "Experience"
+            },
+            "Level": 20,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "WillowTree": {
+      "BaseInterval": 1000,
+      "BaseMaxHealth": 5,
+      "Product": {
+        "Item": "MelvorBase:WillowLog",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Woodcutting",
+              "Component": "Experience"
+            },
+            "Level": 25,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "TeakTree": {
+      "BaseInterval": 1000,
+      "BaseMaxHealth": 6,
+      "Product": {
+        "Item": "MelvorBase:TeakLog",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Woodcutting",
+              "Component": "Experience"
+            },
+            "Level": 35,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Stone": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.4,
+      "Product": {
+        "Item": "MelvorBase:Stone",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Clay": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.3333,
+      "Product": {
+        "Item": "MelvorBase:Clay",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 3,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "CopperOre": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.3,
+      "Product": {
+        "Item": "MelvorBase:CopperOre",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "RuneEssence": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.3333,
+      "Product": {
+        "Item": "MelvorBase:RuneEssence",
+        "Quantity": 2
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 8,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Mining/Topaz": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.08,
+      "Product": {
+        "Item": "MelvorBase:UncutTopaz",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 12,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "IronOre": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.24,
+      "Product": {
+        "Item": "MelvorBase:IronOre",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 10,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SilverOre": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.22,
+      "Product": {
+        "Item": "MelvorBase:SilverOre",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 18,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Coal": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.33,
+      "Product": {
+        "Item": "MelvorBase:Coal",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 25,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Mining/Sapphire": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.07,
+      "Product": {
+        "Item": "MelvorBase:UncutSapphire",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 32,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "GoldOre": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.18,
+      "Product": {
+        "Item": "MelvorBase:GoldOre",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 38,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "MithrilOre": {
+      "BaseInterval": 1500,
+      "BaseProductChance": 0.15,
+      "Product": {
+        "Item": "MelvorBase:MithrilOre",
+        "Quantity": 1
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Mining",
+              "Component": "Experience"
+            },
+            "Level": 35,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "ShallowPools": {
+      "Location": "MelvorBase:ShallowShores",
+      "BaseMinInterval": 4000,
+      "BaseMaxInterval": 8000,
+      "FishChance": 0.8,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawShrimp",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "CalmShallows": {
+      "Location": "MelvorBase:ShallowShores",
+      "BaseMinInterval": 5000,
+      "BaseMaxInterval": 11000,
+      "FishChance": 0.8,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawSardine",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        },
+        {
+          "Item": "MelvorBase:RawShrimp",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 6,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "QuietBend": {
+      "Location": "MelvorBase:ShrapnelRiver",
+      "BaseMinInterval": 6000,
+      "BaseMaxInterval": 12000,
+      "FishChance": 0.8,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawHerring",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 12,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "DockWaters": {
+      "Location": "MelvorBase:LemvorPier",
+      "BaseMinInterval": 5000,
+      "BaseMaxInterval": 17000,
+      "FishChance": 0.8,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawPerch",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 18,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "PebbleBank": {
+      "Location": "MelvorBase:ShrapnelRiver",
+      "BaseMinInterval": 8000,
+      "BaseMaxInterval": 16000,
+      "FishChance": 0.9,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawHerring",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 4
+        },
+        {
+          "Item": "MelvorBase:RawTrout",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 5
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 23,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "WindsweptShores": {
+      "Location": "MelvorBase:WindyCoastline",
+      "BaseMinInterval": 2000,
+      "BaseMaxInterval": 10000,
+      "FishChance": 0.9,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawMackerel",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 27,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "PierWalk": {
+      "Location": "MelvorBase:LemvorPier",
+      "BaseMinInterval": 6000,
+      "BaseMaxInterval": 18000,
+      "FishChance": 0.8,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawPerch",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        },
+        {
+          "Item": "MelvorBase:RawPike",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 1
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 32,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "RapidRuns": {
+      "Location": "MelvorBase:ShrapnelRiver",
+      "BaseMinInterval": 9000,
+      "BaseMaxInterval": 17000,
+      "FishChance": 0.9,
+      "RandomProducts": [
+        {
+          "Item": "MelvorBase:RawTrout",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 2
+        },
+        {
+          "Item": "MelvorBase:RawSalmon",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 3
+        }
+      ],
+      "JunkItem": "MelvorBase:Junk",
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 39,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "StoneSword": {
+      "BaseInterval": 2000,
+      "Steps": 2,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:Stone",
+            "Quantity": 2
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:StoneSword",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "StonePlatebody": {
+      "BaseInterval": 2000,
+      "Steps": 5,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:Stone",
+            "Quantity": 5
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:StonePlatebody",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "CopperBar": {
+      "BaseInterval": 2500,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:CopperOre",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:CopperBar",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "CopperPlatebody": {
+      "BaseInterval": 2000,
+      "Steps": 6,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:CopperBar",
+            "Quantity": 5
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:CopperPlatebody",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 12,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "IronBar": {
+      "BaseInterval": 2500,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:IronOre",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:IronBar",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 10,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "IronPlatelegs": {
+      "BaseInterval": 2000,
+      "Steps": 5,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:IronBar",
+            "Quantity": 4
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:IronPlatelegs",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 18,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "IronPlatebody": {
+      "BaseInterval": 2000,
+      "Steps": 6,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:IronBar",
+            "Quantity": 5
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:IronPlatebody",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 20,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SilverBar": {
+      "BaseInterval": 2500,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:SilverOre",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SilverBar",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 18,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SteelBar": {
+      "BaseInterval": 2500,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:IronOre",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:Coal",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SteelBar",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 25,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SteelDagger": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:SteelBar",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SteelDagger",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 25,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SteelShield": {
+      "BaseInterval": 2000,
+      "Steps": 5,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:SteelBar",
+            "Quantity": 3
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SteelShield",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 29,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SteelPlatebody": {
+      "BaseInterval": 2000,
+      "Steps": 7,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:SteelBar",
+            "Quantity": 5
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SteelPlatebody",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 35,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "MithrilBar": {
+      "BaseInterval": 2500,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:MithrilOre",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:Coal",
+            "Quantity": 2
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:MithrilBar",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 35,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "MithrilDagger": {
+      "BaseInterval": 2000,
+      "Steps": 4,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:MithrilBar",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:MithrilDagger",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 35,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "GoldBar": {
+      "BaseInterval": 2500,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:GoldOre",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:GoldBar",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 38,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "NormalBow": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:NormalLog",
+            "Quantity": 2
+          },
+          {
+            "Item": "MelvorBase:Bowstring",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:NormalBow",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fletching",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "OakBow": {
+      "BaseInterval": 2000,
+      "Steps": 4,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:OakLog",
+            "Quantity": 2
+          },
+          {
+            "Item": "MelvorBase:Bowstring",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:OakBow",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fletching",
+              "Component": "Experience"
+            },
+            "Level": 15,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "WillowBow": {
+      "BaseInterval": 2000,
+      "Steps": 5,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:WillowLog",
+            "Quantity": 2
+          },
+          {
+            "Item": "MelvorBase:Bowstring",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:WillowBow",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fletching",
+              "Component": "Experience"
+            },
+            "Level": 30,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Topaz": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:UncutTopaz",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:Topaz",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Crafting",
+              "Component": "Experience"
+            },
+            "Level": 12,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Sapphire": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:UncutSapphire",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:Sapphire",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Crafting",
+              "Component": "Experience"
+            },
+            "Level": 32,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SilverTopazRing": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:SilverBar",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:Topaz",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SilverTopazRing",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Crafting",
+              "Component": "Experience"
+            },
+            "Level": 18,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SilverTopazAmulet": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:SilverBar",
+            "Quantity": 2
+          },
+          {
+            "Item": "MelvorBase:Topaz",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SilverTopazAmulet",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Crafting",
+              "Component": "Experience"
+            },
+            "Level": 18,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "SilverSapphireRing": {
+      "BaseInterval": 2000,
+      "Steps": 4,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:SilverBar",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:Sapphire",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:SilverSapphireRing",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Crafting",
+              "Component": "Experience"
+            },
+            "Level": 32,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "AirWand": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:UnpoweredOrb",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:AirRune",
+            "Quantity": 12
+          },
+          {
+            "Item": "MelvorBase:MindRune",
+            "Quantity": 6
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:AirWand",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "WaterWand": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:UnpoweredOrb",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:WaterRune",
+            "Quantity": 12
+          },
+          {
+            "Item": "MelvorBase:MindRune",
+            "Quantity": 6
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:WaterWand",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "EarthWand": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:UnpoweredOrb",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:EarthRune",
+            "Quantity": 12
+          },
+          {
+            "Item": "MelvorBase:MindRune",
+            "Quantity": 6
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:EarthWand",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 10,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "FireWand": {
+      "BaseInterval": 2000,
+      "Steps": 3,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:UnpoweredOrb",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:FireRune",
+            "Quantity": 12
+          },
+          {
+            "Item": "MelvorBase:MindRune",
+            "Quantity": 6
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:FireWand",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 20,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "FireStaff": {
+      "BaseInterval": 2000,
+      "Steps": 4,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:UnpoweredOrb",
+            "Quantity": 1
+          },
+          {
+            "Item": "MelvorBase:FireRune",
+            "Quantity": 16
+          },
+          {
+            "Item": "MelvorBase:MindRune",
+            "Quantity": 8
+          },
+          {
+            "Item": "MelvorBase:WillowLog",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:FireStaff",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 31,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Bowstring": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:Flax",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:Bowstring",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Crafting",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "MoltenGlass": {
+      "BaseInterval": 2500,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:BucketofSand",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:MoltenGlass",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Smithing",
+              "Component": "Experience"
+            },
+            "Level": 2,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "UnpoweredOrb": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:MoltenGlass",
+            "Quantity": 3
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:UnpoweredOrb",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Crafting",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "AirRune": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:RuneEssence",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:AirRune",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "MindRune": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:RuneEssence",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:MindRune",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "WaterRune": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:RuneEssence",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:WaterRune",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "EarthRune": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:RuneEssence",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:EarthRune",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 10,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "FireRune": {
+      "BaseInterval": 2000,
+      "Steps": 1,
+      "Ingredients": {
+        "Items": [
+          {
+            "Item": "MelvorBase:RuneEssence",
+            "Quantity": 1
+          }
+        ],
+        "Currencies": []
+      },
+      "Products": [
+        {
+          "Item": "MelvorBase:FireRune",
+          "Quantity": 1,
+          "Chance": 1
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Runecrafting",
+              "Component": "Experience"
+            },
+            "Level": 20,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "Citizen": {
+      "BaseInterval": 3000,
+      "Perception": 32,
+      "Damage": 25,
+      "BaseCurrencyLootChance": 0.85,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 3,
+        "MaxQuantity": 12
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:Stone",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 700
+        },
+        {
+          "Item": "MelvorBase:Bread",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 300
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 1,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Thug": {
+      "BaseInterval": 3000,
+      "Perception": 40,
+      "Damage": 32,
+      "BaseCurrencyLootChance": 0.8,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 3,
+        "MaxQuantity": 13
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:LeatherBoots",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:LeatherVambraces",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:LeatherCowl",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:LeatherChaps",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:LeatherBody",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:CopperDefender",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:Rope",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 350
+        },
+        {
+          "Item": "MelvorBase:Lockpick",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 300
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "LockedThugChest": {
+      "BaseInterval": 8000,
+      "Perception": 203,
+      "Damage": 45,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 4,
+        "MaxQuantity": 16
+      },
+      "BaseCommonLootChance": 1,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:UncutTopaz",
+          "MinQuantity": 5,
+          "MaxQuantity": 10,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:SilverBar",
+          "MinQuantity": 3,
+          "MaxQuantity": 3,
+          "Weight": 200
+        },
+        {
+          "Item": "MelvorBase:IronDagger",
+          "MinQuantity": 2,
+          "MaxQuantity": 3,
+          "Weight": 150
+        },
+        {
+          "Item": "MelvorBase:HardLeatherBoots",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 200
+        },
+        {
+          "Item": "MelvorBase:Rope",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 250
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 10,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": [
+        {
+          "Type": "MelvorBase:ToolbeltItemEquipped",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Toolbelt"
+            },
+            "Item": "MelvorBase:Lockpick",
+            "Quantity": 1,
+            "IsOr": false
+          }
+        },
+        {
+          "Type": "MelvorBase:ToolbeltItemEquipped",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Toolbelt"
+            },
+            "IsOr": true,
+            "Item": "MelvorBase:ThugChestKey",
+            "Quantity": 1
+          }
+        }
+      ]
+    },
+    "CookingStall": {
+      "BaseInterval": 6000,
+      "Perception": 60,
+      "Damage": 37,
+      "BaseCurrencyLootChance": 0,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 0,
+        "MaxQuantity": 0
+      },
+      "BaseCommonLootChance": 1,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:Wheat",
+          "MinQuantity": 1,
+          "MaxQuantity": 2,
+          "Weight": 160
+        },
+        {
+          "Item": "MelvorBase:Bread",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 120
+        },
+        {
+          "Item": "MelvorBase:Flour",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 140
+        },
+        {
+          "Item": "MelvorBase:Milk",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 130
+        },
+        {
+          "Item": "MelvorBase:Cheese",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 120
+        },
+        {
+          "Item": "MelvorBase:RawChicken",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:RawBeef",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:BasicDough",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 80
+        },
+        {
+          "Item": "MelvorBase:CakeBase",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 60
+        },
+        {
+          "Item": "MelvorBase:SweetDough",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:SushiBase",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 40
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 12,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "ThugChief": {
+      "BaseInterval": 3000,
+      "Perception": 120,
+      "Damage": 52,
+      "BaseCurrencyLootChance": 0.8,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 5,
+        "MaxQuantity": 21
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:CopperGloves",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 160
+        },
+        {
+          "Item": "MelvorBase:CopperHelmet",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 120
+        },
+        {
+          "Item": "MelvorBase:CopperMallet",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:CopperPlatebody",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:Lockpick",
+          "MinQuantity": 1,
+          "MaxQuantity": 2,
+          "Weight": 200
+        },
+        {
+          "Item": "MelvorBase:BeefSandwich",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 150
+        },
+        {
+          "Item": "MelvorBase:String",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 200
+        },
+        {
+          "Item": "MelvorBase:Topaz",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 20
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 15,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Craftsman": {
+      "BaseInterval": 3000,
+      "Perception": 124,
+      "Damage": 57,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 6,
+        "MaxQuantity": 24
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:Clay",
+          "MinQuantity": 3,
+          "MaxQuantity": 5,
+          "Weight": 180
+        },
+        {
+          "Item": "MelvorBase:BucketofSand",
+          "MinQuantity": 1,
+          "MaxQuantity": 8,
+          "Weight": 170
+        },
+        {
+          "Item": "MelvorBase:BucketofWater",
+          "MinQuantity": 1,
+          "MaxQuantity": 8,
+          "Weight": 170
+        },
+        {
+          "Item": "MelvorBase:EmptyVial",
+          "MinQuantity": 10,
+          "MaxQuantity": 30,
+          "Weight": 80
+        },
+        {
+          "Item": "MelvorBase:String",
+          "MinQuantity": 5,
+          "MaxQuantity": 10,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:Bowstring",
+          "MinQuantity": 5,
+          "MaxQuantity": 10,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:Rope",
+          "MinQuantity": 2,
+          "MaxQuantity": 5,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:MoltenGlass",
+          "MinQuantity": 2,
+          "MaxQuantity": 5,
+          "Weight": 100
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 17,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Fisherman": {
+      "BaseInterval": 3000,
+      "Perception": 177,
+      "Damage": 62,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 6,
+        "MaxQuantity": 28
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:BasicBait",
+          "MinQuantity": 3,
+          "MaxQuantity": 6,
+          "Weight": 300
+        },
+        {
+          "Item": "MelvorBase:RawShrimp",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 250
+        },
+        {
+          "Item": "MelvorBase:RawSardine",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 200
+        },
+        {
+          "Item": "MelvorBase:RawHerring",
+          "MinQuantity": 1,
+          "MaxQuantity": 4,
+          "Weight": 120
+        },
+        {
+          "Item": "MelvorBase:RawPerch",
+          "MinQuantity": 1,
+          "MaxQuantity": 5,
+          "Weight": 80
+        },
+        {
+          "Item": "MelvorBase:RawPike",
+          "MinQuantity": 1,
+          "MaxQuantity": 5,
+          "Weight": 50
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 20,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Farmer": {
+      "BaseInterval": 3000,
+      "Perception": 185,
+      "Damage": 72,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 7,
+        "MaxQuantity": 38
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:Potato",
+          "MinQuantity": 1,
+          "MaxQuantity": 5,
+          "Weight": 300
+        },
+        {
+          "Item": "MelvorBase:Onion",
+          "MinQuantity": 1,
+          "MaxQuantity": 5,
+          "Weight": 250
+        },
+        {
+          "Item": "MelvorBase:Lettuce",
+          "MinQuantity": 1,
+          "MaxQuantity": 5,
+          "Weight": 200
+        },
+        {
+          "Item": "MelvorBase:Wheat",
+          "MinQuantity": 1,
+          "MaxQuantity": 5,
+          "Weight": 150
+        },
+        {
+          "Item": "MelvorBase:Garlic",
+          "MinQuantity": 1,
+          "MaxQuantity": 5,
+          "Weight": 100
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 25,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Chef": {
+      "BaseInterval": 3000,
+      "Perception": 238,
+      "Damage": 82,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 8,
+        "MaxQuantity": 49
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:Bread",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 310
+        },
+        {
+          "Item": "MelvorBase:Beef",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 250
+        },
+        {
+          "Item": "MelvorBase:ChickenSandwich",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 140
+        },
+        {
+          "Item": "MelvorBase:BananaPancake",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 120
+        },
+        {
+          "Item": "MelvorBase:StrawberryCake",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:TroutSushi",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 80
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 30,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Bandit": {
+      "BaseInterval": 3000,
+      "Perception": 243,
+      "Damage": 90,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 9,
+        "MaxQuantity": 57
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:OakBow",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 140
+        },
+        {
+          "Item": "MelvorBase:StuddedLeatherShield",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 120
+        },
+        {
+          "Item": "MelvorBase:ChainmailCowl",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 60
+        },
+        {
+          "Item": "MelvorBase:SteelCrossbow",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 40
+        },
+        {
+          "Item": "MelvorBase:TopazBolts",
+          "MinQuantity": 2,
+          "MaxQuantity": 4,
+          "Weight": 160
+        },
+        {
+          "Item": "MelvorBase:SteelArrows",
+          "MinQuantity": 4,
+          "MaxQuantity": 8,
+          "Weight": 300
+        },
+        {
+          "Item": "MelvorBase:SalmonSoup",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 60
+        },
+        {
+          "Item": "MelvorBase:Lockpick",
+          "MinQuantity": 3,
+          "MaxQuantity": 6,
+          "Weight": 120
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 33,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "LockedRanchersChest": {
+      "BaseInterval": 8000,
+      "Perception": 480,
+      "Damage": 97,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 9,
+        "MaxQuantity": 57
+      },
+      "BaseCommonLootChance": 1,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:Feathers",
+          "MinQuantity": 5,
+          "MaxQuantity": 10,
+          "Weight": 300
+        },
+        {
+          "Item": "MelvorBase:Cowhide",
+          "MinQuantity": 1,
+          "MaxQuantity": 2,
+          "Weight": 250
+        },
+        {
+          "Item": "MelvorBase:Wool",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 200
+        },
+        {
+          "Item": "MelvorBase:Silk",
+          "MinQuantity": 5,
+          "MaxQuantity": 10,
+          "Weight": 50
+        },
+        {
+          "Item": "MelvorBase:Grain",
+          "MinQuantity": 5,
+          "MaxQuantity": 10,
+          "Weight": 200
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 33,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": [
+        {
+          "Type": "MelvorBase:ToolbeltItemEquipped",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Toolbelt"
+            },
+            "Item": "MelvorBase:Lockpick",
+            "Quantity": 1,
+            "IsOr": false
+          }
+        },
+        {
+          "Type": "MelvorBase:ToolbeltItemEquipped",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Toolbelt"
+            },
+            "IsOr": true,
+            "Item": "MelvorBase:RanchersChestKey",
+            "Quantity": 1
+          }
+        }
+      ]
+    },
+    "MarketSeedStall": {
+      "BaseInterval": 6000,
+      "Perception": 164,
+      "Damage": 67,
+      "BaseCurrencyLootChance": 0,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 0,
+        "MaxQuantity": 0
+      },
+      "BaseCommonLootChance": 1,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:PotatoSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 294
+        },
+        {
+          "Item": "MelvorBase:OnionSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 230
+        },
+        {
+          "Item": "MelvorBase:LettuceSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 180
+        },
+        {
+          "Item": "MelvorBase:WheatSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 140
+        },
+        {
+          "Item": "MelvorBase:GarlicSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 140
+        },
+        {
+          "Item": "MelvorBase:StrawberrySeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 60
+        },
+        {
+          "Item": "MelvorBase:CabbageSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 30
+        },
+        {
+          "Item": "MelvorBase:CornSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 20
+        },
+        {
+          "Item": "MelvorBase:SugarcaneStalk",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 30
+        },
+        {
+          "Item": "MelvorBase:PenrilHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 8
+        },
+        {
+          "Item": "MelvorBase:SourweedHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 5
+        },
+        {
+          "Item": "MelvorBase:MantalymeHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 3
+        },
+        {
+          "Item": "MelvorBase:NomelHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 1,
+          "Weight": 2
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 35,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Herbalist": {
+      "BaseInterval": 3000,
+      "Perception": 251,
+      "Damage": 100,
+      "BaseCurrencyLootChance": 0.7,
+      "CurrencyReward": {
+        "Currency": "MelvorBase:GoldPieces",
+        "MinQuantity": 10,
+        "MaxQuantity": 72
+      },
+      "BaseCommonLootChance": 0.15,
+      "CommonDropTable": [
+        {
+          "Item": "MelvorBase:WoodcuttingPotionP1A",
+          "MinQuantity": 10,
+          "MaxQuantity": 10,
+          "Weight": 60
+        },
+        {
+          "Item": "MelvorBase:FishingPotionP1A",
+          "MinQuantity": 10,
+          "MaxQuantity": 10,
+          "Weight": 60
+        },
+        {
+          "Item": "MelvorBase:MiningPotionP1A",
+          "MinQuantity": 10,
+          "MaxQuantity": 10,
+          "Weight": 60
+        },
+        {
+          "Item": "MelvorBase:WoodcuttingPotionP2A",
+          "MinQuantity": 10,
+          "MaxQuantity": 10,
+          "Weight": 20
+        },
+        {
+          "Item": "MelvorBase:FishingPotionP2A",
+          "MinQuantity": 10,
+          "MaxQuantity": 10,
+          "Weight": 20
+        },
+        {
+          "Item": "MelvorBase:MiningPotionP2A",
+          "MinQuantity": 10,
+          "MaxQuantity": 10,
+          "Weight": 20
+        },
+        {
+          "Item": "MelvorBase:PenrilHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 120
+        },
+        {
+          "Item": "MelvorBase:SourweedHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 110
+        },
+        {
+          "Item": "MelvorBase:MantalymeHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 100
+        },
+        {
+          "Item": "MelvorBase:NomelHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 90
+        },
+        {
+          "Item": "MelvorBase:OxilymeHerbSeed",
+          "MinQuantity": 1,
+          "MaxQuantity": 3,
+          "Weight": 80
+        },
+        {
+          "Item": "MelvorBase:EmptyVial",
+          "MinQuantity": 10,
+          "MaxQuantity": 20,
+          "Weight": 260
+        }
+      ],
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Thieving",
+              "Component": "Experience"
+            },
+            "Level": 38,
+            "IsOr": false
+          }
+        }
+      ],
+      "AccessRequirements": null
+    },
+    "Golbin": {
+      "FixedItems": [
+        {
+          "Item": "MelvorBase:Bone",
+          "MinQuantity": 1,
+          "MaxQuantity": 1
+        }
+      ],
+      "ItemTables": [
+        {
+          "Chance": 1,
+          "Table": [
+            {
+              "Item": "MelvorBase:Stone",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 15
+            },
+            {
+              "Item": "MelvorBase:Shrimp",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 5
+            },
+            {
+              "Item": "MelvorBase:StoneHelmet",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 2
+            },
+            {
+              "Item": "MelvorBase:StoneSword",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 10,
+          "MaxQuantity": 40
+        }
+      ]
+    },
+    "GolbinScout": {
+      "FixedItems": [
+        {
+          "Item": "MelvorBase:Bone",
+          "MinQuantity": 1,
+          "MaxQuantity": 1
+        }
+      ],
+      "ItemTables": [
+        {
+          "Chance": 0.5,
+          "Table": [
+            {
+              "Item": "MelvorBase:StoneArrows",
+              "MinQuantity": 1,
+              "MaxQuantity": 3,
+              "Weight": 7
+            },
+            {
+              "Item": "MelvorBase:Stick",
+              "MinQuantity": 1,
+              "MaxQuantity": 3,
+              "Weight": 5
+            },
+            {
+              "Item": "MelvorBase:HeadlessArrows",
+              "MinQuantity": 3,
+              "MaxQuantity": 5,
+              "Weight": 3
+            },
+            {
+              "Item": "MelvorBase:NormalBow",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 10,
+          "MaxQuantity": 40
+        }
+      ]
+    },
+    "GolbinAmbusher": {
+      "FixedItems": [
+        {
+          "Item": "MelvorBase:Bone",
+          "MinQuantity": 1,
+          "MaxQuantity": 1
+        }
+      ],
+      "ItemTables": [
+        {
+          "Chance": 0.5,
+          "Table": [
+            {
+              "Item": "MelvorBase:CopperDagger",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 12
+            },
+            {
+              "Item": "MelvorBase:IronDagger",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 4
+            },
+            {
+              "Item": "MelvorBase:Rope",
+              "MinQuantity": 3,
+              "MaxQuantity": 5,
+              "Weight": 3
+            },
+            {
+              "Item": "MelvorBase:SilverTopazRing",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 13,
+          "MaxQuantity": 50
+        }
+      ]
+    },
+    "Hobgolbin": {
+      "FixedItems": [
+        {
+          "Item": "MelvorBase:BigBone",
+          "MinQuantity": 1,
+          "MaxQuantity": 1
+        }
+      ],
+      "ItemTables": [
+        {
+          "Chance": 0.5,
+          "Table": [
+            {
+              "Item": "MelvorBase:CopperMallet",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 10
+            },
+            {
+              "Item": "MelvorBase:Beef",
+              "MinQuantity": 1,
+              "MaxQuantity": 5,
+              "Weight": 6
+            },
+            {
+              "Item": "MelvorBase:IronMallet",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 3
+            },
+            {
+              "Item": "MelvorBase:IronBoots",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 2
+            },
+            {
+              "Item": "MelvorBase:PenrilHerbSeed",
+              "MinQuantity": 2,
+              "MaxQuantity": 2,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 17,
+          "MaxQuantity": 65
+        }
+      ]
+    },
+    "EvilPlant": {
+      "FixedItems": [],
+      "ItemTables": [
+        {
+          "Chance": 1,
+          "Table": [
+            {
+              "Item": "MelvorBase:Potato",
+              "MinQuantity": 1,
+              "MaxQuantity": 3,
+              "Weight": 30
+            },
+            {
+              "Item": "MelvorBase:PotatoSeed",
+              "MinQuantity": 1,
+              "MaxQuantity": 3,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 13,
+          "MaxQuantity": 50
+        }
+      ]
+    },
+    "GiantChicken": {
+      "FixedItems": [
+        {
+          "Item": "MelvorBase:BigBone",
+          "MinQuantity": 1,
+          "MaxQuantity": 1
+        }
+      ],
+      "ItemTables": [
+        {
+          "Chance": 1,
+          "Table": [
+            {
+              "Item": "MelvorBase:RawChicken",
+              "MinQuantity": 5,
+              "MaxQuantity": 10,
+              "Weight": 1
+            },
+            {
+              "Item": "MelvorBase:Feathers",
+              "MinQuantity": 40,
+              "MaxQuantity": 70,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 14,
+          "MaxQuantity": 55
+        }
+      ]
+    },
+    "MagicCow": {
+      "FixedItems": [
+        {
+          "Item": "MelvorBase:Bone",
+          "MinQuantity": 1,
+          "MaxQuantity": 1
+        }
+      ],
+      "ItemTables": [
+        {
+          "Chance": 1,
+          "Table": [
+            {
+              "Item": "MelvorBase:RawBeef",
+              "MinQuantity": 5,
+              "MaxQuantity": 10,
+              "Weight": 20
+            },
+            {
+              "Item": "MelvorBase:Cowhide",
+              "MinQuantity": 5,
+              "MaxQuantity": 10,
+              "Weight": 20
+            },
+            {
+              "Item": "MelvorBase:MagicCowhide",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 15,
+          "MaxQuantity": 60
+        }
+      ]
+    },
+    "Scarecrow": {
+      "FixedItems": [],
+      "ItemTables": [
+        {
+          "Chance": 0.25,
+          "Table": [
+            {
+              "Item": "MelvorBase:PotatoSeed",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 8
+            },
+            {
+              "Item": "MelvorBase:OnionSeed",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 7
+            },
+            {
+              "Item": "MelvorBase:PenrilHerbSeed",
+              "MinQuantity": 1,
+              "MaxQuantity": 2,
+              "Weight": 5
+            },
+            {
+              "Item": "MelvorBase:SourweedHerbSeed",
+              "MinQuantity": 1,
+              "MaxQuantity": 2,
+              "Weight": 4
+            },
+            {
+              "Item": "MelvorBase:FarmersScythe",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 2
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 18,
+          "MaxQuantity": 70
+        }
+      ]
+    },
+    "JackOLantern": {
+      "FixedItems": [],
+      "ItemTables": [
+        {
+          "Chance": 0.1,
+          "Table": [
+            {
+              "Item": "MelvorBase:LettuceSeed",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 60
+            },
+            {
+              "Item": "MelvorBase:MantalymeHerbSeed",
+              "MinQuantity": 2,
+              "MaxQuantity": 2,
+              "Weight": 40
+            },
+            {
+              "Item": "MelvorBase:PumpkinSeed",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 1
+            },
+            {
+              "Item": "MelvorBase:Pumpkin",
+              "MinQuantity": 1,
+              "MaxQuantity": 3,
+              "Weight": 2
+            },
+            {
+              "Item": "MelvorBase:PumpkinHead",
+              "MinQuantity": 1,
+              "MaxQuantity": 1,
+              "Weight": 15
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 24,
+          "MaxQuantity": 95
+        }
+      ]
+    },
+    "MangroveStrider": {
+      "FixedItems": [],
+      "ItemTables": [
+        {
+          "Chance": 1,
+          "Table": [
+            {
+              "Item": "MelvorBase:AmbervineLeaf",
+              "MinQuantity": 5,
+              "MaxQuantity": 25,
+              "Weight": 2
+            },
+            {
+              "Item": "MelvorBase:SpikemossLeaf",
+              "MinQuantity": 5,
+              "MaxQuantity": 25,
+              "Weight": 1
+            }
+          ]
+        }
+      ],
+      "FixedCurrencies": [
+        {
+          "Currency": "MelvorBase:GoldPieces",
+          "MinQuantity": 20,
+          "MaxQuantity": 80
+        }
+      ]
+    }
+  },
+  "sale_prices": {
+    "MelvorBase:AirRune": 1,
+    "MelvorBase:AirWand": 62,
+    "MelvorBase:AmbervineLeaf": 3,
+    "MelvorBase:BananaPancake": 161,
+    "MelvorBase:BasicBait": 1,
+    "MelvorBase:BasicDough": 2,
+    "MelvorBase:Beef": 10,
+    "MelvorBase:BeefSandwich": 104,
+    "MelvorBase:BigBone": 8,
+    "MelvorBase:Bone": 2,
+    "MelvorBase:Bowstring": 3,
+    "MelvorBase:Bread": 5,
+    "MelvorBase:BucketofSand": 1,
+    "MelvorBase:BucketofWater": 1,
+    "MelvorBase:CabbageSeed": 134,
+    "MelvorBase:CakeBase": 27,
+    "MelvorBase:ChainmailCowl": 142,
+    "MelvorBase:Cheese": 4,
+    "MelvorBase:ChickenSandwich": 168,
+    "MelvorBase:Clay": 1,
+    "MelvorBase:Coal": 5,
+    "MelvorBase:CopperBar": 7,
+    "MelvorBase:CopperDagger": 15,
+    "MelvorBase:CopperDefender": 15,
+    "MelvorBase:CopperGloves": 29,
+    "MelvorBase:CopperHelmet": 31,
+    "MelvorBase:CopperMallet": 81,
+    "MelvorBase:CopperOre": 3,
+    "MelvorBase:CopperPlatebody": 127,
+    "MelvorBase:CornSeed": 16,
+    "MelvorBase:Cowhide": 8,
+    "MelvorBase:EarthRune": 1,
+    "MelvorBase:EarthWand": 171,
+    "MelvorBase:EmptyVial": 1,
+    "MelvorBase:FarmersScythe": 1029,
+    "MelvorBase:Feathers": 1,
+    "MelvorBase:FireRune": 2,
+    "MelvorBase:FireStaff": 329,
+    "MelvorBase:FireWand": 326,
+    "MelvorBase:FishingPotionP1A": 3,
+    "MelvorBase:FishingPotionP2A": 9,
+    "MelvorBase:Flax": 1,
+    "MelvorBase:Flour": 1,
+    "MelvorBase:Garlic": 6,
+    "MelvorBase:GarlicSeed": 6,
+    "MelvorBase:GoldBar": 42,
+    "MelvorBase:GoldOre": 16,
+    "MelvorBase:Grain": 1,
+    "MelvorBase:HardLeatherBoots": 38,
+    "MelvorBase:HeadlessArrows": 1,
+    "MelvorBase:IronBar": 12,
+    "MelvorBase:IronBoots": 52,
+    "MelvorBase:IronDagger": 23,
+    "MelvorBase:IronMallet": 132,
+    "MelvorBase:IronOre": 6,
+    "MelvorBase:IronPlatebody": 177,
+    "MelvorBase:IronPlatelegs": 157,
+    "MelvorBase:Junk": 5,
+    "MelvorBase:LeatherBody": 26,
+    "MelvorBase:LeatherBoots": 6,
+    "MelvorBase:LeatherChaps": 20,
+    "MelvorBase:LeatherCowl": 10,
+    "MelvorBase:LeatherVambraces": 5,
+    "MelvorBase:Lettuce": 4,
+    "MelvorBase:LettuceSeed": 5,
+    "MelvorBase:Lockpick": 1,
+    "MelvorBase:MagicCowhide": 1,
+    "MelvorBase:MantalymeHerbSeed": 32,
+    "MelvorBase:Milk": 1,
+    "MelvorBase:MindRune": 1,
+    "MelvorBase:MiningPotionP1A": 1,
+    "MelvorBase:MiningPotionP2A": 2,
+    "MelvorBase:MithrilBar": 56,
+    "MelvorBase:MithrilDagger": 94,
+    "MelvorBase:MithrilOre": 18,
+    "MelvorBase:MoltenGlass": 2,
+    "MelvorBase:NomelHerbSeed": 65,
+    "MelvorBase:NormalBow": 12,
+    "MelvorBase:NormalLog": 3,
+    "MelvorBase:OakBow": 48,
+    "MelvorBase:OakLog": 6,
+    "MelvorBase:Onion": 3,
+    "MelvorBase:OnionSeed": 2,
+    "MelvorBase:OxilymeHerbSeed": 74,
+    "MelvorBase:PenrilHerbSeed": 10,
+    "MelvorBase:Potato": 2,
+    "MelvorBase:PotatoSeed": 1,
+    "MelvorBase:Pumpkin": 57,
+    "MelvorBase:PumpkinHead": 1970,
+    "MelvorBase:PumpkinSeed": 170,
+    "MelvorBase:RanchersChestKey": 111593,
+    "MelvorBase:RawBeef": 1,
+    "MelvorBase:RawChicken": 2,
+    "MelvorBase:RawHerring": 15,
+    "MelvorBase:RawMackerel": 16,
+    "MelvorBase:RawPerch": 26,
+    "MelvorBase:RawPike": 65,
+    "MelvorBase:RawSalmon": 65,
+    "MelvorBase:RawSardine": 13,
+    "MelvorBase:RawShrimp": 5,
+    "MelvorBase:RawTrout": 42,
+    "MelvorBase:Rope": 5,
+    "MelvorBase:RuneEssence": 1,
+    "MelvorBase:SalmonSoup": 31,
+    "MelvorBase:Sapphire": 54,
+    "MelvorBase:Shrimp": 8,
+    "MelvorBase:Silk": 2,
+    "MelvorBase:SilverBar": 24,
+    "MelvorBase:SilverOre": 10,
+    "MelvorBase:SilverSapphireRing": 192,
+    "MelvorBase:SilverTopazAmulet": 226,
+    "MelvorBase:SilverTopazRing": 178,
+    "MelvorBase:SourweedHerbSeed": 11,
+    "MelvorBase:SpikemossLeaf": 5,
+    "MelvorBase:SteelArrows": 7,
+    "MelvorBase:SteelBar": 29,
+    "MelvorBase:SteelCrossbow": 231,
+    "MelvorBase:SteelDagger": 73,
+    "MelvorBase:SteelPlatebody": 325,
+    "MelvorBase:SteelShield": 195,
+    "MelvorBase:Stick": 1,
+    "MelvorBase:Stone": 2,
+    "MelvorBase:StoneArrows": 3,
+    "MelvorBase:StoneHelmet": 19,
+    "MelvorBase:StonePlatebody": 41,
+    "MelvorBase:StoneSword": 11,
+    "MelvorBase:StrawberryCake": 338,
+    "MelvorBase:StrawberrySeed": 11,
+    "MelvorBase:String": 1,
+    "MelvorBase:StuddedLeatherShield": 106,
+    "MelvorBase:SugarcaneStalk": 15,
+    "MelvorBase:SushiBase": 22,
+    "MelvorBase:SweetDough": 23,
+    "MelvorBase:TeakLog": 25,
+    "MelvorBase:ThugChestKey": 37188,
+    "MelvorBase:Topaz": 29,
+    "MelvorBase:TopazBolts": 21,
+    "MelvorBase:TroutSushi": 34,
+    "MelvorBase:UncutSapphire": 36,
+    "MelvorBase:UncutTopaz": 20,
+    "MelvorBase:UnpoweredOrb": 9,
+    "MelvorBase:WaterRune": 1,
+    "MelvorBase:WaterWand": 109,
+    "MelvorBase:Wheat": 1,
+    "MelvorBase:WheatSeed": 15,
+    "MelvorBase:WillowBow": 85,
+    "MelvorBase:WillowLog": 17,
+    "MelvorBase:WoodcuttingPotionP1A": 1,
+    "MelvorBase:WoodcuttingPotionP2A": 1,
+    "MelvorBase:Wool": 3
+  },
+  "shop_supply_gp": {
+    "MelvorBase:BucketofSand": 5.0
+  },
+  "quests": [
+    {
+      "id": "MQ1",
+      "name": "Pointy Preparation",
+      "gp": 2000
+    },
+    {
+      "id": "MQ2",
+      "name": "Fishin' for Trouble",
+      "gp": 5000
+    },
+    {
+      "id": "MQ3",
+      "name": "Boarish Bonfire",
+      "gp": 10000
+    }
+  ],
+  "shop_examples": {
+    "CopperFishingRod": {
+      "DisplayName": "Copper Fishing Rod",
+      "Costs": {
+        "Items": [
+          {
+            "Item": "MelvorBase:CopperBar",
+            "Quantity": 25
+          }
+        ],
+        "Currencies": [
+          {
+            "Currency": "MelvorBase:GoldPieces",
+            "Quantity": 2000
+          }
+        ]
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 5,
+            "IsOr": false
+          }
+        }
+      ]
+    },
+    "BankSpaceFishing1": {
+      "DisplayName": "+20 Bank Slots",
+      "Costs": {
+        "Items": [],
+        "Currencies": [
+          {
+            "Currency": "MelvorBase:GoldPieces",
+            "Quantity": 5000
+          }
+        ]
+      },
+      "Requirements": [
+        {
+          "Type": "MelvorBase:Level",
+          "Data": {
+            "Component": {
+              "Entity": "MelvorBase:Fishing",
+              "Component": "Experience"
+            },
+            "Level": 20,
+            "IsOr": false
+          }
+        }
+      ]
+    }
+  }
+}

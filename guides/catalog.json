@@ -24,6 +24,27 @@
         "character personalization"
       ],
       "metadata": "fletching/1-50/metadata.json"
+    },
+    {
+      "schema_version": 2,
+      "id": "money-making-1-40",
+      "game": "Melvor Idle 2",
+      "skill": "Money-making",
+      "slug": "money-making",
+      "level_start": 1,
+      "level_end": 40,
+      "title": "Early money-making through Combat 30 and non-combat 40",
+      "summary": "Compare repeatable GP methods, starter quest rewards, and combat loot. Generate a private ranking from a local save.",
+      "updated_on": "2026-11-28",
+      "status": "reference",
+      "artifact": "money-making/1-40/guide.html",
+      "calculations": "money-making/1-40/calculations.json",
+      "tags": [
+        "GP per hour",
+        "Combat 1–30",
+        "character guide"
+      ],
+      "metadata": "money-making/1-40/metadata.json"
     }
   ]
 }
