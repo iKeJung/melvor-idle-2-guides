@@ -34,7 +34,7 @@ The command reads the latest local save and writes offline guides to `data/chara
 
 Both guides identify the save timestamp and SHA-256, list sources for applied modifiers, and provide downloadable calculation data.
 
-Use `-Save 'C:\path\character_save.sav'` to choose a character. Add `-Watch` to regenerate the guide each time the selected save changes while the command is running. Reload the page, or enable periodic reloading in its **Assumptions** section. Press Ctrl+C in the terminal to stop watching.
+Use `-Save 'C:\path\character_save.sav'` to choose a character. Add `-Watch` to regenerate the guides each time the selected save changes while the command is running. Reload the pages to see the new results. In the Fletching guide, you can also enable periodic reloading in **Assumptions**. Press Ctrl+C in the terminal to stop watching.
 
 For a feather gathering scenario, pass `-ChickenCycleSeconds 35` with your full Giant Chicken cycle time, including respawn and replenishing supplies. The default uses the guide's scenario. Estimates use average yields and cover a subset of game modifiers. Personal output stays in the Git-ignored character folder.
 
