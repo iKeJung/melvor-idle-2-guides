@@ -2,7 +2,7 @@
 from dataclasses import asdict, replace
 from math import ceil, floor
 
-from guide_plan import NS, build_action, chance, modifiers
+from guide_plan import NS, build_action, chance, modifiers, require_bank_inventory
 
 SCOPE = {"combat": 30, "non_combat": 40}
 GATHERING = {
@@ -247,11 +247,11 @@ def combat(entries, value):
 
 
 def compare(data, snapshot=None, decoded=None):
+    personal = snapshot is not None
+    if personal:
+        require_bank_inventory(decoded)
     entries = indexes(data)
     items = entries["Item"]
-    personal = snapshot is not None
-    if personal and any(warning.startswith("Bank/Inventory") for warning in decoded["warnings"]):
-        raise ValueError("The bank could not be decoded. Refreshing the personalized guide stopped.")
     snapshot = snapshot if personal else {"skills": {
         skill: {"level": 1, "modifiers": {}} for skill in (*GATHERING, "Smithing", "Crafting", "Fletching",
                                                          "Runecrafting", "Thieving")
