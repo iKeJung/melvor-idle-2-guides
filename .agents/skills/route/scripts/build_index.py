@@ -41,6 +41,8 @@ def read_guides(root):
         for field in ("id", "game", "skill", "slug", "title", "summary", "updated_on", "status", "artifact", "calculations"):
             if not isinstance(data.get(field), str) or not data[field].strip():
                 raise ValueError(f"Invalid required field '{field}': {path}")
+        if "range_label" in data and (not isinstance(data["range_label"], str) or not data["range_label"].strip()):
+            raise ValueError(f"Invalid optional field 'range_label': {path}")
         if data["game"] != "Melvor Idle 2":
             raise ValueError(f"Game is outside the library scope: {path}")
         slug = data["slug"]
@@ -90,41 +92,300 @@ def read_guides(root):
 
 def render_index(guides):
     statuses = {"reference": "Calculated reference", "validated": "Validated on a character", "partial": "Partial analysis"}
-    options = "".join(f'<option value="{escape(s, quote=True)}">{escape(s)}</option>' for s in sorted({g["skill"] for g in guides}))
+    topics = sorted({g["skill"] for g in guides})
+    options = "\n".join(f'            <option value="{escape(topic)}">{escape(topic)}</option>' for topic in topics)
     cards = []
     for g in guides:
-        tags = "".join(f'<span class="tag">{escape(t)}</span>' for t in g.get("tags", []))
-        search = " ".join([g["title"], g["skill"], g["summary"], *g.get("tags", [])])
-        cards.append(f'''<article class="card" data-skill="{escape(g['skill'], quote=True)}" data-search="{escape(search, quote=True)}">
-  <div class="label">{escape(g['skill'])} · levels {g['level_start']}–{g['level_end']}</div>
-  <h2><a href="{escape(g['artifact'], quote=True)}">{escape(g['title'])}</a></h2>
-  <p>{escape(g['summary'])}</p><div class="tags">{tags}</div>
-  <p class="meta">Updated on {date.fromisoformat(g['updated_on']).isoformat()} · {statuses[g['status']]}</p>
-  <div class="links"><a href="{escape(g['artifact'], quote=True)}">Open guide →</a><a href="{escape(g['calculations'], quote=True)}">Calculations JSON</a></div>
-</article>''')
+        title = escape(g["title"])
+        artifact = escape(g["artifact"])
+        updated = date.fromisoformat(g["updated_on"]).isoformat()
+        level_range = g.get("range_label", f"Levels {g['level_start']}–{g['level_end']}")
+        search = " ".join([g["title"], g["skill"], level_range, g["summary"], *g.get("tags", [])])
+        cards.append(f'''      <article class="card" data-topic="{escape(g['skill'])}" data-search="{escape(search)}">
+        <header>
+          <h2>{title}</h2>
+          <p class="range">{escape(level_range)}</p>
+        </header>
+        <p class="summary">{escape(g['summary'])}</p>
+        <footer class="card-footer">
+          <p class="meta">Updated on <time datetime="{updated}">{updated}</time> · {statuses[g['status']]}</p>
+          <div class="links">
+            <a class="guide-link" href="{artifact}" aria-label="Open guide: {title}">Open guide</a>
+            <a href="{escape(g['calculations'])}" aria-label="View calculations for {title} (JSON)">View calculations</a>
+          </div>
+        </footer>
+      </article>''')
+    count = f"{len(guides)} {'guide' if len(guides) == 1 else 'guides'} available"
+    empty_attributes = ' hidden' if guides else ''
+    empty_message = 'Try a different search term or choose another topic.' if guides else 'No guides are available yet.'
     return '''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Route library · Melvor Idle 2</title>
-<style>
-:root{color-scheme:dark;--bg:#10161c;--panel:#19232c;--line:#34444f;--text:#e6edf0;--muted:#acbdc7;--accent:#93dfb3}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}main{max-width:1080px;margin:auto;padding:48px 24px}h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;margin:12px 0 20px}h2{font-size:1.35rem;line-height:1.3}a{color:var(--accent);text-underline-offset:3px}.eyebrow,.label{color:var(--accent);font-size:.8rem;font-weight:700;letter-spacing:.08em}.intro,.meta{color:var(--muted)}.intro{max-width:760px}.filters{display:flex;gap:16px;flex-wrap:wrap;margin:30px 0 10px}.filters label{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px;font-size:.85rem}input,select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px;font:inherit}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px;margin:24px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}.card h2 a{text-decoration:none}.card p{font-size:.95rem}.tags,.links{display:flex;gap:10px;flex-wrap:wrap}.tag{font-size:.75rem;border:1px solid var(--line);padding:3px 8px;border-radius:20px}.card .meta{font-size:.8rem;margin-top:22px}.links{justify-content:space-between;font-size:.88rem}.how{border-top:1px solid var(--line);padding-top:22px;margin-top:36px}code{color:var(--accent)}[hidden]{display:none!important}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}@media(max-width:600px){main{padding:28px 18px}.card{padding:18px}}@media print{:root{color-scheme:light;--bg:white;--panel:#f3f5f4;--text:#17221c;--muted:#45564b;--line:#ccd3cf;--accent:#17653e}.filters{display:none}.card{break-inside:avoid}}
-</style></head><body><main>
-<header><div class="eyebrow">MELVOR IDLE 2 · PROJECT GUIDES</div><h1>Route library</h1>
-<p class="intro">Browse guides by skill and level range. Each route explains materials, preparation time, assumptions, and sources; calculations are stored alongside the guide.</p></header>
-<div class="filters"><label>Search by name, material, or term<input id="search" type="search" placeholder="E.g. Fletching, gathering, base rates"></label>
-<label>Skill<select id="skill"><option value="">All skills</option>''' + options + '''</select></label></div>
-<p id="count" class="meta" role="status">''' + str(len(guides)) + ''' guide(s) available</p>
-<div class="grid">''' + "\n".join(cards) + '''</div><p id="empty" hidden>No guides found. Try another term or skill.</p>
-<section class="how"><h2>Create a new guide</h2><p>Ask <code>Use $route</code>: provide the skill and starting/target levels when prompted. You can also ask directly: <code>Create a Woodcutting route from level 10 to 50</code>.</p>
-<p class="intro">The guide is saved in <code>guides/&lt;skill&gt;/&lt;start&gt;-&lt;end&gt;/</code> and added to this index. New analyses of the same range update the existing guide.</p>
-<p><a href="../.agents/skills/route/SKILL.md">Route skill instructions</a> · <a href="catalog.json">Catalog JSON</a></p></section>
-<footer class="meta"><p>Offline reference, no server required. External sources need a connection. Index generated from metadata.json files; edit the records and run the builder to update it.</p></footer>
-</main><script>
-const search=document.getElementById('search'),skill=document.getElementById('skill'),cards=Array.from(document.querySelectorAll('.card'));
-const normalize=text=>text.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
-function filter(){const terms=normalize(search.value).trim().split(/\\s+/).filter(Boolean);let count=0;for(const card of cards){const text=normalize(card.dataset.search);const visible=(!skill.value||card.dataset.skill===skill.value)&&terms.every(term=>text.includes(term));card.hidden=!visible;if(visible)count++;}document.getElementById('count').textContent=count+' guide(s) found';document.getElementById('empty').hidden=count!==0;}
-search.addEventListener('input',filter);skill.addEventListener('change',filter);
-</script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Route library · Melvor Idle 2</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #10161c;
+      --panel: #19232c;
+      --field: #151e25;
+      --line: #34444f;
+      --control-line: #5c7380;
+      --text: #e6edf0;
+      --muted: #acbdc7;
+      --accent: #93dfb3;
+      --accent-hover: #b5edca;
+      --accent-pressed: #7fc89e;
+      --on-accent: #12271d;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 1rem/1.6 system-ui, sans-serif;
+      overflow-wrap: anywhere;
+    }
+    ::selection { color: var(--on-accent); background: var(--accent); }
+    main {
+      max-width: 70rem;
+      margin-inline: auto;
+      padding: clamp(2rem, 6vw, 5rem) clamp(1.125rem, 4vw, 2.5rem) 2.5rem;
+    }
+    h1, h2, p { margin: 0; }
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 750;
+      line-height: 1.06;
+      letter-spacing: -0.035em;
+    }
+    h2 {
+      font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      text-wrap: pretty;
+    }
+    a { color: var(--accent); text-underline-offset: 0.22em; }
+    a:hover { color: var(--accent-hover); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .intro, .summary, .meta { color: var(--muted); }
+    .intro { max-width: 66ch; margin-top: 1rem; }
+    .library {
+      border-top: 1px solid var(--line);
+      margin-top: clamp(1.5rem, 4vw, 2.5rem);
+      padding-top: clamp(1.25rem, 3vw, 1.75rem);
+    }
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(10rem, 15rem);
+      gap: 1rem;
+    }
+    .filters label {
+      display: grid;
+      gap: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    input, select {
+      width: 100%;
+      min-width: 0;
+      min-height: 3rem;
+      border: 1px solid var(--control-line);
+      border-radius: 0.5rem;
+      padding: 0.625rem 0.75rem;
+      background: var(--field);
+      color: var(--text);
+      font: 400 1rem/1.4 system-ui, sans-serif;
+    }
+    input { caret-color: var(--accent); }
+    input::placeholder { color: var(--muted); opacity: 1; }
+    select { cursor: pointer; }
+    input:hover, select:hover { border-color: var(--muted); }
+    .meta { font-size: 0.875rem; }
+    .filter-status {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0 0.75rem;
+      min-height: 2.75rem;
+      margin-block: 0.375rem 0.5rem;
+    }
+    #count { font-variant-numeric: tabular-nums; }
+    #clear-filters {
+      min-height: 2.75rem;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font: 600 0.875rem/1.4 system-ui, sans-serif;
+      text-decoration: underline;
+      text-underline-offset: 0.22em;
+      cursor: pointer;
+    }
+    #clear-filters:hover { color: var(--accent-hover); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
+      gap: clamp(0.875rem, 2vw, 1.25rem);
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      min-width: 0;
+      padding: clamp(1rem, 2.5vw, 1.75rem);
+      border: 1px solid var(--line);
+      border-radius: 0.875rem;
+      background: var(--panel);
+    }
+    .range { margin-top: 0.375rem; color: var(--accent); font-size: 0.875rem; font-weight: 650; }
+    .summary { font-size: 0.975rem; }
+    .card-footer { margin-top: auto; padding-top: 0.5rem; }
+    .card-footer .meta {
+      border-top: 1px solid var(--line);
+      padding-top: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    time { font-variant-numeric: tabular-nums; }
+    .links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.375rem 1rem;
+      font-size: 0.875rem;
+    }
+    .links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+    }
+    .guide-link {
+      border-radius: 0.5rem;
+      padding: 0.5rem 0.875rem;
+      background: var(--accent);
+      color: var(--on-accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .guide-link:hover { background: var(--accent-hover); color: var(--on-accent); }
+    .guide-link:active { background: var(--accent-pressed); }
+    #empty {
+      border: 1px solid var(--line);
+      border-radius: 0.875rem;
+      padding: 1.25rem;
+      background: var(--panel);
+      color: var(--muted);
+    }
+    .page-footer {
+      border-top: 1px solid var(--line);
+      margin-top: 1rem;
+      padding-top: 1rem;
+    }
+    .page-footer p { max-width: 74ch; }
+    @media (max-width: 33rem) {
+      .filters { grid-template-columns: 1fr; gap: 0.75rem; }
+    }
+    @media print {
+      :root {
+        color-scheme: light;
+        --bg: #fff;
+        --panel: #fff;
+        --field: #f3f5f4;
+        --text: #17221c;
+        --muted: #45564b;
+        --line: #ccd3cf;
+        --accent: #17653e;
+      }
+      main { padding: 0; }
+      .filters, #clear-filters { display: none; }
+      .card { break-inside: avoid; }
+      .links a { min-height: auto; }
+      .guide-link { padding: 0; background: transparent; color: var(--accent); text-decoration: underline; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Route library</h1>
+      <p class="intro">Find Melvor Idle 2 guides for leveling skills or earning GP. See what each route requires and how its estimates were calculated.</p>
+    </header>
+    <section class="library" aria-label="Browse guides">
+      <div class="filters" role="search" aria-label="Filter guides" hidden>
+        <label for="search">Search by name, material, or term
+          <input id="search" type="search" placeholder="Fletching, feathers, base rates">
+        </label>
+        <label for="topic">Topic
+          <select id="topic">
+            <option value="">All topics</option>
+''' + options + '''
+          </select>
+        </label>
+      </div>
+      <div class="filter-status">
+        <p id="count" class="meta" role="status">''' + count + '''</p>
+        <button id="clear-filters" type="button" hidden>Clear filters</button>
+      </div>
+      <div class="grid">
+''' + "\n".join(cards) + '''
+      </div>
+      <p id="empty"''' + empty_attributes + '''>''' + empty_message + '''</p>
+    </section>
+    <footer class="page-footer meta">
+      <p>Guides work offline. External sources need a connection. <a href="catalog.json">View guide catalog (JSON)</a></p>
+    </footer>
+  </main>
+  <script>
+    const search = document.getElementById('search');
+    const topic = document.getElementById('topic');
+    const clearFilters = document.getElementById('clear-filters');
+    const count = document.getElementById('count');
+    const empty = document.getElementById('empty');
+    const normalize = text => text.normalize('NFD')
+      .replace(/[\\u0300-\\u036f]/g, '')
+      .toLowerCase()
+      .replace(/\\p{P}+/gu, ' ');
+    const cards = Array.from(document.querySelectorAll('.card'), card => ({
+      element: card,
+      topic: card.dataset.topic,
+      text: normalize(card.dataset.search),
+    }));
+
+    function filter() {
+      const terms = normalize(search.value).trim().split(/\\s+/).filter(Boolean);
+      const selectedTopic = topic.value;
+      let matches = 0;
+      for (const card of cards) {
+        const matchesTopic = !selectedTopic || card.topic === selectedTopic;
+        const visible = matchesTopic && terms.every(term => card.text.includes(term));
+        card.element.hidden = !visible;
+        if (visible) matches++;
+      }
+      const noun = matches === 1 ? 'guide' : 'guides';
+      const state = selectedTopic || terms.length ? 'found' : 'available';
+      count.textContent = `${matches} ${noun} ${state}`;
+      empty.hidden = matches !== 0;
+      clearFilters.hidden = !selectedTopic && !search.value;
+    }
+
+    if (cards.length > 0) {
+      search.addEventListener('input', filter);
+      topic.addEventListener('change', filter);
+      clearFilters.addEventListener('click', () => {
+        search.value = '';
+        topic.value = '';
+        search.focus();
+        filter();
+      });
+      window.addEventListener('pageshow', filter);
+      document.querySelector('.filters').hidden = false;
+    }
+  </script>
+</body>
+</html>
 '''
 
 

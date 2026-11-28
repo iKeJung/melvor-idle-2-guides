@@ -52,7 +52,7 @@ For a feather gathering scenario, pass `-ChickenCycleSeconds 35` with your full 
 
 Check the public Steam build and patch notes, then verify the new methods in the installed game. For each method, record the levels, tools or quest gates, ingredient chain, action timing, output chances, and sale prices. Add the verified action IDs to the relevant lists in [money_making.py](tools/character_state/money_making.py). Document unsupported mechanics or use the measured-session calculator. If the installed package changes, verify the model's formulas and update the reference build and package SHA-256 in [build_money_guide.py](tools/character_state/build_money_guide.py). Check the public guide text in [render_money_making.py](tools/character_state/render_money_making.py) and update the metadata date for the analysis.
 
-The current artifact uses the non-combat cap in its range path, with the combat cap in the title and calculation data. To add a later range alongside it, give that range its own metadata, directory and build configuration. Keep the early comparison available to new players.
+The current artifact uses the non-combat cap in its range path. The optional `range_label` field in its metadata displays both caps in the library. To add a later range alongside it, give that range its own metadata, directory and build configuration. Keep the early comparison available to new players.
 
 Regenerate the public files and library index, then test the personalized guide on a local save:
 
