@@ -11,7 +11,7 @@ Use pages and datasets that explicitly cover **Melvor Idle 2**, including on sit
 | Identify the Steam release and read official announcements and patch notes. The developer's news site covers both Melvor games. | [Steam store](https://store.steampowered.com/app/3218350/), [Steam news for Melvor Idle 2](https://steamcommunity.com/app/3218350/allnews/), [Official Melvor Idle News](https://news.melvoridle.com/) |
 | Check the public Steam branch's build ID and update date. | [SteamDB branches](https://steamdb.info/app/3218350/depots/#branches) |
 | Look up items, recipes, equipment, monsters, quests, and the Mastery Guild in a community wiki that shows its Steam build. | [Melvor 2 Wiki](https://melvor2wiki.github.io/) |
-| Trace base XP, inputs, outputs, step intervals, drop tables, and shop requirements by game ID. Check the build separately when a page omits it. | [Melvor DB](https://db.melvor.aevv.net/) |
+| Trace base XP, inputs, outputs, step intervals, drop tables, and shop requirements by game ID. When a page omits its build, verify the values against the installed target build or a source that identifies it. | [Melvor DB](https://db.melvor.aevv.net/) |
 | Check cumulative XP by level and find the source build for the XP table. | [Melvor2 XP table](https://melvor2.com/xp-table/) |
 | Consult demo mechanics, tutorials, and training tables for historical comparison. Verify these values against the target build before using them for Early Access. | [Melvor Idle 2 Demo Database](https://melvoridle.wiki/melvor-idle-2), [Melvor2DB skill tables](https://melvor2db.com/skills/) |
 
