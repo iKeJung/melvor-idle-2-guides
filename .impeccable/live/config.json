@@ -1,0 +1,6 @@
+{
+  "files": ["guides/**/*.html"],
+  "insertBefore": "</html>",
+  "commentSyntax": "html",
+  "cspChecked": true
+}
