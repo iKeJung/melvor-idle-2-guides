@@ -4,6 +4,16 @@ A local library of [skill leveling guides](guides/index.html), including materia
 
 The [early money-making guide](guides/money-making/1-40/guide.html) covers Combat 1–30 and non-combat skills 1–40. It compares GP rates for selected methods, shows starter quest rewards, and includes an offline calculator for timing your own runs.
 
+## GitHub Pages
+
+Browse the [published guide library](https://ikejung.github.io/melvor-idle-2-guides/). The **Publish guide library** workflow checks the generated index and packages the catalogued public guides. After the repository uses GitHub Actions as its Pages source, changes to `main` deploy automatically.
+
+To switch the existing site from `gh-pages` after merging the workflow into `main`:
+
+1. In **Settings → Environments → github-pages**, add `main` to the selected deployment branches.
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+3. In **Actions → Publish guide library**, run the workflow on `main` and verify the published library.
+
 ## Melvor Idle 2 research sources
 
 Use pages and datasets that explicitly cover **Melvor Idle 2**, including on sites that cover both games. Exclude data from the original Melvor Idle and its expansions, even when items or skills share a name.
