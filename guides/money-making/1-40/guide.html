@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Early money-making</title>
+<style>
+  :root { color-scheme: light; --paper: #faf7ef; --ink: #232722; --accent: #285746; --muted: #4c5d53; --line: #d4dace; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 1rem/1.6 system-ui, sans-serif; }
+  main { width: min(73rem, 100% - 2rem); margin: 2.5rem auto 4rem; }
+  header { border-top: .35rem solid var(--accent); padding-top: 1rem; }
+  h1, h2 { font-family: Georgia, serif; line-height: 1.12; }
+  h1 { font-size: clamp(2.25rem, 5vw, 4rem); margin: .3rem 0 .7rem; max-width: 22ch; }
+  h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); margin-top: 2.1rem; }
+  header p, section > p, li { max-width: 82ch; }
+  a { color: var(--accent); text-underline-offset: .16em; }
+  nav { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; padding-block: .6rem; border-block: 1px solid var(--line); }
+  .note { background: #e9f0e8; padding: .85rem 1rem; border-left: .25rem solid var(--accent); }
+  .quiet, small { color: var(--muted); }
+  .table { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; background: #fffdf8; font-size: .96rem; }
+  th, td { text-align: left; padding: .55rem .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #e5eee5; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  details { margin: .7rem 0; border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; color: var(--accent); font-weight: 650; padding: .5rem 0; }
+  form { display: flex; flex-wrap: wrap; gap: .75rem; align-items: end; }
+  label { display: grid; gap: .2rem; font-size: .9rem; }
+  input { width: 10rem; }
+  input, button { padding: .4rem; font: inherit; }
+  button { color: white; background: var(--accent); border: 1px solid var(--accent); border-radius: .25rem; cursor: pointer; }
+  output { display: block; font-weight: 650; margin-top: .8rem; }
+  code { overflow-wrap: anywhere; }
+  a:focus-visible, input:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px solid #905017; outline-offset: 3px; }
+  @media print {
+    :root { --paper: #fff; }
+    main { width: 100%; margin: 0; }
+    nav, form { display: none; }
+    .table { overflow: visible; }
+    tr { break-inside: avoid; }
+  }
+</style>
+<main>
+  <header>
+    <p class="quiet">Melvor Idle 2 · Steam Early Access</p>
+    <h1>Early money-making</h1>
+    <p>Repeatable gold through non-combat level 40 and selected fights through Combat 30. Use the quest cash to get started, then choose using GP per hour, available supplies and the skills you want to train.</p>
+  </header>
+  <nav aria-label="On this page"><a href="#route">Start here</a><a href="#rates">GP rates</a><a href="#combat">Combat</a><a href="#quests">Quests and shop</a><a href="#personalize">Personal guide</a><a href="#continue">Continue past the caps</a><a href="#measure">GP/h calculator</a><a href="#sources">Sources</a></nav>
+  <section id="route">
+      <h2>What to do next</h2>
+      <p>Start with surplus logs or fish and collect quest rewards when their goals overlap your training. Iron Platelegs are an early option once Mining 10 and Smithing 18 are ready. Silver Topaz Amulets give the highest base GP/h among the gathering and crafting chains compared here. Use a simpler gathering action if its rate with your tools beats the chain or if you want the materials for another skill.</p>
+      <div class="table"><table><thead><tr><th scope="col">Milestone</th><th scope="col">Method</th><th scope="col">Required levels</th><th scope="col">Base GP/h</th><th scope="col">How to use it</th></tr></thead><tbody><tr><td>Starting from level 1</td><td>Normal Tree</td><td>Woodcutting 1</td><td>3,600</td><td>Sell spare logs. Use Shallow Pools to build a food reserve.</td></tr><tr><td>First manufacturing</td><td>Copper Platebody</td><td>Mining 5, Smithing 12</td><td>10,511</td><td>Keep enough Copper Bars for your next tool or quest.</td></tr><tr><td>Iron gear</td><td>Iron Platelegs</td><td>Mining 10, Smithing 18</td><td>14,619</td><td>Mine, smelt and smith. Compare the entire chain with raw ore sales.</td></tr><tr><td>Jewellery</td><td>Silver Topaz Amulet</td><td>Crafting 18, Mining 18, Smithing 18</td><td>23,175</td><td>Mine Topaz and Silver Ore, cut the gems, smelt the silver and craft.</td></tr><tr><td>Steel alternative</td><td>Steel Platebody</td><td>Mining 25, Smithing 35</td><td>17,212</td><td>Use Coal and Iron Ore. Try the Steel Dagger when Smithing reaches 25.</td></tr><tr><td>Simple later option</td><td>Teak Tree</td><td>Woodcutting 35</td><td>15,000</td><td>Sell spare Teak Logs. Try Rapid Runs when you also want fish.</td></tr></tbody></table></div>
+      <p>For bait-free fish sales, upgrade your spot along this base GP/h sequence as the levels become available. Shallow Pools (1) → Calm Shallows (6) → Quiet Bend (12) → Dock Waters (18) → Pebble Bank (23) → Windswept Shores (27) → Pier Walk (32) → Rapid Runs (39). Keep raw fish you intend to cook for combat or Thieving.</p>
+      <p>For early Thieving, try Citizen or Thug first and check your food use. Locked Thug Chest at Thieving 10 takes either a Lockpick or a Thug Chest Key in the toolbelt. Thug can drop Lockpicks. Each chest attempt spends a pick regardless of success. The reusable key gives +500 Stealth and +50 Fortune on that chest. Compare chest runs with your actual food and pick supply, then try Fisherman at 20 or Bandit and Chef later in the range.</p>
+    </section>
+    <section id="rates">
+      <h2>Compare repeatable methods</h2>
+      <p>Expand a method group to see the levels and rates. Gathering uses one full cut, break or cast. Artisan rows use one full finished batch. Thieving uses one attempted action at the required skill level. Thieving rates include direct GP and common sales after any lockpick sale value. Check the actual net rate after food and replenishment before choosing it.</p>
+      <details><summary>Woodcutting</summary><div class="table"><table><thead><tr><th scope="col">Method</th><th scope="col">Requirements</th><th scope="col">Seconds per cycle</th><th scope="col">GP per cycle</th><th scope="col">GP/h</th></tr></thead><tbody><tr><td>Teak Tree · Woodcutting</td><td>Woodcutting 35</td><td>6.00</td><td>25.00</td><td>15,000</td></tr><tr><td>Willow Tree · Woodcutting</td><td>Woodcutting 25</td><td>5.00</td><td>17.00</td><td>12,240</td></tr><tr><td>Oak Tree · Woodcutting</td><td>Woodcutting 10</td><td>4.00</td><td>6.00</td><td>5,400</td></tr><tr><td>Ambervine Bush · Woodcutting</td><td>Woodcutting 20</td><td>2.00</td><td>3.00</td><td>5,400</td></tr><tr><td>Normal Tree · Woodcutting</td><td>Woodcutting 1</td><td>3.00</td><td>3.00</td><td>3,600</td></tr><tr><td>Flax Bush · Woodcutting</td><td>Woodcutting 5</td><td>2.00</td><td>1.00</td><td>1,800</td></tr></tbody></table></div></details><details><summary>Mining</summary><div class="table"><table><thead><tr><th scope="col">Method</th><th scope="col">Requirements</th><th scope="col">Seconds per cycle</th><th scope="col">GP per cycle</th><th scope="col">GP/h</th></tr></thead><tbody><tr><td>Gold Ore · Mining</td><td>Mining 38</td><td>5.80</td><td>16.00</td><td>9,931</td></tr><tr><td>Mithril Ore · Mining</td><td>Mining 35</td><td>6.79</td><td>18.00</td><td>9,538</td></tr><tr><td>Sapphire Vein · Mining</td><td>Mining 32</td><td>14.21</td><td>36.00</td><td>9,118</td></tr><tr><td>Silver Ore · Mining</td><td>Mining 18</td><td>4.85</td><td>10.00</td><td>7,423</td></tr><tr><td>Topaz Vein · Mining</td><td>Mining 12</td><td>12.41</td><td>20.00</td><td>5,803</td></tr><tr><td>Coal · Mining</td><td>Mining 25</td><td>3.63</td><td>5.00</td><td>4,959</td></tr><tr><td>Iron Ore · Mining</td><td>Mining 10</td><td>4.67</td><td>6.00</td><td>4,630</td></tr><tr><td>Copper Ore · Mining</td><td>Mining 5</td><td>3.80</td><td>3.00</td><td>2,842</td></tr><tr><td>Stone · Mining</td><td>Mining 1</td><td>2.94</td><td>2.00</td><td>2,449</td></tr><tr><td>Rune Essence · Mining</td><td>Mining 8</td><td>3.17</td><td>2.00</td><td>2,274</td></tr><tr><td>Clay · Mining</td><td>Mining 3</td><td>3.17</td><td>1.00</td><td>1,137</td></tr></tbody></table></div></details><details><summary>Fishing</summary><div class="table"><table><thead><tr><th scope="col">Method</th><th scope="col">Requirements</th><th scope="col">Seconds per cycle</th><th scope="col">GP per cycle</th><th scope="col">GP/h</th></tr></thead><tbody><tr><td>Rapid Runs · Shrapnel River</td><td>Fishing 39</td><td>13.00</td><td>50.72</td><td>14,046</td></tr><tr><td>Pier Walk · Lemvor Pier</td><td>Fishing 32</td><td>12.00</td><td>37.40</td><td>11,220</td></tr><tr><td>Windswept Shores · Windy Coastline</td><td>Fishing 27</td><td>6.00</td><td>14.90</td><td>8,940</td></tr><tr><td>Pebble Bank · Shrapnel River</td><td>Fishing 23</td><td>12.00</td><td>27.50</td><td>8,250</td></tr><tr><td>Dock Waters · Lemvor Pier</td><td>Fishing 18</td><td>11.00</td><td>21.80</td><td>7,135</td></tr><tr><td>Quiet Bend · Shrapnel River</td><td>Fishing 12</td><td>9.00</td><td>13.00</td><td>5,200</td></tr><tr><td>Calm Shallows · Shallow Shores</td><td>Fishing 6</td><td>8.00</td><td>8.20</td><td>3,690</td></tr><tr><td>Shallow Pools · Shallow Shores</td><td>Fishing 1</td><td>6.00</td><td>5.00</td><td>3,000</td></tr></tbody></table></div></details><details><summary>Crafting and processing</summary><div class="table"><table><thead><tr><th scope="col">Method</th><th scope="col">Requirements</th><th scope="col">Seconds per cycle</th><th scope="col">GP per cycle</th><th scope="col">GP/h</th></tr></thead><tbody><tr><td>Silver Topaz Amulet · Crafting</td><td>Crafting 18, Mining 18, Smithing 18</td><td>35.11</td><td>226.00</td><td>23,175</td></tr><tr><td>Silver Topaz Ring · Crafting</td><td>Crafting 18, Mining 18, Smithing 18</td><td>27.76</td><td>178.00</td><td>23,086</td></tr><tr><td>Silver Sapphire Ring · Crafting</td><td>Crafting 32, Mining 32, Smithing 18</td><td>31.56</td><td>192.00</td><td>21,899</td></tr><tr><td>Gold Bar · Smithing</td><td>Mining 38, Smithing 38</td><td>8.30</td><td>42.00</td><td>18,217</td></tr><tr><td>Steel Platebody · Smithing</td><td>Mining 25, Smithing 35</td><td>67.97</td><td>325.00</td><td>17,212</td></tr><tr><td>Steel Shield · Smithing</td><td>Mining 25, Smithing 29</td><td>42.38</td><td>195.00</td><td>16,563</td></tr><tr><td>Steel Dagger · Smithing</td><td>Mining 25, Smithing 25</td><td>16.79</td><td>73.00</td><td>15,648</td></tr><tr><td>Iron Platelegs · Smithing</td><td>Mining 10, Smithing 18</td><td>38.66</td><td>157.00</td><td>14,619</td></tr><tr><td>Fire Wand · Runecrafting</td><td>Crafting 5, Mining 8, Runecrafting 20, Smithing 2 + 15 GP per base batch</td><td>80.00</td><td>311.00</td><td>13,995</td></tr><tr><td>Mithril Dagger · Smithing</td><td>Mining 35, Smithing 35</td><td>24.55</td><td>94.00</td><td>13,782</td></tr><tr><td>Iron Platebody · Smithing</td><td>Mining 10, Smithing 20</td><td>47.83</td><td>177.00</td><td>13,323</td></tr><tr><td>Willow Bow · Fletching</td><td>Crafting 1, Fletching 30, Woodcutting 25</td><td>24.00</td><td>85.00</td><td>12,750</td></tr><tr><td>Mithril Bar · Smithing</td><td>Mining 35, Smithing 35</td><td>16.55</td><td>56.00</td><td>12,179</td></tr><tr><td>Sapphire · Crafting</td><td>Crafting 32, Mining 32</td><td>16.21</td><td>54.00</td><td>11,990</td></tr><tr><td>Silver Bar · Smithing</td><td>Mining 18, Smithing 18</td><td>7.35</td><td>24.00</td><td>11,756</td></tr><tr><td>Copper Platebody · Smithing</td><td>Mining 5, Smithing 12</td><td>43.50</td><td>127.00</td><td>10,511</td></tr><tr><td>Fire Staff · Runecrafting</td><td>Crafting 5, Mining 8, Runecrafting 31, Smithing 2, Woodcutting 25 + 15 GP per base batch</td><td>108.50</td><td>314.00</td><td>10,418</td></tr><tr><td>Steel Bar · Smithing</td><td>Mining 25, Smithing 25</td><td>10.79</td><td>29.00</td><td>9,671</td></tr><tr><td>Oak Bow · Fletching</td><td>Crafting 1, Fletching 15, Woodcutting 10</td><td>20.00</td><td>48.00</td><td>8,640</td></tr><tr><td>Topaz · Crafting</td><td>Crafting 12, Mining 12</td><td>14.41</td><td>29.00</td><td>7,246</td></tr><tr><td>Earth Wand · Runecrafting</td><td>Crafting 5, Mining 8, Runecrafting 10, Smithing 2 + 15 GP per base batch</td><td>80.00</td><td>156.00</td><td>7,020</td></tr><tr><td>Iron Bar · Smithing</td><td>Mining 10, Smithing 10</td><td>7.17</td><td>12.00</td><td>6,029</td></tr><tr><td>Stone Platebody · Smithing</td><td>Mining 1, Smithing 5</td><td>24.70</td><td>41.00</td><td>5,976</td></tr><tr><td>Water Wand · Runecrafting</td><td>Crafting 5, Mining 8, Runecrafting 5, Smithing 2 + 15 GP per base batch</td><td>80.00</td><td>94.00</td><td>4,230</td></tr><tr><td>Stone Sword · Smithing</td><td>Mining 1, Smithing 1</td><td>9.88</td><td>11.00</td><td>4,008</td></tr><tr><td>Copper Bar · Smithing</td><td>Mining 5, Smithing 5</td><td>6.30</td><td>7.00</td><td>4,000</td></tr><tr><td>Normal Bow · Fletching</td><td>Crafting 1, Fletching 1, Woodcutting 5</td><td>16.00</td><td>12.00</td><td>2,700</td></tr><tr><td>Air Wand · Runecrafting</td><td>Crafting 5, Mining 8, Runecrafting 1, Smithing 2 + 15 GP per base batch</td><td>80.00</td><td>47.00</td><td>2,115</td></tr></tbody></table></div></details><details><summary>Thieving</summary><div class="table"><table><thead><tr><th scope="col">Method</th><th scope="col">Requirements</th><th scope="col">Success at level</th><th scope="col">Max damage</th><th scope="col">Seconds per cycle</th><th scope="col">GP per cycle</th><th scope="col">GP/h</th></tr></thead><tbody><tr><td>Herbalist · Farmers Market</td><td>Thieving 38</td><td>39.3% at 38</td><td class="num">100</td><td>4.21</td><td>13.88</td><td>11,860</td></tr><tr><td>Bandit · Bandit Encampment</td><td>Thieving 33</td><td>38.8% at 33</td><td class="num">90</td><td>4.22</td><td>12.58</td><td>10,720</td></tr><tr><td>Chef · Seashade Port</td><td>Thieving 30</td><td>38.5% at 30</td><td class="num">82</td><td>4.23</td><td>12.49</td><td>10,624</td></tr><tr><td>Locked Thug Chest · Lowtown District</td><td>Thieving 10 + Lockpick or Thug Chest Key equipped</td><td>36.3% at 10</td><td class="num">45</td><td>9.27</td><td>20.95</td><td>8,134</td></tr><tr><td>Thug Chief · Lowtown District</td><td>Thieving 15</td><td>52.3% at 15</td><td class="num">52</td><td>3.95</td><td>8.53</td><td>7,768</td></tr><tr><td>Farmer · Farmers Market</td><td>Thieving 25</td><td>43.9% at 25</td><td class="num">72</td><td>4.12</td><td>7.48</td><td>6,532</td></tr><tr><td>Fisherman · Seashade Port</td><td>Thieving 20</td><td>43.3% at 20</td><td class="num">62</td><td>4.13</td><td>6.91</td><td>6,014</td></tr><tr><td>Thug · Lowtown District</td><td>Thieving 5</td><td>75.0% at 5</td><td class="num">32</td><td>3.50</td><td>5.58</td><td>5,736</td></tr><tr><td>Craftsman · Seashade Port</td><td>Thieving 17</td><td>52.2% at 17</td><td class="num">57</td><td>3.96</td><td>6.21</td><td>5,655</td></tr><tr><td>Citizen · Lowtown District</td><td>Thieving 1</td><td>76.5% at 1</td><td class="num">25</td><td>3.47</td><td>5.21</td><td>5,406</td></tr><tr><td>Market Seed Stall · Farmers Market</td><td>Thieving 35</td><td>51.1% at 35</td><td class="num">67</td><td>6.98</td><td>4.66</td><td>2,404</td></tr><tr><td>Locked Ranchers Chest · Farmers Market</td><td>Thieving 33 + Lockpick or Ranchers Chest Key equipped</td><td>22.9% at 33</td><td class="num">97</td><td>9.54</td><td>6.29</td><td>2,374</td></tr><tr><td>Cooking Stall · Seashade Port</td><td>Thieving 12</td><td>70.0% at 12</td><td class="num">37</td><td>6.60</td><td>3.88</td><td>2,119</td></tr></tbody></table></div></details>
+      <h3>Worked chain for Iron Platelegs</h3>
+      <p>Mine 4 Iron Ore at 4.665 s each. Smelt 4 Iron Bars at 2.5 s each. Finish one pair of Iron Platelegs in 10.0 s and sell for 157 GP. The chain takes 38.66 s on average, or <strong>14,619 GP/h</strong>. With four bars already in the bank, the same craft adds 109 GP over selling the bars immediately.</p>
+      <p>Fire Wand is another chain to compare. Buy Bucket of Sand for 5 GP each, smelt Molten Glass and craft an Unpowered Orb. Mine Rune Essence for Fire and Mind Runes. The model subtracts the cost of the sand.</p>
+      <details><summary>Calculation assumptions</summary><ul><li>Gathering and crafting use expected yields across long runs and sell the listed output at the in-game GP price.</li><li>Chains start with empty stock, and their GP/h includes all listed gathering and processing plus shop input costs. Skill training, shopping clicks, menus, and sale time are outside the estimate.</li><li>Fishing uses the ordinary catch and Junk rolls. The scenario omits bait, priority fish, and special catches. Mining and Woodcutting omit extra drops such as Geodes and Bird Nests.</li><li>Thieving models direct GP and common loot. It includes normal failed attempts and stuns. Rare loot, extra pickpockets, food, and lockpick replenishment time are outside the estimate.</li><li>Combat values use published base drops and assume all listed loot can be collected for sale. GP/h requires a timed session with the chosen gear and supplies.</li></ul></details>
+    </section>
+    <section id="combat">
+      <h2>Combat through level 30</h2>
+      <p>Start with Golbin Forest to check your damage and food use. Test Giant Chicken in Corrupted Farmlands next, then compare stronger targets as your gear improves. Try Mangrove Strider only when a supervised run shows the setup can sustain it. Check enemy attacks, loadout, healing and loot collection before leaving a fight unattended.</p>
+      <p>The last column gives the longest average kill cycle that can match 10,000 GP/h before supply costs. Include the respawn and all downtime. Start with direct GP if you are keeping the loot. Use the measured session below for net GP/h with your equipment.</p>
+      <div class="table"><table><thead><tr><th scope="col">Enemy</th><th scope="col">Area</th><th scope="col">Enemy level</th><th scope="col">Direct GP/kill</th><th scope="col">Loot GP/kill</th><th scope="col">Total GP/kill</th><th scope="col">Break-even s/kill</th></tr></thead><tbody><tr><td>Golbin</td><td>Golbin Forest</td><td class="num">1</td><td>25.00</td><td>7.17</td><td>32.17</td><td>11.6</td></tr><tr><td>Golbin Scout</td><td>Golbin Forest</td><td class="num">1</td><td>25.00</td><td>4.38</td><td>29.38</td><td>10.6</td></tr><tr><td>Golbin Ambusher</td><td>Golbin Forest</td><td class="num">4</td><td>31.50</td><td>14.75</td><td>46.25</td><td>16.6</td></tr><tr><td>Evil Plant</td><td>Corrupted Farmlands</td><td class="num">5</td><td>31.50</td><td>3.94</td><td>35.44</td><td>12.8</td></tr><tr><td>Giant Chicken</td><td>Corrupted Farmlands</td><td class="num">7</td><td>34.50</td><td>43.00</td><td>77.50</td><td>27.9</td></tr><tr><td>Magic Cow</td><td>Corrupted Farmlands</td><td class="num">9</td><td>37.50</td><td>34.95</td><td>72.45</td><td>26.1</td></tr><tr><td>Hobgolbin</td><td>Golbin Forest</td><td class="num">12</td><td>41.00</td><td>42.32</td><td>83.32</td><td>30.0</td></tr><tr><td>Scarecrow</td><td>Corrupted Farmlands</td><td class="num">15</td><td>44.00</td><td>21.36</td><td>65.36</td><td>23.5</td></tr><tr><td>Jack O Lantern</td><td>Corrupted Farmlands</td><td class="num">21</td><td>59.50</td><td>27.80</td><td>87.30</td><td>31.4</td></tr><tr><td>Mangrove Strider</td><td>Green Mangroves</td><td class="num">26</td><td>50.00</td><td>55.00</td><td>105.00</td><td>37.8</td></tr></tbody></table></div>
+    </section>
+    <section id="quests">
+      <h2>Quests and first purchases</h2>
+      <div class="table"><table><thead><tr><th scope="col">Main quest</th><th scope="col">One-time GP</th><th scope="col">Preparation</th></tr></thead><tbody><tr><td>Pointy Preparation</td><td>2,000</td><td>Hand in 24 Stone Arrows and defeat 3 Archery Targets with Ranged. Keep the reward arrows and Shrimp for combat.</td></tr><tr><td>Fishin&#x27; for Trouble</td><td>5,000</td><td>Hand in 3 Copper Swords, catch 15 Raw Sardine and defeat 5 Golbin Ambushers. Save the 100 Copper Bars for tools or craft with the surplus.</td></tr><tr><td>Boarish Bonfire</td><td>10,000</td><td>Clear Wood and Stone Debris, hand in 50 Mackerel Bait, catch 15 Raw Trout and defeat the Enraged Boar.</td></tr></tbody></table></div>
+      <p>Check what an upgrade will save over the hours you intend to use it. Copper Fishing Rod opens at Fishing 5 and costs 2,000 GP plus 25 Copper Bars. Fishing's first +20 bank slots unlock at level 20 for 5,000 GP. Buy slots when space is cutting sessions short. Keep quest items, spares for upgrades, and at least the food, ammo, runes and bones you plan to use.</p>
+      <p>Estimate payback as the cost in GP and materials divided by the extra GP/h. For example, a 2,000 GP upgrade that adds 500 GP/h takes 4 hours to recover its cash cost. Add any required farming or training time if you are starting from scratch.</p>
+    </section>
+    <section id="personalize">
+      <h2>Use your own character</h2>
+      <p>Set up the local character reader. From the repository root in PowerShell, run <code>.\update-guides.ps1 -Open</code>. Open the Money-making result to compare currently available routes, missing requirements, equipped chest tools and profitable uses for unlocked bank stacks. Use <code>-Save</code> to choose a save or <code>-Watch</code> to update while you play.</p>
+      <p><a href="../../../tools/character_state/README.md">Set up the character reader</a> · <a href="calculations.json">Open the public calculation data</a></p>
+    </section>
+    <section id="continue">
+      <h2>Continue past Combat 30 or non-combat 40</h2>
+      <ol>
+        <li>Keep your current reliable method as a benchmark. Note your next cash goal and skills close to a new unlock. Check the current public build and patch notes before copying sale prices, recipes or loot tables.</li>
+        <li>When Fishing reaches 44, test Rocky Shores. Compare it with the current spot using your rod, catch mix and bait costs. For Mining and Smithing, check Adamantite Ore at Mining 45 and verify the full new bar recipe before switching. In combat, test a single newly unlocked target and record net GP/h, including respawn, food, ammunition and runes.</li>
+        <li>Compare passive Farming and Ranching income on their calendar time and count the active time to plant, feed or harvest. Price seed, food and other inputs. Add the net passive income to the active method only if both can operate together.</li>
+        <li>For another published range, follow the extension instructions in the repository. Add only verified IDs and requirements, recalculate both views, and rebuild the library index.</li>
+      </ol>
+      <p><a href="../../../README.md#update-or-extend-the-money-making-guide">Update or extend this guide</a></p>
+    </section>
+  <section id="measure">
+    <h2>Compare a measured session</h2>
+    <p>Run one method with your current setup. Include respawn, stuns and restarts. Record the direct GP earned and the sale value of the loot you intend to sell. Add cash costs and either the sale value of banked supplies consumed or the time spent gathering replacements. Enter the elapsed time and totals below. Repeat on another session if a rare drop dominated the result.</p>
+    <form id="session">
+      <label>Elapsed minutes <input name="minutes" type="number" min="0.01" step="any" required></label>
+      <label>Direct GP earned <input name="direct" type="number" min="0" step="any" value="0" required></label>
+      <label>Loot sale GP <input name="loot" type="number" min="0" step="any" value="0" required></label>
+      <label>GP costs <input name="cost" type="number" min="0" step="any" value="0" required></label>
+      <label>Compare to GP/h <input name="benchmark" type="number" min="0" step="any" value="10000" required></label>
+      <button type="submit">Calculate GP/h</button>
+    </form>
+    <output id="session-result" form="session" aria-live="polite"></output>
+  </section>
+  <section id="sources">
+      <h2>Data and sources</h2>
+      <p>Base values and action logic checked against the installed Windows Steam Early Access package and game assembly, version 0.11.7-alpha, public build 26886380. The community pages cross-check selected values and identify actions. The installed build provides the calculation inputs.</p>
+      <p>Sources accessed 2026-11-28. The first Early Access patch fixed bait preservation. Both guide views use a bait-free Fishing baseline.</p>
+      <ul><li>Steam Early Access · build 26886380 · <a href="https://steamdb.info/app/3218350/depots/#branches">Steam public branch history</a></li><li>Steam Early Access · <a href="https://steamcommunity.com/app/3218350/allnews/">Official Steam patch notes</a></li><li>Community Early Access reference · build 26724394 · <a href="https://melvor2.com/calculators/mining/">Mining calculator</a></li><li>Community Early Access reference · build 26724394 · <a href="https://melvor2.com/calculators/fishing/">Fishing calculator</a></li><li>Community Early Access reference · build 26886380 · <a href="https://melvor2.com/calculators/smithing/">Smithing calculator</a></li><li>Community Early Access reference · build 26886380 · <a href="https://melvor2.com/calculators/crafting/">Crafting calculator</a></li><li>Community Early Access reference · build 26724394 · <a href="https://melvor2.com/calculators/thieving/">Thieving calculator</a></li><li>Community Early Access reference · build 26724394 · <a href="https://melvor2.com/items/lockpick/">Lockpick sources</a></li><li>Community Early Access reference · build 26886380 · <a href="https://melvor2.com/monsters/giant-chicken/">Giant Chicken&#x27;s drops</a></li><li>Community Early Access reference · build 26724394 · <a href="https://melvor2.com/monsters/mangrove-strider/">Mangrove Strider&#x27;s drops</a></li><li>Community Early Access reference · build 26886380 · <a href="https://melvor2.com/monsters/">Combat monster directory</a></li><li>Community Early Access reference · build 26886380 · <a href="https://melvor2.com/guides/melvor-idle-2-quests-guide/">Quest guide</a></li><li>Community Early Access reference · build 26724394 · <a href="https://melvor2.com/guides/melvor-idle-2-early-game-money-making/">Shop and sales overview</a></li></ul>
+    </section><p><a href="../../index.html">Back to the guide library</a></p>
+</main>
+<script>
+  const form = document.querySelector('#session');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const read = (name) => form.elements.namedItem(name).valueAsNumber;
+    const net = (read('direct') + read('loot') - read('cost')) * 60 / read('minutes');
+    const difference = net - read('benchmark');
+    const format = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2});
+    const comparison = difference === 0 ? 'matches the benchmark'
+      : format.format(Math.abs(difference)) + ' GP/h ' + (difference > 0 ? 'above' : 'below') + ' the benchmark';
+    document.querySelector('#session-result').textContent = format.format(net) + ' net GP/h · ' + comparison;
+  });
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('details:not([open])').forEach((section) => {
+      section.dataset.printOpen = 'true';
+      section.open = true;
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    document.querySelectorAll('details[data-print-open]').forEach((section) => {
+      section.open = false;
+      delete section.dataset.printOpen;
+    });
+  });
+</script>
+</html>

@@ -16,6 +16,8 @@ sys.path.insert(0, str(HERE))
 from agent_format import build_agent_state
 from extract import ROOT, atomic_text, decoder, paths, read_character
 from guide_plan import calculate_guide
+from money_making import compare
+from render_money_making import render_personal as render_money
 
 
 def number(value, digits=2):
@@ -107,13 +109,25 @@ def refresh(save, exe, chicken_seconds):
         reference = json.loads((library / guide["calculations"]).read_text(encoding="utf-8"))
         if "personalization" not in reference:
             continue
-        report = calculate_guide(guide, reference, snapshot, decoded, data, decoder.XP_TABLE, chicken_seconds)
-        results.append((guide["id"], render(guide, report)))
+        audit = None
+        if reference["personalization"].get("model") == "money_making":
+            report = {key: reference[key] for key in ("schema_version", "guide_id", "reference_build",
+                                                      "benchmark_gp_per_hour", "assumptions", "formulas",
+                                                      "sources_used")}
+            report.update(compare(data, snapshot, decoded))
+            audit = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
+            html = render_money(report, "../../../guides/" + guide["artifact"], guide["id"] + ".json")
+        else:
+            report = calculate_guide(guide, reference, snapshot, decoded, data, decoder.XP_TABLE, chicken_seconds)
+            html = render(guide, report)
+        results.append((guide["id"], html, audit))
     if not results:
         raise ValueError("The library contains no guides that support character data.")
     output.mkdir(parents=True, exist_ok=True)
-    for guide_id, html in results:
+    for guide_id, html, audit in results:
         guide_path = output / f"{guide_id}.html"
+        if audit is not None:
+            atomic_text(guide_path.with_suffix(".json"), audit)
         atomic_text(guide_path, html)
         yield guide_path
 

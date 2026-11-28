@@ -33,6 +33,10 @@ Outputs in `data/character/`:
 
 These files are local and ignored by Git, as are `.cache/` (proprietary game data) and `.venv/`. The script does not upload saves. It is not a continuous monitor: run it again to refresh. The save timestamp and SHA-256 identify the snapshot. Concurrent writes are retried, and decoding uses a temporary copy. On failure, the last successful output remains; always check its timestamp.
 
+## Personalized money-making
+
+Run `.\update-guides.ps1 -Open` from the project root. Select a character with `-Save` or add `-Watch` to regenerate when that save changes. The money-making page and its audit JSON are stored in `data/character/guides/`. The estimate uses the selected save's levels, active supported modifiers, available cash for modeled shop inputs, and unlocked bank stacks. GP/h for repeatable artisan methods includes gathering and processing. Banked-material jobs show added value over selling the inputs. Combat uses base loot values and your measured session totals. Thieving estimates include stuns and common loot. Use the session calculator to include food and the time spent replacing picks.
+
 ## Agent queries
 
 ```powershell

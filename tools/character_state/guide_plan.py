@@ -25,10 +25,11 @@ def expected_hits(health, double, weak=0, instant=0):
     return hits[health]
 
 
-def modifiers(snapshot, skill, stats_type, recipe, product, applied):
+def modifiers(snapshot, skill, stats_type, recipe, product, applied, *, context=None, excluded_via=()):
     """Read covered contributions once, with exact recipe/category/product matching."""
     skill_stats = snapshot["skills"][skill]["modifiers"]
-    context = {"Recipe": NS + recipe["Id"], "Category": recipe["Category"], "Item": product}
+    if context is None:
+        context = {"Recipe": NS + recipe["Id"], "Category": recipe["Category"], "Item": product}
 
     def stat(name, unit, *, experience=False, product_context=False):
         component, kind = ("Experience", "Experience") if experience else ("Action", stats_type)
@@ -49,6 +50,7 @@ def modifiers(snapshot, skill, stats_type, recipe, product, applied):
             row for row in rows
             if snapshot["sources"][row["source"]]["type"] not in {"FiremakingBonfire", "RareBonusesEvent"}
             and not snapshot["sources"][row["source"]]["via"].endswith("Potion")
+            and snapshot["sources"][row["source"]]["via"] not in excluded_via
         ]
         if rows:
             value = round(sum(row["value"] for row in rows), 12)
@@ -256,10 +258,14 @@ def available_plans(bands, recipes, suppliers, stock, bank, level, xp, xp_table)
             yield (result, *later)
 
 
-def calculate_guide(guide, reference, snapshot, decoded, data, xp_table, chicken_seconds=None):
+def require_bank_inventory(decoded):
     if ("Inventory" not in decoded["components_present"].get("Bank", {})
             or any("Bank/Inventory:" in warning for warning in decoded["warnings"])):
         raise ValueError("The bank could not be decoded. Refreshing the personalized guide stopped.")
+
+
+def calculate_guide(guide, reference, snapshot, decoded, data, xp_table, chicken_seconds=None):
+    require_bank_inventory(decoded)
     skill = guide["skill"]
     current = snapshot["skills"][skill]
     xp, level = current["xp"], current["level"]
